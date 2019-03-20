@@ -1,21 +1,155 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container mt-5">
+    <div class="bg-dark rounded text-white">
+            <div class="text-center p-4"> <h2>Product Search</h2> </div>
 
-<router-outlet></router-outlet>
+            <form class="col-lg-9 mx-auto" >
+                <div class="form-group row">
+                    <label for="keywords" class="col-sm-3 col-form-label">Keyword</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="keywords" placeholder="Enter Product Name (eg. iPhone 8)">
+                    </div>
+                </div>
+        
+        
+                <div class="form-group row">
+                    <label for="categoryId" class="col-sm-3 col-form-label">Category</label>
+                    <div class="col-sm-3">
+                        <select id="categoryId" name="categoryId" class="custom-select">
+                            <option selected value="-1">All Categories</option>
+                            <option value="550">Art</option>
+                            <option value="2984">Baby</option>
+                            <option value="267">Books</option>
+                            <option value="11450">Clothing, Shoes & Accessories</option>
+                            <option value="58058">Computers/Tablets & Networking</option>
+                            <option value="26395">Health & Beauty</option>
+                            <option value="11233">Music</option>
+                            <option value="1249">Video games & Consoles</option>
+            
+                        </select>
+                    </div>
+                </div>
+        
+        
+                <div class="form-group row">
+                    <div class="col-sm-3">Condition</div>
+                    <div class="col-sm-7">
+                        
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="new">
+                                <label class="form-check-label" for="new">New</label>
+                            </div>
+        
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="used">
+                                <label class="form-check-label" for="used">Used</label>
+                            </div>
+        
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="unspecified">
+                                <label class="form-check-label" for="unspecified">Unspecified</label>
+                            </div>
+                        </div>
+                </div>
+        
+        
+                <div class="form-group row">
+                        <div class="col-sm-3" >Shipping Option</div>
+                        <div class="col-sm-7">
+                            
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="localpickup">
+                                    <label class="form-check-label" for="localpickup">Local Pickup</label>
+                                </div>
+            
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="freeshipping">
+                                    <label class="form-check-label" for="freeshipping">Free Shipping</label>
+                                </div>
+                            </div>
+                    </div>
+        
+        
+                    <div class="form-group row">
+                            <label for="distance" class="col-sm-3 col-form-label">Distance(Miles)</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control " id="distance" placeholder="10">
+                            </div>
+                    </div>
+        
+        
+                <fieldset class="form-group">
+                    <div class="row">
+                        <legend class="col-form-label col-sm-3 pt-0">From</legend>
+                        <div class="col-sm-7">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="location" id="currentLocation" value="option1" checked>
+                                <label class="form-check-label" for="currentLocation">Current Location</label>
+                            </div>
+        
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="location" id="gridRadios2" value="option2">
+                                <label class="form-check-label" for="otherLocatoin">Other. Please specify zip code:</label>                        
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+        
+        
+                <div class="form-group row">
+                        <label for="zipCode" class="col-sm-3 col-form-label">Keyword</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="zipCode" >
+                        </div>
+                </div>
+                
+        
+                <div class="form-group row">
+                    <div class="mr-3">
+                            <button type="button" class="btn btn-secondary btn-light mb-2" disabled><i class="material-icons">search</i> <span>Search</span></button>
+                    </div>
+        
+                    <div class="">
+                            <button type="button" class="btn btn-secondary btn-light mb-2"><i class="material-icons">clear_all</i> Clear</button>
+                    </div>
+                </div>
+            </form>
+    </div>
+
+
+
+
+
+    <div id="mainResults">
+        <div class="table-responsive">
+                <table class="table table-striped table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Shipping</th>
+                            <th scope="col">Zip</th>
+                            <th scope="col">Seller</th>
+                            <th scope="col">Wish List</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+    
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Ottoooooooooooooooo ooooooooooooooooo oooooooo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                          </tr>
+                          
+                        </tbody>
+                </table>
+        </div>
+    </div>        
+    
+    </div>
