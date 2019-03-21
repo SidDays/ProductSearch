@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 // Test
-app.get('/test', function (req, res) {
+app.get('/api/test', function (req, res) {
   res.send('This was a sample request');
 });
 
