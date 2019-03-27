@@ -6,12 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ProductSearch';
-  results = [];
+  public title: string = 'ProductSearch';
+  public results = [];
 
   public keywords = "";
 
-  callAPI() {
+  public callAPI() {
     //  console.log("hello World");
     console.log(this.keywords);
   }
