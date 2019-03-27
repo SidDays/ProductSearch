@@ -18,16 +18,8 @@
             <div class="form-group row">
                 <label for="categoryId" class="col-sm-3 col-form-label">Category</label>
                 <div class="col-sm-3">
-                    <select id="categoryId" name="categoryId" class="custom-select">
-                        <option selected value="-1">All Categories</option>
-                        <option value="550">Art</option>
-                        <option value="2984">Baby</option>
-                        <option value="267">Books</option>
-                        <option value="11450">Clothing, Shoes & Accessories</option>
-                        <option value="58058">Computers/Tablets & Networking</option>
-                        <option value="26395">Health & Beauty</option>
-                        <option value="11233">Music</option>
-                        <option value="1249">Video games & Consoles</option>
+                    <select id="categoryId" [(ngModel)]="categoryId" name="categoryId" class="custom-select">
+                        <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
                     </select>
                 </div>
             </div>
@@ -38,17 +30,17 @@
                 <div class="col-sm-7">
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="new">
+                        <input class="form-check-input" type="checkbox" id="new" [(ngModel)]="condition.new" name="condNew">
                         <label class="form-check-label" for="new">New</label>
                     </div>
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="used">
+                        <input class="form-check-input" type="checkbox" id="used" [(ngModel)]="condition.used" name="condUsed">
                         <label class="form-check-label" for="used">Used</label>
                     </div>
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="unspecified">
+                        <input class="form-check-input" type="checkbox" id="unspecified" [(ngModel)]="condition.unspecified" name="condUnspecified">
                         <label class="form-check-label" for="unspecified">Unspecified</label>
                     </div>
                 </div>
@@ -60,12 +52,12 @@
                 <div class="col-sm-7">
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="localpickup" name="localpickup">
+                        <input class="form-check-input" type="checkbox" id="localpickup" [(ngModel)]="shippingOption.local" name="localpickup">
                         <label class="form-check-label" for="localpickup">Local Pickup</label>
                     </div>
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="freeshipping" name="freeshipping">
+                        <input class="form-check-input" type="checkbox" id="freeshipping" [(ngModel)]="shippingOption.free" name="freeshipping">
                         <label class="form-check-label" for="freeshipping">Free Shipping</label>
                     </div>
                 </div>
@@ -73,9 +65,9 @@
 
 
             <div class="form-group row">
-                <label for="distance" class="col-sm-3 col-form-label">Distance(Miles)</label>
+                <label for="distance" class="col-sm-3 col-form-label">Distance (Miles)</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control " id="distance" placeholder="10" name="distance">
+                    <input type="number" class="form-control " id="distance" [(ngModel)]="distance" placeholder="10" name="distance">
                 </div>
             </div>
 
@@ -86,24 +78,23 @@
                     <div class="col-sm-7">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="location" id="currentLocation"
-                                value="option1" checked>
+                                value="currentLocation" [(ngModel)]="from.location">
                             <label class="form-check-label" for="currentLocation">Current Location</label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="location" id="gridRadios2"
-                                value="option2">
-                            <label class="form-check-label" for="otherLocatoin">Other. Please specify zip code:</label>
+                            <input class="form-check-input" type="radio" name="location" id="otherLocation"
+                                value="otherLocation" [(ngModel)]="from.location">
+                            <label class="form-check-label" for="otherLocation">Other. Please specify zip code:</label>
                         </div>
                     </div>
                 </div>
             </fieldset>
 
-
             <div class="form-group row">
                 <label for="zipCode" class="col-sm-3 col-form-label"></label>
                 <div class="col-sm-7">
-                    <input type="text" class="form-control" id="zipCode">
+                    <input type="text" class="form-control" id="zipCode" [(ngModel)]="from.zipCode" name="zipCode">
                 </div>
             </div>
 
