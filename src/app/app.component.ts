@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ProductSearch';
+  results = [];
+
+  public keywords = "";
+
+  callAPI() {
+    //  console.log("hello World");
+    console.log(this.keywords);
+  }
 }
+
+
+

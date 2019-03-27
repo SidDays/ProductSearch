@@ -6,7 +6,7 @@
                 <div class="form-group row">
                     <label for="keywords" class="col-sm-3 col-form-label">Keyword</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="keywords" placeholder="Enter Product Name (eg. iPhone 8)">
+                        <input [(ngModel)]="keywords" type="text" class="form-control" id="keywords" placeholder="Enter Product Name (eg. iPhone 8)" name="keywords">
                     </div>
                 </div>
         
@@ -105,7 +105,7 @@
                 
                 <div class="form-group row">
                     <div class="mr-3">
-                            <button type="button" class="btn btn-secondary btn-light mb-2" disabled>
+                            <button type="button" class="btn btn-secondary btn-light mb-2" (click)= "callAPI()" >
                                 <i class="material-icons align-top">search</i> <span>Search</span>
                             </button>
                     </div>
