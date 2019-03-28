@@ -17,14 +17,7 @@ app.get('/api/findproducts', function (req, res) {
   };
 
   /*
-  http://svcs.ebay.com/services/search/FindingService/v1?OPERATIONNAME=findItemsAdvanced&SERVICE-VERSION=1.0.0
-  &SECURITY-APPNAME=[APPID]&RESPONSE-DATA-FORMAT=JSON&RESTPAYLOAD&paginationInput.entriesPerPage=50
-  &keywords=iphone&buyerPostalCode=90007
-  &itemFilter(0).name=MaxDistance&itemFilter(0).value=10&itemFilter(1).name=FreeShipping
-  Only&itemFilter(1).value=true&itemFilter(2).name=LocalPickupOnly&itemFilter(2).value=true
-  &itemFilter(3).name=HideDuplicateItems&itemFilter(3).value=true&itemFilter(4).name=Condit
-  ion&itemFilter(4).value(0)=New&itemFilter(4).value(1)=Used&itemFilter(4).value(2)=Unspecif
-  ied&outputSelector(0)=SellerInfo&outputSelector(1)=StoreInfo
+  http://svcs.ebay.com/services/search/FindingService/v1?OPERATIONNAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=Dhananja-Assignme-PRD-316e081a6-a75d9f0b&RESPONSE-DATA-FORMAT=JSON&RESTPAYLOAD&paginationInput.entriesPerPage=50&keywords=iphone&buyerPostalCode=90007&itemFilter(0).name=MaxDistance&itemFilter(0).value=10&itemFilter(1).name=FreeShippingOnly&itemFilter(1).value=true&itemFilter(2).name=LocalPickupOnly&itemFilter(2).value=true&itemFilter(3).name=HideDuplicateItems&itemFilter(3).value=true&itemFilter(4).name=Condition&itemFilter(4).value(0)=New&itemFilter(4).value(1)=Used&itemFilter(4).value(2)=Unspecified&outputSelector(0)=SellerInfo&outputSelector(1)=StoreInfo
   */
 
   const keywords = req.query.keywords;
