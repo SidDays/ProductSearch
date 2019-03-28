@@ -13,7 +13,7 @@ app.get('/api/findproducts', function (req, res) {
     "SECURITY-APPNAME": myAppID,
     "RESPONSE-DATA-FORMAT": "JSON",
     "RESTPAYLOAD": null,
-    "paginationInput.entriesPerPage": 50
+    "paginationInput.entriesPerPage": 10
   };
 
   /*

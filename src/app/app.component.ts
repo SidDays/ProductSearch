@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { conditionallyCreateMapObjectLiteral } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-root',
@@ -66,10 +65,10 @@ export class AppComponent {
   }
 
   public loadingResults: boolean = false;
-  public results = [];
+  public results = null;
 
   public callAPI() {
-    console.log("Form fields are", this.keywords, this.categoryId, this.condition, this.shippingOption, this.distance, this.from);
+    // console.log("Form fields are", this.keywords, this.categoryId, this.condition, this.shippingOption, this.distance, this.from);
 
     // build query parameters object
     let paramsObj = {
@@ -93,12 +92,19 @@ export class AppComponent {
       paramsObj["postalCode"] = String(this.from.zipCode);
     }
 
-    // FIXME: Progress bar and hide results
     this.loadingResults = true;
     this.http.get('/api/findproducts', {
       params: paramsObj
-    }).subscribe(function (data) {
-      console.log(data);
+    }).subscribe((jsonObj) => {
+      this.loadingResults = false;
+      console.log(jsonObj);
+
+      if (jsonObj["findItemsAdvancedResponse"][0]["ack"] != "Success" || jsonObj["findItemsAdvancedResponse"][0]["searchResult"][0]["@count"] == 0) {
+        this.results = [];
+      } else {
+        this.results = jsonObj["findItemsAdvancedResponse"][0]["searchResult"][0]["item"];
+        // console.log("Results found", this.results);
+      }
     });
   }
 }
