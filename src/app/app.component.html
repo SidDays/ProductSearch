@@ -101,13 +101,13 @@
 
             <div class="form-group row">
                 <div class="mr-3">
-                    <button type="button" class="btn btn-secondary btn-light mb-2" (click)="callAPI()">
+                    <button type="button" class="btn btn-light mb-2" (click)="callAPI()">
                         <i class="material-icons align-top">search</i> <span>Search</span>
                     </button>
                 </div>
 
                 <div class="">
-                    <button type="button" class="btn btn-secondary btn-light mb-2">
+                    <button type="button" class="btn btn-light mb-2">
                         <i class="material-icons align-top">clear_all</i> Clear
                     </button>
                 </div>
@@ -146,14 +146,20 @@
                     <tbody>
 
                         <tr *ngFor="let result of results">
-                            <th>0</th>
-                            <td>{{ result.galleryURL }}</td>
+                            <th>{{ result.number }}</th>
+                            <td><img class="thumbnail" [src]="result.galleryURL"></td>
                             <td>{{ result.title }}</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
+                            <td>{{ result.price }}</td>
+                            <td>{{ result.shippingCost }}</td>
+                            <!-- TODO: Hide this column if not -->
+                            <td>{{ result.postalCode }}</td>
+                            <td>{{ result.seller }}</td>
+                            <td>
+                                <button type="button" class="btn btn-light">
+                                    <i class="material-icons align-top">add_shopping_cart</i>
+                                </button>
+                            </td>
+                            <td></td>
                         </tr>
 
                     </tbody>

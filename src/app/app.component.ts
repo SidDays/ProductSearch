@@ -97,13 +97,39 @@ export class AppComponent {
       params: paramsObj
     }).subscribe((jsonObj) => {
       this.loadingResults = false;
-      console.log(jsonObj);
+      console.log("Results json fetched:",jsonObj);
 
+      this.results = [];
       if (jsonObj["findItemsAdvancedResponse"][0]["ack"] != "Success" || jsonObj["findItemsAdvancedResponse"][0]["searchResult"][0]["@count"] == 0) {
-        this.results = [];
+        // Do nothing
       } else {
-        this.results = jsonObj["findItemsAdvancedResponse"][0]["searchResult"][0]["item"];
-        // console.log("Results found", this.results);
+        const items = jsonObj["findItemsAdvancedResponse"][0]["searchResult"][0]["item"];
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+
+          let result: any = {
+            number: (i + 1),
+            title: item.title,
+            galleryURL: item.galleryURL,
+            price: "$" + item.sellingStatus[0].currentPrice[0].__value__,
+            postalCode: (item.postalCode) ? item.postalCode : 'N/A',
+            seller: item.sellerInfo[0].sellerUserName,
+          }
+
+          // shipping cost
+          let shippingCost: string | number = "N/A";
+          if (item.shippingInfo && item.shippingInfo[0] && item.shippingInfo[0].shippingServiceCost[0].__value__) {
+            shippingCost = item.shippingInfo[0].shippingServiceCost[0].__value__;
+            if (shippingCost == 0) {
+              shippingCost = "Free Shipping";
+            } else {
+              shippingCost = "$" + shippingCost;
+            }
+          }
+          result.shippingCost = shippingCost;
+
+          this.results.push(result);
+        }
       }
     });
   }
