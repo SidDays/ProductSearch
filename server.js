@@ -28,7 +28,7 @@ app.get('/api/findproducts', function (req, res) {
   }
 
   const categoryId = req.query.categoryId;
-  if (categoryId) {
+  if (categoryId && categoryId != -1) {
     paramsObj["categoryId"] = categoryId;
   }
 
