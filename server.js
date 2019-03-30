@@ -27,6 +27,11 @@ app.get('/api/findproducts', function (req, res) {
     paramsObj["keywords"] = keywords;
   }
 
+  const categoryId = req.query.categoryId;
+  if (categoryId) {
+    paramsObj["categoryId"] = categoryId;
+  }
+
   const postalCode = req.query.postalCode;
   if (postalCode) {
     paramsObj["buyerPostalCode"] = postalCode;
