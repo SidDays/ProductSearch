@@ -138,12 +138,47 @@ export class AppComponent {
     });
   }
 
+  public toggleDetails: boolean = false; // TODO: Fix toggleDetails, poor implementation
   public itemActive = null;
 
   public itemDetail(itemId: number): void {
     this.http.get('/api/itemdetail/' + itemId)
       .subscribe((jsonResult) => {
         console.log(jsonResult);
+
+        const details = jsonResult["itemDetail"]["Item"];
+
+        let item: any = {};
+        if (details.PictureURL) {
+          item.pictureURL = details.PictureURL;
+        }
+        if (details.Title) {
+          item.title = details.Title;
+        }
+        if (details.Subtitle) {
+          item.subtitle = details.Subtitle;
+        }
+        if (details.CurrentPrice) {
+          item.price = "$" + details.CurrentPrice.Value;
+        }
+        if (details.Location) {
+          item.location = details.Location;
+        }
+        if (details["ReturnPolicy"]["ReturnsAccepted"]) {
+          if (details["ReturnPolicy"]["ReturnsWithin"]) {
+            item.returnPolicy = details["ReturnPolicy"]["ReturnsAccepted"] + " within " + details["ReturnPolicy"]["ReturnsWithin"];
+          } else
+            item.returnPolicy = details["ReturnPolicy"]["ReturnsAccepted"];
+        }
+        if (details.ItemSpecifics) {
+          item.itemSpecifics = details.ItemSpecifics.NameValueList;
+        } else {
+          item.itemSpecifics = [];
+        }
+
+        this.itemActive = item;
+        this.toggleDetails = true;
+        console.log(item);
       });
   }
 }
