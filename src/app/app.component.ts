@@ -10,7 +10,7 @@ export class AppComponent {
 
   constructor(private http: HttpClient) { }
 
-  public title: string = 'ProductSearch';
+  public title: string = 'Product Search';
 
   // Form fields
   public keywords: string = "";
@@ -66,6 +66,7 @@ export class AppComponent {
 
   public loadingResults: boolean = false;
   public results = null;
+  public pageNumber: number = 1;
 
   public callAPI() {
     // console.log("Form fields are", this.keywords, this.categoryId, this.condition, this.shippingOption, this.distance, this.from);
@@ -97,7 +98,7 @@ export class AppComponent {
       params: paramsObj
     }).subscribe((jsonObj) => {
       this.loadingResults = false;
-      console.log("Results json fetched:",jsonObj);
+      console.log("Results json fetched:", jsonObj);
 
       this.results = [];
       if (jsonObj["findItemsAdvancedResponse"][0]["ack"] != "Success" || jsonObj["findItemsAdvancedResponse"][0]["searchResult"][0]["@count"] == 0) {
@@ -108,12 +109,14 @@ export class AppComponent {
           const item = items[i];
 
           let result: any = {
+            itemId: item.itemId[0],
             number: (i + 1),
-            title: item.title,
-            galleryURL: item.galleryURL,
+            title: item.title[0],
+            titleShort: (item.title[0].length > 35) ? item.title[0].trim().substring(0, 34) + "…" : item.title[0],
+            galleryURL: item.galleryURL[0],
             price: "$" + item.sellingStatus[0].currentPrice[0].__value__,
-            postalCode: (item.postalCode) ? item.postalCode : 'N/A',
-            seller: item.sellerInfo[0].sellerUserName,
+            postalCode: (item.postalCode) ? item.postalCode[0] : 'N/A',
+            seller: item.sellerInfo[0].sellerUserName[0],
           }
 
           // shipping cost
@@ -128,10 +131,20 @@ export class AppComponent {
           }
           result.shippingCost = shippingCost;
 
+          // console.log(result);
           this.results.push(result);
         }
       }
     });
+  }
+
+  public itemActive = null;
+
+  public itemDetail(itemId: number): void {
+    this.http.get('/api/itemdetail/' + itemId)
+      .subscribe((jsonResult) => {
+        console.log(jsonResult);
+      });
   }
 }
 

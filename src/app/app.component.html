@@ -1,7 +1,7 @@
 <div class="container mt-5">
     <div class="bg-dark rounded text-white">
         <div class="text-center p-4">
-            <h2>Product Search</h2>
+            <h2>{{ title }}</h2>
         </div>
 
         <!-- Search Form -->
@@ -148,7 +148,7 @@
                         <tr *ngFor="let result of results">
                             <th>{{ result.number }}</th>
                             <td><img class="thumbnail" [src]="result.galleryURL"></td>
-                            <td>{{ result.title }}</td>
+                            <td><a [routerLink]="" (click)="itemDetail(result.itemId)">{{ result.titleShort }}</a></td>
                             <td>{{ result.price }}</td>
                             <td>{{ result.shippingCost }}</td>
                             <!-- TODO: Hide this column if not -->
@@ -164,12 +164,17 @@
 
                     </tbody>
                 </table>
-            </ng-template>            
+
+                <ngb-pagination class="d-flex justify-content-center" [collectionSize]="50" [maxSize]="5" [(page)]="pageNumber">
+                    <ng-template ngbPaginationPrevious>&laquo; Previous</ng-template>
+                    <ng-template ngbPaginationNext>Next &raquo;</ng-template>
+                </ngb-pagination>
+            </ng-template>
         </ng-template>
     </div>
 
     <!-- Item Detail -->
-    <div id="itemDetail">
+    <div id="itemDetail" *ngIf="itemActive">
         <p class="my-3 h4 text-center">NEW Google Pixel 2 XL Smartphone Unlocked 32GB - Google Edition</p>
     
         <ngb-tabset [justify]="'end'">
