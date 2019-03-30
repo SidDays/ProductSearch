@@ -26,7 +26,7 @@ app.get('/api/findproducts', function (req, res) {
   if (keywords) {
     paramsObj["keywords"] = keywords;
   }
-  
+
   const postalCode = req.query.postalCode;
   if (postalCode) {
     paramsObj["buyerPostalCode"] = postalCode;
@@ -95,6 +95,60 @@ app.get('/api/findproducts', function (req, res) {
       console.log('Error in eBay API results', error);
       res.send(error);
     })
+});
+
+// item detail
+app.get('/api/itemdetail/:itemid', function (req, res) {
+
+  // HTTP Request
+  axios.get('http://open.api.ebay.com/shopping', {
+    params: {
+      "callname": "GetSingleItem",
+      "responseencoding": "JSON",
+      "appid": myAppID,
+      "siteid": 0,
+      "version": 967,
+      "ItemID": req.params.itemid,
+      "IncludeSelector": "Description,Details,ItemSpecifics",
+    }
+  })
+    .then(function (res1) {
+
+      // also call similar items API
+      axios.get('http://svcs.ebay.com/MerchandisingService', {
+        params: {
+          "OPERATION-NAME": "getSimilarItems",
+          "SERVICE-NAME": "MerchandisingService",
+          "SERVICE-VERSION": "1.1.0",
+          "CONSUMER-ID": myAppID,
+          "RESPONSE-DATA-FORMAT": "JSON",
+          "REST-PAYLOAD": null,
+          "itemId": req.params.itemid,
+          "maxResults": 8,
+        }
+      }).then(function (res2) {
+
+        res.send({
+          itemDetail: res1.data,
+          similarItems: res2.data,
+        });
+
+      }).catch(function (error2) {
+        console.log('Error in eBay Merchandising Service (Similar Items) API', error2);
+        res.send({
+          itemDetail: res1.data,
+          similarItems: null,
+        });
+      });
+
+    })
+    .catch(function (error1) {
+      console.log('Error in eBay Shopping (Item Detail) API', error1);
+      res.send({
+        itemDetail: null,
+        similarItems: null,
+      });
+    });
 });
 
 // Tell Express to listen for requests (start server)
