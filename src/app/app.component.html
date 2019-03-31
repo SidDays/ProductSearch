@@ -108,16 +108,30 @@
                     </button>
                 </div>
 
-                <div class="">
+                <div class="mr-3">
                     <button type="button" class="btn btn-light mb-2">
                         <i class="material-icons align-top">clear_all</i> Clear
                     </button>
                 </div>
+
+                <!-- FIXME: Temporary. please remove in final -->
+                <button type="button" class="btn btn-danger mb-2" (click)="itemDetail(401466898078)">
+                    <i class="material-icons align-top">clear_all</i> Test Item Detail
+                </button>
             </div>
         </form>
     </div>
 
-    <!-- Results tab -->
+    <!-- TODO: Results / Wish List tab -->
+    <ul class="d-flex justify-content-center nav nav-pills my-4">
+        <li class="nav-item">
+            <a [ngClass]="(wishList) ? pillInactiveClass : pillActiveClass" (click)="wishList = false;" [routerLink]="">Results</a>
+        </li>
+        <li class="nav-item">
+            <a [ngClass]="(wishList) ? pillActiveClass : pillInactiveClass" (click)="wishList = true;" [routerLink]="">Wish List</a>
+        </li>
+    </ul>
+
     <!-- TODO: Fix toggleDetails, poor implementation -->
     <div id="mainResults" *ngIf="results && !toggleDetails">
 
@@ -151,6 +165,7 @@
                         <tr *ngFor="let result of results">
                             <th>{{ result.number }}</th>
                             <td><img *ngIf="result.galleryURL" class="thumbnail" [src]="result.galleryURL"></td>
+                            <!-- TODO: Tooltip using Angular-material -->
                             <td><a [routerLink]="" (click)="itemDetail(result.itemId, (result.number-1))">{{ result.titleShort }}</a></td>
                             <td>{{ result.price }}</td>
                             <td>{{ result.shippingCost }}</td>
@@ -176,15 +191,11 @@
         </ng-template>
     </div>
 
-    <!-- FIXME: Temporary. please remove in final -->
-    <div class="text-right my-2">
-        <button class="btn btn-danger btn-small" (click)="itemDetail(401466898078)">Test Item Detail</button>
-    </div>
-
     <!-- Item Detail -->
     <div id="itemDetail" *ngIf="itemActive">
         <p class="my-3 h4 text-center">{{ itemActive.title }}</p>
     
+        <!-- TODO: Style tabs -->
         <ngb-tabset [justify]="'end'">
             <ngb-tab title="Product">
                 <ng-template ngbTabContent>

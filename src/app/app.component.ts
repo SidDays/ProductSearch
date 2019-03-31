@@ -66,6 +66,12 @@ export class AppComponent {
 
   public loadingResults: boolean = false;
   public results = null;
+
+  /** `true` if pill nav is on the Wish List, `false` if it is on Results. */
+  public wishList: boolean = false;
+  public pillActiveClass: string = "nav-link bg-dark text-white";
+  public pillInactiveClass: string = "nav-link text-body";
+
   public pageNumber: number = 1;
 
   /**
