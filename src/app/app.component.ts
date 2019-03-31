@@ -68,6 +68,9 @@ export class AppComponent {
   public results = null;
   public pageNumber: number = 1;
 
+  /**
+   * Sets up the Find Products API call using form fields.
+   */
   public callAPI() {
     // console.log("Form fields are", this.keywords, this.categoryId, this.condition, this.shippingOption, this.distance, this.from);
 
@@ -113,23 +116,45 @@ export class AppComponent {
             number: (i + 1),
             title: item.title[0],
             titleShort: (item.title[0].length > 35) ? item.title[0].trim().substring(0, 34) + "…" : item.title[0],
-            galleryURL: item.galleryURL[0],
             price: "$" + item.sellingStatus[0].currentPrice[0].__value__,
             postalCode: (item.postalCode) ? item.postalCode[0] : 'N/A',
             seller: item.sellerInfo[0].sellerUserName[0],
           }
 
-          // shipping cost
-          let shippingCost: string | number = "N/A";
-          if (item.shippingInfo && item.shippingInfo[0] && item.shippingInfo[0].shippingServiceCost[0].__value__) {
-            shippingCost = item.shippingInfo[0].shippingServiceCost[0].__value__;
-            if (shippingCost == 0) {
-              shippingCost = "Free Shipping";
-            } else {
-              shippingCost = "$" + shippingCost;
+          // gallery URL
+          if (item.galleryURL) {
+            result.galleryURL = item.galleryURL[0];
+          }
+
+          // shipping
+          if (item.shippingInfo && item.shippingInfo[0]) {
+            // console.log("Shipping info", item.shippingInfo[0]);        
+            let shippingCost: string | number = "N/A";
+            if (item.shippingInfo[0].shippingServiceCost && item.shippingInfo[0].shippingServiceCost[0].__value__) {
+              shippingCost = item.shippingInfo[0].shippingServiceCost[0].__value__;
+              if (shippingCost == 0) {
+                shippingCost = "Free Shipping";
+              } else {
+                shippingCost = "$" + shippingCost;
+              }
+            }
+            result.shippingCost = shippingCost;
+            if (item.shippingInfo[0].shipToLocations) {
+              result.shippingLocations = item.shippingInfo[0].shipToLocations[0];
+            }
+            if (item.shippingInfo[0].handlingTime) {
+              result.handlingTime = item.shippingInfo[0].handlingTime[0];
+            }
+            if (item.shippingInfo[0].expeditedShipping) {
+              result.expeditedShipping = item.shippingInfo[0].expeditedShipping[0];
+            }
+            if (item.shippingInfo[0].oneDayShippingAvailable) {
+              result.oneDayShipping = item.shippingInfo[0].oneDayShippingAvailable[0];
+            }
+            if (item.shippingInfo[0].returnsAccepted) {
+              result.returnAccepted = item.shippingInfo[0].returnsAccepted[0];
             }
           }
-          result.shippingCost = shippingCost;
 
           // console.log(result);
           this.results.push(result);
@@ -141,7 +166,12 @@ export class AppComponent {
   public toggleDetails: boolean = false; // TODO: Fix toggleDetails, poor implementation
   public itemActive = null;
 
-  public itemDetail(itemId: number): void {
+  /**
+   * Calls the item detail API on the backend.
+   * @param itemId identifies the item.
+   * @param resultIndex maps to a row in the search results to access its shipping information.
+   */
+  public itemDetail(itemId: number, resultIndex: number = -1): void {
     this.http.get('/api/itemdetail/' + itemId)
       .subscribe((jsonResult) => {
         console.log(jsonResult);
@@ -149,6 +179,8 @@ export class AppComponent {
         const details = jsonResult["itemDetail"]["Item"];
 
         let item: any = {};
+
+        // Info tab
         if (details.PictureURL) {
           item.pictureURL = details.PictureURL;
         }
@@ -174,6 +206,25 @@ export class AppComponent {
           item.itemSpecifics = details.ItemSpecifics.NameValueList;
         } else {
           item.itemSpecifics = [];
+        }
+
+        // Shipping tab
+        if (resultIndex >= 0) {
+          console.log("Accessing shipping info of", this.results[resultIndex]);
+          const result = this.results[resultIndex];
+          if (result.shippingCost) { item.shippingCost = result.shippingCost; }
+          if (result.shippingLocations) { item.shippingLocations = result.shippingLocations; }
+          if (result.handlingTime) {
+            const handlingTime = result.handlingTime[0];
+            if (handlingTime == 0 || handlingTime == 1) {
+              item.handlingTime = handlingTime + " Day";
+            } else {
+              item.handlingTime = handlingTime + " Days"
+            }
+          }
+          item.expeditedShipping = result.expeditedShipping;
+          item.oneDayShipping = result.oneDayShipping;
+          item.returnAccepted = result.returnAccepted;
         }
 
         this.itemActive = item;

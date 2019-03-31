@@ -150,8 +150,8 @@
 
                         <tr *ngFor="let result of results">
                             <th>{{ result.number }}</th>
-                            <td><img class="thumbnail" [src]="result.galleryURL"></td>
-                            <td><a [routerLink]="" (click)="itemDetail(result.itemId)">{{ result.titleShort }}</a></td>
+                            <td><img *ngIf="result.galleryURL" class="thumbnail" [src]="result.galleryURL"></td>
+                            <td><a [routerLink]="" (click)="itemDetail(result.itemId, (result.number-1))">{{ result.titleShort }}</a></td>
                             <td>{{ result.price }}</td>
                             <td>{{ result.shippingCost }}</td>
                             <!-- TODO: Hide this column if not -->
@@ -223,7 +223,33 @@
             </ngb-tab>
             <ngb-tab title="Shipping">
                 <ng-template ngbTabContent>
-                    TODO: Shipping
+                    <!-- TODO: Shipping -->
+                    <table class="table table-striped table-dark">
+                        <tr *ngIf="itemActive.shippingCost != null">
+                            <th>Shipping Cost</th>
+                            <td>{{ itemActive.shippingCost }}</td>
+                        </tr>
+                        <tr *ngIf="itemActive.shippingLocations != null">
+                            <th>Shipping Locations</th>
+                            <td>{{ itemActive.shippingLocations }}</td>
+                        </tr>
+                        <tr *ngIf="itemActive.handlingTime != null">
+                            <th>Handling Time</th>
+                            <td>{{ itemActive.handlingTime }}</td>
+                        </tr>
+                        <tr *ngIf="itemActive.expeditedShipping != null">
+                            <th>Expedited Shipping</th>
+                            <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.expeditedShipping == 'true', 'text-danger': itemActive.expeditedShipping == 'false' }">{{ (itemActive.expeditedShipping == "true") ? 'check' : 'close' }}</i></td>
+                        </tr>
+                        <tr *ngIf="itemActive.oneDayShipping != null">
+                            <th>One Day Shipping</th>
+                            <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.oneDayShipping == 'true', 'text-danger': itemActive.oneDayShipping == 'false' }">{{ (itemActive.oneDayShipping == "true") ? 'check' : 'close' }}</i></td>
+                        </tr>
+                        <tr *ngIf="itemActive.returnAccepted != null">
+                            <th>Return Accepted</th>
+                            <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.returnAccepted == 'true', 'text-danger': itemActive.returnAccepted == 'false' }">{{ (itemActive.returnAccepted == "true") ? 'check' : 'close' }}</i></td>
+                        </tr>
+                    </table>
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Seller">
