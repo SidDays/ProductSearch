@@ -169,7 +169,11 @@
                                     <th>{{ result.number }}</th>
                                     <td><img *ngIf="result.galleryURL" class="thumbnail" [src]="result.galleryURL"></td>
                                     <!-- TODO: Tooltip using Angular-material -->
-                                    <td><a [routerLink]="" (click)="itemDetail(result.itemId, (result.number-1))">{{ result.titleShort }}</a></td>
+                                    <td>
+                                        <a [routerLink]="" (click)="itemDetail(result.itemId, (result.number-1))" [matTooltip]="result.title" matTooltipPosition="below">
+                                            {{ result.titleShort }}
+                                        </a>
+                                    </td>
                                     <td>{{ result.price }}</td>
                                     <td>{{ result.shippingCost }}</td>
                                     <!-- TODO: Hide this column if not -->
