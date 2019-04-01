@@ -11,7 +11,7 @@ export class AppComponent {
   constructor(private http: HttpClient) { }
 
   // Form fields
-  public keywords: string = "";
+  public keywords: string = "iPhone 8"; // TODO: Remove default value
   public categoryId: number = -1;
   public categories: Array<{ id: number, name: string }> = [
     {
@@ -71,6 +71,17 @@ export class AppComponent {
   public pillActiveClass: string = "nav-link bg-dark text-white";
   public pillInactiveClass: string = "nav-link text-body";
 
+  /** Adds an item to the wishlist if it isn't in it, removes it if it is.  */ 
+  public toggleWishList(uniqueId: string): void {
+    console.log("Toggling wishlist for", uniqueId);
+
+    if (this.wishlist[uniqueId]) {
+      delete this.wishlist[uniqueId];
+    } else {
+      this.wishlist[uniqueId] = true;
+    }
+  }
+
   public pageNumber: number = 1;
 
   /**
@@ -124,6 +135,7 @@ export class AppComponent {
             price: "$" + item.sellingStatus[0].currentPrice[0].__value__,
             postalCode: (item.postalCode) ? item.postalCode[0] : 'N/A',
             seller: item.sellerInfo[0].sellerUserName[0],
+            uniqueId: item.viewItemURL[0],
           }
 
           // gallery URL

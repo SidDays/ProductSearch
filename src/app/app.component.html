@@ -180,8 +180,14 @@
                                     <td>{{ result.postalCode }}</td>
                                     <td>{{ result.seller }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-light">
-                                            <i class="material-icons align-top">add_shopping_cart</i>
+                                        <button type="button" class="btn btn-light"
+                                        (click)="toggleWishList(result.uniqueId)"
+                                        [ngClass]="{ 'text-warning': wishlist[result.uniqueId] }">
+                                            <i class="material-icons align-top">
+                                                {{ (wishlist[result.uniqueId]) ?
+                                                    'remove_shopping_cart' :
+                                                    'add_shopping_cart' }}
+                                            </i>
                                         </button>
                                     </td>
                                     <td></td>
