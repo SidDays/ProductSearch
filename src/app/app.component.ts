@@ -10,8 +10,6 @@ export class AppComponent {
 
   constructor(private http: HttpClient) { }
 
-  public title: string = 'Product Search';
-
   // Form fields
   public keywords: string = "";
   public categoryId: number = -1;
