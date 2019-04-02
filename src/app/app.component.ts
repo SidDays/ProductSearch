@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -6,9 +6,25 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
+
+  public wishlist;
+  public totalShopping: number;
+  ngOnInit(): void {
+    // load wishlist from localstorage
+    if (localStorage.getItem("wishlist")) {
+      this.wishlist = JSON.parse(localStorage.getItem("wishlist"));
+    } else {
+      this.wishlist = { };
+    }
+    if (localStorage.getItem("totalShopping")) {
+      this.totalShopping = parseInt(localStorage.getItem("totalShopping"));
+    } else {
+      this.totalShopping = 0;
+    }
+  }
 
   // Form fields
   public keywords: string = "iPhone 8"; // TODO: Remove default value
@@ -67,7 +83,6 @@ export class AppComponent {
 
   /** `true` if pill nav is on the Wish List, `false` if it is on Results. */
   public wishlistToggle: boolean = false;
-  public wishlist = { };
   public isWishlistEmpty(): boolean {
     for (const prop in this.wishlist) {
       if (this.wishlist.hasOwnProperty(prop))
@@ -76,13 +91,11 @@ export class AppComponent {
 
     return true;
   }
-  public totalShopping: number = 0;
   public pillActiveClass: string = "nav-link bg-dark text-white";
   public pillInactiveClass: string = "nav-link text-body";
 
   /** Adds an item to the wishlist if it isn't in it, removes it if it is.  */ 
   public toggleWishList(resultIndex: number): void {
-    // TODO: use local storage
     const result = this.results[resultIndex];
     const uniqueId:string = result.uniqueId;
     console.log("Toggling wishlist for", result);
@@ -102,7 +115,9 @@ export class AppComponent {
     }
     this.totalShopping = shopping;
 
-    // console.log(this.wishlist);
+    // Sync wishlist with localStorage
+    localStorage.setItem("wishlist", JSON.stringify(this.wishlist));
+    localStorage.setItem("totalShopping", this.totalShopping.toString());
   }
 
   public pageNumber: number = 1;
