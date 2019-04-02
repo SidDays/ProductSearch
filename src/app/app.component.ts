@@ -67,19 +67,42 @@ export class AppComponent {
 
   /** `true` if pill nav is on the Wish List, `false` if it is on Results. */
   public wishlistToggle: boolean = false;
-  public wishlist = {};
+  public wishlist = { };
+  public isWishlistEmpty(): boolean {
+    for (const prop in this.wishlist) {
+      if (this.wishlist.hasOwnProperty(prop))
+        return false;
+    }
+
+    return true;
+  }
+  public totalShopping: number = 0;
   public pillActiveClass: string = "nav-link bg-dark text-white";
   public pillInactiveClass: string = "nav-link text-body";
 
   /** Adds an item to the wishlist if it isn't in it, removes it if it is.  */ 
-  public toggleWishList(uniqueId: string): void {
-    console.log("Toggling wishlist for", uniqueId);
+  public toggleWishList(resultIndex: number): void {
+    // TODO: use local storage
+    const result = this.results[resultIndex];
+    const uniqueId:string = result.uniqueId;
+    console.log("Toggling wishlist for", result);
 
     if (this.wishlist[uniqueId]) {
       delete this.wishlist[uniqueId];
     } else {
-      this.wishlist[uniqueId] = true;
+      this.wishlist[uniqueId] = result;
     }
+
+    let shopping = 0;
+    for (const prop in this.wishlist) {
+      if (this.wishlist.hasOwnProperty(prop)) {
+        const price = parseFloat(this.wishlist[prop].price.slice(1));
+        shopping += price;
+      }
+    }
+    this.totalShopping = shopping;
+
+    // console.log(this.wishlist);
   }
 
   public pageNumber: number = 1;
@@ -129,12 +152,12 @@ export class AppComponent {
 
           let result: any = {
             itemId: item.itemId[0],
+            index: i,
             number: (i + 1),
             title: item.title[0],
             titleShort: (item.title[0].length > 35) ? item.title[0].trim().substring(0, 34) + "…" : item.title[0],
             price: "$" + item.sellingStatus[0].currentPrice[0].__value__,
             postalCode: (item.postalCode) ? item.postalCode[0] : 'N/A',
-            seller: item.sellerInfo[0].sellerUserName[0],
             uniqueId: item.viewItemURL[0],
           }
 
@@ -172,6 +195,13 @@ export class AppComponent {
               result.returnAccepted = item.shippingInfo[0].returnsAccepted[0];
             }
           }
+          
+          // seller
+          if (item.sellerInfo && item.sellerInfo[0].sellerUserName) {
+            result.seller = item.sellerInfo[0].sellerUserName[0];
+          } else {
+            result.seller = "N/A";
+          }
 
           // console.log(result);
           this.results.push(result);
@@ -185,6 +215,9 @@ export class AppComponent {
 
   /**
    * Calls the item detail API on the backend.
+   * 
+   * **FIXME:** using the `resultindex` breaks wishlist shipping info. store shipping info in `result` object!
+   * 
    * @param itemId identifies the item.
    * @param resultIndex maps to a row in the search results to access its shipping information.
    */
@@ -195,7 +228,9 @@ export class AppComponent {
 
         const details = jsonResult["itemDetail"]["Item"];
 
-        let item: any = {};
+        let item: any = {
+          resultIndex: resultIndex,
+        };
 
         // Info tab
         if (details.PictureURL) {

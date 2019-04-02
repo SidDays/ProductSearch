@@ -116,7 +116,7 @@
 
                 <!-- FIXME: Temporary. please remove in final -->
                 <button type="button" class="btn btn-danger mb-2" (click)="itemDetail(401466898078)">
-                    <i class="material-icons align-top">clear_all</i> Test Item Detail
+                    <i class="material-icons align-top">assignment_turned_in</i> Test Item Detail
                 </button>
             </div>
         </form>
@@ -168,20 +168,18 @@
                                 <tr *ngFor="let result of results">
                                     <th>{{ result.number }}</th>
                                     <td><img *ngIf="result.galleryURL" class="thumbnail" [src]="result.galleryURL"></td>
-                                    <!-- TODO: Tooltip using Angular-material -->
                                     <td>
-                                        <a [routerLink]="" (click)="itemDetail(result.itemId, (result.number-1))" [matTooltip]="result.title" matTooltipPosition="below">
+                                        <a [routerLink]="" (click)="itemDetail(result.itemId, result.index)" [matTooltip]="result.title" matTooltipPosition="below">
                                             {{ result.titleShort }}
                                         </a>
                                     </td>
                                     <td>{{ result.price }}</td>
                                     <td>{{ result.shippingCost }}</td>
-                                    <!-- TODO: Hide this column if not -->
                                     <td>{{ result.postalCode }}</td>
                                     <td>{{ result.seller }}</td>
                                     <td>
                                         <button type="button" class="btn btn-light"
-                                        (click)="toggleWishList(result.uniqueId)"
+                                        (click)="toggleWishList(result.index)"
                                         [ngClass]="{ 'text-warning': wishlist[result.uniqueId] }">
                                             <i class="material-icons align-top">
                                                 {{ (wishlist[result.uniqueId]) ?
@@ -190,7 +188,6 @@
                                             </i>
                                         </button>
                                     </td>
-                                    <td></td>
                                 </tr>
         
                             </tbody>
@@ -208,12 +205,62 @@
         <!-- Wishlist -->
         <ng-template #wishlistTemplate>
             <!-- No records -->
-            <div *ngIf="wishlist.length == 0; else wishListRows" class="alert alert-warning">
+            <div *ngIf="isWishlistEmpty(); else wishListRows" class="alert alert-warning">
                 No Records.
             </div>
 
-            <ng-template #wishListRows>
-                TODO: Wishlist implementation
+            <ng-template #wishListRows class="table-responsive">
+                <!-- Wishlist implementation -->
+                <table class="table table-striped table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Shipping</th>
+                            <th scope="col">Seller</th>
+                            <th scope="col">Wish List</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let wish of wishlist | keyvalue; index as i">
+                            <th>{{ i + 1 }}</th>
+                            <td><img *ngIf="wish.value.galleryURL" class="thumbnail" [src]="wish.value.galleryURL"></td>
+                            <td>
+                                <!-- FIXME: using the resultindex breaks wishlist shipping info. store shipping info in result object -->
+                                <a [routerLink]="" (click)="itemDetail(wish.value.itemId, wish.value.index)" [matTooltip]="wish.value.title" matTooltipPosition="below">
+                                    {{ wish.value.titleShort }}
+                                </a>
+                            </td>
+                            <td>{{ wish.value.price }}</td>
+                            <td>{{ wish.value.shippingCost }}</td>
+                            <td>{{ wish.value.seller }}</td>
+                            <td>
+                                <button type="button" class="btn btn-light"
+                                (click)="toggleWishList(wish.value.index)"
+                                [ngClass]="{ 'text-warning': wishlist[wish.value.uniqueId] }">
+                                    <i class="material-icons align-top">
+                                        {{ (wishlist[wish.value.uniqueId]) ?
+                                            'remove_shopping_cart' :
+                                            'add_shopping_cart' }}
+                                    </i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Total shopping -->
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>Total Shopping</strong></td>
+                            <td>{{ totalShopping | currency : 'USD' : 'symbol-narrow' : '1.2-2' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </ng-template>
         </ng-template>
     </div>
