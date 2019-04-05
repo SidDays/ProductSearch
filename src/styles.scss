@@ -6,5 +6,17 @@ $font-family-sans-serif: 'Roboto', sans-serif !default;
 // Bootstrap and its default variables
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+.nav-tabs {
+    .nav-link {
+        color: black;
+    }
+
+    .nav-link.active,
+    .nav-item.show .nav-link {
+      color: white;
+      background-color: $gray-800;
+    }
+}
+
 // Angular Material
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
