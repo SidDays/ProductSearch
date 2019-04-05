@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     if (localStorage.getItem("wishlist")) {
       this.wishlist = JSON.parse(localStorage.getItem("wishlist"));
     } else {
-      this.wishlist = { };
+      this.wishlist = [ ];
     }
     if (localStorage.getItem("totalShopping")) {
       this.totalShopping = parseInt(localStorage.getItem("totalShopping"));
@@ -258,21 +258,21 @@ export class AppComponent implements OnInit {
   /**
    * Calls the item detail API on the backend.
    * 
-   * **FIXME:** using the `resultindex` breaks wishlist shipping info. store shipping info in `result` object!
+   * Since shipping info is collected during the first API call,
+   * this function MUST access its data (and thus can be called from result / wishlist only.)
    * 
    * @param itemId identifies the item.
    * @param resultIndex maps to a row in the search results to access its shipping information.
+   * @param wishlistUniqueId maps to a row in the wishlist to access its shipping information.
    */
-  public itemDetail(itemId: number, resultIndex: number = -1): void {
+  public itemDetail(itemId: number, resultIndex?: number, wishlistUniqueId?: string): void {
     this.http.get('/api/itemdetail/' + itemId)
       .subscribe((jsonResult) => {
         console.log(jsonResult);
 
         const details = jsonResult["itemDetail"]["Item"];
 
-        let item: any = {
-          resultIndex: resultIndex,
-        };
+        let item: any = { };
 
         // Info tab
         if (details.PictureURL) {
@@ -303,22 +303,28 @@ export class AppComponent implements OnInit {
         }
 
         // Shipping tab
-        if (resultIndex >= 0) {
-          console.log("Accessing shipping info of", this.results[resultIndex]);
-          const result = this.results[resultIndex];
-          if (result.shippingCost) { item.shippingCost = result.shippingCost; }
-          if (result.shippingLocations) { item.shippingLocations = result.shippingLocations; }
-          if (result.handlingTime) {
-            const handlingTime = result.handlingTime[0];
+        let shippingInfoSource = null;
+        if (resultIndex != null && resultIndex >= 0) {
+          shippingInfoSource = this.results[resultIndex];
+        } else if (wishlistUniqueId != null) {
+          shippingInfoSource = this.wishlist[wishlistUniqueId];
+        }
+
+        if (shippingInfoSource) {
+          console.log("Accessing shipping info of", shippingInfoSource);
+          if (shippingInfoSource.shippingCost) { item.shippingCost = shippingInfoSource.shippingCost; }
+          if (shippingInfoSource.shippingLocations) { item.shippingLocations = shippingInfoSource.shippingLocations; }
+          if (shippingInfoSource.handlingTime) {
+            const handlingTime = shippingInfoSource.handlingTime[0];
             if (handlingTime == 0 || handlingTime == 1) {
               item.handlingTime = handlingTime + " Day";
             } else {
               item.handlingTime = handlingTime + " Days"
             }
           }
-          item.expeditedShipping = result.expeditedShipping;
-          item.oneDayShipping = result.oneDayShipping;
-          item.returnAccepted = result.returnAccepted;
+          item.expeditedShipping = shippingInfoSource.expeditedShipping;
+          item.oneDayShipping = shippingInfoSource.oneDayShipping;
+          item.returnAccepted = shippingInfoSource.returnAccepted;
         }
 
         this.itemActive = item;
