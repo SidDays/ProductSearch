@@ -170,7 +170,7 @@
                                     <td><img *ngIf="result.galleryURL" class="thumbnail" [src]="result.galleryURL"></td>
                                     <td>
                                         <a [routerLink]="" (click)="itemDetail(result.itemId, result.index)" [matTooltip]="result.title" matTooltipPosition="below">
-                                            {{ result.titleShort }}
+                                            {{ result.title | truncateStr }}
                                         </a>
                                     </td>
                                     <td>{{ result.price }}</td>

@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { TruncateStr } from './truncate-str.pipe';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -14,7 +15,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TruncateStr,
   ],
   imports: [
     BrowserModule,

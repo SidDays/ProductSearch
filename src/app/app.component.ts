@@ -197,7 +197,6 @@ export class AppComponent implements OnInit {
             index: i,
             number: (i + 1),
             title: item.title[0],
-            titleShort: (item.title[0].length > 35) ? item.title[0].trim().substring(0, 34) + "…" : item.title[0],
             price: "$" + item.sellingStatus[0].currentPrice[0].__value__,
             postalCode: (item.postalCode) ? item.postalCode[0] : 'N/A',
             uniqueId: item.viewItemURL[0],
