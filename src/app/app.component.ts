@@ -77,9 +77,36 @@ export class AppComponent implements OnInit {
     location: "currentLocation",
     zipCode: null
   }
-
+  
   public loadingResults: boolean = false;
   public results = null;
+
+  /**
+   * Reset the form fields,
+   * clear all validation errors if present,
+   * switch the view to the results tab and
+   * clear the results area.
+   */
+  public clearEverything(): void {
+    this.keywords = "";
+    this.categoryId = -1;
+    this.condition = {
+      new: false,
+      used: false,
+      unspecified: false
+    };
+    this.shippingOption = {
+      local: false,
+      free: false
+    }
+    this.distance = null;
+    this.from = {
+      location: "currentLocation",
+      zipCode: null
+    }
+    this.wishlistToggle = false;
+    this.results = null;
+  }
 
   /** `true` if pill nav is on the Wish List, `false` if it is on Results. */
   public wishlistToggle: boolean = false;

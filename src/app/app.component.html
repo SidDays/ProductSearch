@@ -109,7 +109,7 @@
                 </div>
 
                 <div class="mr-3">
-                    <button type="button" class="btn btn-light mb-2">
+                    <button type="button" class="btn btn-light mb-2" (click)="clearEverything()">
                         <i class="material-icons align-top">clear_all</i> Clear
                     </button>
                 </div>
@@ -125,17 +125,17 @@
     <!-- TODO: Results / Wish List tab -->
     <ul class="d-flex justify-content-center nav nav-pills my-4">
         <li class="nav-item">
-            <a [ngClass]="(wishListToggle) ? pillInactiveClass : pillActiveClass" (click)="wishListToggle = false;" [routerLink]="">Results</a>
+            <a [ngClass]="(wishlistToggle) ? pillInactiveClass : pillActiveClass" (click)="wishlistToggle = false;" [routerLink]="">Results</a>
         </li>
         <li class="nav-item">
-            <a [ngClass]="(wishListToggle) ? pillActiveClass : pillInactiveClass" (click)="wishListToggle = true;" [routerLink]="">Wish List</a>
+            <a [ngClass]="(wishlistToggle) ? pillActiveClass : pillInactiveClass" (click)="wishlistToggle = true;" [routerLink]="">Wish List</a>
         </li>
     </ul>
 
     <!-- TODO: Fix toggleDetails, poor implementation -->
     <div id="mainResults" *ngIf="!toggleDetails">
 
-        <div *ngIf="!wishListToggle; else wishlistTemplate">
+        <div *ngIf="!wishlistToggle; else wishlistTemplate">
             <!-- Progress bar -->
             <div *ngIf="loadingResults; else resultsTemplate" class="progress">
                 <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 50%"></div>
@@ -205,11 +205,11 @@
         <!-- Wishlist -->
         <ng-template #wishlistTemplate>
             <!-- No records -->
-            <div *ngIf="isWishlistEmpty(); else wishListRows" class="alert alert-warning">
+            <div *ngIf="isWishlistEmpty(); else wishlistRows" class="alert alert-warning">
                 No Records.
             </div>
 
-            <ng-template #wishListRows class="table-responsive">
+            <ng-template #wishlistRows class="table-responsive">
                 <!-- Wishlist implementation -->
                 <table class="table table-striped table-dark">
                     <thead>
