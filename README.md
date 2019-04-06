@@ -34,11 +34,8 @@ when selecting “Other”
 - [x] Display total shopping cost correctly 
 - [ ] Enable/Disable detail button correctly navigate to product details for last clicked product
 
-### Item detail
-- [ ] Animation: slides in from the left
-- [ ] Share to Facebook
-
 ### Product Details
+- [ ] Animation: slides in from the left
 - [ ] Product name above tabs 
 
 #### Product tab
