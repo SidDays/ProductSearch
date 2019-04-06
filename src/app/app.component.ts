@@ -334,6 +334,50 @@ export class AppComponent implements OnInit {
           item.sellerUserName = seller.UserID;
           item.feedbackRatingStar = seller.FeedbackRatingStar;
           item.feedbackScore = seller.FeedbackScore;
+          if (item.feedbackScore && item.feedbackRatingStar) {
+            item.feedbackRatingStarType = (item.feedbackScore > 5000) ? "stars" : "star_border";
+            item.feedbackRatingStarStyle = {
+              "vertical-align": "middle",
+            };
+
+            switch (item.feedbackRatingStar) {
+              case "Yellow":
+              case "YellowShooting":
+                item.feedbackRatingStarStyle.color = "yellow";
+                break;
+
+              case "Blue":
+                item.feedbackRatingStarStyle.color = "blue";
+                break;
+
+              case "Turquoise":
+              case "TurquoiseShooting":
+                item.feedbackRatingStarStyle.color = "turquoise";
+                break;
+
+              case "Purple":
+              case "PurpleShooting":
+                item.feedbackRatingStarStyle.color = "purple";
+                break;
+
+              case "Red":
+              case "RedShooting":
+                item.feedbackRatingStarStyle.color = "red";
+                break;
+
+              case "Green":
+              case "GreenShooting":
+                item.feedbackRatingStarStyle.color = "green";
+                break;
+
+              case "SilverShooting":
+              item.feedbackRatingStarStyle.color = "silver";
+                break;
+
+              default:
+                break;
+            }
+          }
           item.positiveFeedbackPercent = seller.PositiveFeedbackPercent;
           item.topRatedSeller = seller.TopRatedSeller;
         }
