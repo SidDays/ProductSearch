@@ -274,7 +274,31 @@
                     <table class="table table-striped table-dark">
                         <tr>
                             <th>Product Images</th>
-                            <td><a [routerLink]="">View Product Images Here</a></td>
+                            <td><a [routerLink]="" (click)="openProductImagesModal(productImagesModal)">View Product Images Here</a></td>
+
+                            <ng-template #productImagesModal let-modal>
+                                <div class="modal-header">
+                                    <strong class="modal-title h5" id="modal-basic-title">Product Images</strong>
+                                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- TODO: Carousel animations -->
+                                    <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="false">
+                                        <ng-template ngbSlide *ngFor="let imageURL of itemActive.pictureURL">
+                                            <a [href]="imageURL" target="_blank">
+                                                <div class="img-bordered-container rounded">
+                                                    <img [src]="imageURL" class="img-bordered rounded">
+                                                </div>
+                                            </a>
+                                        </ng-template>
+                                    </ngb-carousel>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" (click)="modal.close('Close button')">Close</button>
+                                </div>
+                            </ng-template>
                         </tr>
                         <tr *ngIf="itemActive.subtitle">
                             <th>Subtitle</th>

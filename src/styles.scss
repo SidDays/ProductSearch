@@ -18,5 +18,10 @@ $font-family-sans-serif: 'Roboto', sans-serif !default;
     }
 }
 
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: black;
+}
+
 // Angular Material
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
