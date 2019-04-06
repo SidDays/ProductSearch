@@ -350,8 +350,8 @@
                         <tr>
                             <th>Popularity</th>
                             <td>
-                                <!-- TODO: Display number inside circle -->
-                                <round-progress
+                                <div class="popularityContainer">
+                                    <round-progress
                                         [current]="itemActive.positiveFeedbackPercent"
                                         [max]="100"
                                         [color]="'green'"
@@ -361,7 +361,9 @@
                                         [clockwise]="false"
                                         [duration]="1"
                                     >
-                                </round-progress>
+                                    </round-progress>
+                                    <span class="popularityText">{{ itemActive.positiveFeedbackPercent }}</span>
+                                </div>
                             </td>
                         </tr>
                         <tr>
