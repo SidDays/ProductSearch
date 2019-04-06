@@ -7,11 +7,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TruncateStr } from './truncate-str.pipe';
 
+// ng-Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Angular Material
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+// Angular SVG round progressbar
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     FormsModule,
     HttpClientModule,
     NoopAnimationsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    RoundProgressModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

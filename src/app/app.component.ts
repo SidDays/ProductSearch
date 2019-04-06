@@ -238,10 +238,12 @@ export class AppComponent implements OnInit {
           }
           
           // seller
-          if (item.sellerInfo && item.sellerInfo[0].sellerUserName) {
-            result.seller = item.sellerInfo[0].sellerUserName[0];
-          } else {
-            result.seller = "N/A";
+          if (item.sellerInfo && item.sellerInfo[0]) {
+            if (item.sellerInfo[0].sellerUserName) {
+              result.sellerUserName = item.sellerInfo[0].sellerUserName[0];
+            } else {
+              result.sellerUserName = "N/A";
+            }
           }
 
           // console.log(result);
@@ -324,6 +326,21 @@ export class AppComponent implements OnInit {
           item.expeditedShipping = shippingInfoSource.expeditedShipping;
           item.oneDayShipping = shippingInfoSource.oneDayShipping;
           item.returnAccepted = shippingInfoSource.returnAccepted;
+        }
+
+        // Seller tab
+        if (details.Seller) {
+          const seller = details.Seller;
+          item.sellerUserName = seller.UserID;
+          item.feedbackRatingStar = seller.FeedbackRatingStar;
+          item.feedbackScore = seller.FeedbackScore;
+          item.positiveFeedbackPercent = seller.PositiveFeedbackPercent;
+          item.topRatedSeller = seller.TopRatedSeller;
+        }
+        if (details.Storefront) {
+          const storefront = details.Storefront;
+          item.storeName = storefront.StoreName;
+          item.storeURL = storefront.StoreURL;
         }
 
         this.itemActive = item;

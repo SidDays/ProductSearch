@@ -116,7 +116,7 @@
 
                 <!-- FIXME: Temporary. please remove in final -->
                 <button type="button" class="btn btn-danger mb-2" (click)="itemDetail(401466898078)">
-                    <i class="material-icons align-top">assignment_turned_in</i> Test Item Detail
+                    Test Item Detail
                 </button>
             </div>
         </form>
@@ -153,14 +153,14 @@
                         <table class="table table-striped table-dark">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Shipping</th>
-                                    <th scope="col">Zip</th>
-                                    <th scope="col">Seller</th>
-                                    <th scope="col">Wish List</th>
+                                    <th>#</th>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Price</th>
+                                    <th>Shipping</th>
+                                    <th>Zip</th>
+                                    <th>Seller</th>
+                                    <th>Wish List</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -176,7 +176,7 @@
                                     <td>{{ result.price }}</td>
                                     <td>{{ result.shippingCost }}</td>
                                     <td>{{ result.postalCode }}</td>
-                                    <td>{{ result.seller }}</td>
+                                    <td>{{ result.sellerUserName }}</td>
                                     <td>
                                         <button type="button" class="btn btn-light"
                                         (click)="toggleWishList(result.index)"
@@ -234,7 +234,7 @@
                             </td>
                             <td>{{ wish.value.price }}</td>
                             <td>{{ wish.value.shippingCost }}</td>
-                            <td>{{ wish.value.seller }}</td>
+                            <td>{{ wish.value.sellerUserName }}</td>
                             <td>
                                 <button type="button" class="btn btn-light"
                                 (click)="toggleWishList(wish.value.index)"
@@ -339,7 +339,54 @@
 
             <ngb-tab title="Seller">
                 <ng-template ngbTabContent>
-                    TODO: Seller
+                    <table class="table table-striped table-dark">
+                        <tr>
+                            <th colspan="2" class="text-center">{{ itemActive.sellerUserName | uppercase }}</th>
+                        </tr>
+                        <tr>
+                            <th>Feedback Score</th>
+                            <td>{{ itemActive.feedbackScore }}</td>
+                        </tr>
+                        <tr>
+                            <th>Popularity</th>
+                            <td>
+                                <!-- TODO: Display number inside circle -->
+                                <round-progress
+                                        [current]="itemActive.positiveFeedbackPercent"
+                                        [max]="100"
+                                        [color]="'green'"
+                                        [background]="'white'"
+                                        [radius]="20"
+                                        [stroke]="2"
+                                        [clockwise]="false"
+                                        [duration]="1"
+                                    >
+                                </round-progress>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Feedback Rating Star</th>
+                            <td>
+                                TODO: {{ itemActive.feedbackRatingStar }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Top Rated</th>
+                            <td>
+                                <i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.topRatedSeller == true, 'text-danger': itemActive.topRatedSeller == false }">
+                                    {{ (itemActive.topRatedSeller == true) ? 'check' : 'close' }}
+                                </i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Store Name</th>
+                            <td>{{ itemActive.storeName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Buy Product At</th>
+                            <td><a [href]="itemActive.storeURL">Store</a></td>
+                        </tr>
+                    </table>
                 </ng-template>
             </ngb-tab>
 
