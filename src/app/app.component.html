@@ -406,11 +406,11 @@
                                 </i>
                             </td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="itemActive.storeName">
                             <th>Store Name</th>
                             <td>{{ itemActive.storeName }}</td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="itemActive.storeURL">
                             <th>Buy Product At</th>
                             <td><a [href]="itemActive.storeURL">Store</a></td>
                         </tr>
