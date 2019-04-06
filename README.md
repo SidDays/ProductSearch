@@ -1,49 +1,117 @@
-# ProductSearch
+# Product Search
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.5.
 
 ## Features
 
-- [ ] Form
-- [ ] Search: initially greyed out until keyword is filled
-- [ ] Loading bar
-- [ ] Results
-- [ ] "No records"
+### Basic Search Form
+- [x] Keyword, Category and Distance Placeholder 
+- [ ] Form displayed properly 
+- [x] The drop-down list should contain all categories 
+- [ ] Zip Code edit box must be disabled when choosing “Current location” radio and enabled 
+when selecting “Other” 
+- [ ] Validation for the search inputs and the error message(s) 
+- [ ] Validation for zip code 
+- [ ] “Clear” button resets the search form to the initial state and clears results area 
+- [ ] Disable and enable the “Search” button appropriately 
+- [ ] Obtain user location 
+- [ ] Zip Code Autocomplete
+
+### Results
+- [x] Wish List 
+- [x] Product clickable 
+- [x] Tooltip and Restricting Product Name 
+- [ ] Details button enabled, disabled appropriately and navigate to product details for last clicked product 
+- [ ] Pagination 
+- [ ] Highlighting the selected row 
+- [x] No missing cell/column 
 
 ### Wish List
-- [ ] Image, Title, Price, Shipping, Seller, Wishlist
-- [ ] Gold icon/black  y/n
-
-### Main Table
-- [ ] Number, image, title, (35 max) price, shipping, zipcode, seller + Wishlist 
-- [ ] Title has black tooltip
+- [x] Image, Title, Price, Shipping, Seller, Wishlist
+- [x] Gold icon/black (y/n)
+- [x] Add from search list/detail 
+- [x] Deletion from search list/wish list/detail 
+- [x] Display total shopping cost correctly 
+- [ ] Enable/Disable detail button correctly navigate to product details for last clicked product
 
 ### Item detail
 - [ ] Animation: slides in from the left
 - [ ] Share to Facebook
 
-#### Product
-- [ ] View Product Images - modal, carousel, black background, click on image to maximize
+### Product Details
+- [ ] Product name above tabs 
 
-#### Photos
-- [ ] Masonry style laout
+#### Product tab
+- [x] Show every row in the table in the specified format
+- [x] Show “Product Image” modal correctly with all images - modal, carousel, black background, click on image to maximize
+- [ ] Carousel animations
 
-#### Shipping
-- [ ] Information with symbols y/n
+#### Photos tab 
+- [ ] Set up Google Custom Search engine API
+- [ ] Display all photos as shown in the video in a Masonrysstyle laout
+- [ ] Photos can be opened in a new tab
 
-#### Seller
-- [ ] Popularity
-- [ ] Click on store - links to store
-- [ ] Feedback star
+#### Shipping tab 
+- [x] Table display information in the specified format 
+- [x] Ticks and crosses displayed correctly
 
-#### Similar Products
-- [ ] Sort by: default, product name, days left, price, shipping cost
-- [ ] Sort order: ascending, descnding
-- [ ] Item details in a list
+#### Seller tab 
+- [x] Table display information in the correct manner 
+- [x] Display seller popularity using circle progress bar correctly
+- [x] Display Feedback Rating Star correctly
+- [x] Click on store - links to store
+
+#### Similar Products tab 
+- [ ] Dropdowns with proper categories and disabled/enabled correctly
+- [ ] Display products in the correct way (including clickable names and proper images)
+- [ ] Show More/Less works
+- [ ] Sort by: default, product name, days left, price, shipping cost; Sort order: ascending, descnding
+- [x] Similar products API call
+
+#### Buttons (1 point in total) 
+- [ ] List button display and navigate to results/wish list properly
+- [ ] Wish List button
+- [ ] Facebook button
+
+### Progress bars, No records messages
+- [ ] Progress bar
+- [ ] No records messages
+
+### Responsive
+- [ ] In mobile browsers, all of the pages should be the same as screenshots provided in description document 
+- [ ] In mobile browsers, all search, wish list, and Facebook functions must work 
+- [ ] In mobile browsers, the animation must work
+
+### Theme
+- [ ] Dark theme
+
+### Use of Angular 
+- [ ] Animation must be implemented with Angular
+- [ ] Autocomplete must be implemented with Angular
+
+### Use of Bootstrap 
+- [ ] The app should be implemented using Bootstrap
+
+### Use of GAE/AWS/Azure 
+- [ ] Node.js script must be deployed on GAE/AWS/Azure, and an additional link should be added to the list of homework, with a format similar to the following:
+
+`http://xxx.appspot.com/[path]?[list_of_the_parameters_and_sample_values]`
+Or
+
+`http://xxx.elasticbeanstalk.com/[path]?[list_of_the_parameters_and_sample_values]`
+Or 
+
+`http://xxx.azurewebsites.net/[path]?[list_of_the_parameters_and_sample_values]`
+
+
+### Additional Requirements 
+- [ ] Most API requests must be made on server side. Only ip-api can be called on client side
+- [ ] The window should not reload for any kind of data request. All transactions are asynchronous
+- [ ] The program must work in Chrome and Firefox on desktop, and Safari and Chrome on mobile devices
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm start` to concurrently run an angular dev and a nodejs server, which automatically opens `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
@@ -52,15 +120,3 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
