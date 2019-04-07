@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -282,7 +283,6 @@ export class AppComponent implements OnInit {
 
         const details = jsonResult["itemDetail"]["Item"];
         const images= jsonResult["productImages"]["items"];
-        const similarItems= jsonResult["similarItems"]["getSimilarItemsResponse"]["itemRecommendations"]["item"];
 
         let item: any = { };
 
@@ -405,8 +405,16 @@ export class AppComponent implements OnInit {
         }
 
         // Similar Items Tab
+        const similarItems= jsonResult["similarItems"]["getSimilarItemsResponse"]["itemRecommendations"]["item"];
         if(similarItems){
-          item.similarItems= similarItems;
+          console.log(similarItems);
+          
+          similarItems.forEach(element => {
+            element.daysLeft = moment.duration(element.timeLeft).days();
+          });
+
+          item.similarItems = similarItems;
+          item.similarItemsLength = (similarItems.length > 5) ? 5 : similarItems.length;
         }
 
 

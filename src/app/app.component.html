@@ -421,13 +421,24 @@
                 </ng-template>
             </ngb-tab>
 
+
             <ngb-tab title="Similar Products">
                 <ng-template ngbTabContent>
                     <table class="table table-striped table-dark">
-                        <tr *ngFor="let item of itemActive.similarItems">
-                            <td><img *ngIf="item.imageURL" class="thumbnail" [src]="item.imageURL"></td>
+                        <tr class="mb-1" *ngFor="let item of itemActive.similarItems.slice(0, itemActive.similarItemsLength)">
+                            <td><img *ngIf="item.imageURL" class="thumbnail" width="120 px" height="150 px"[src]="item.imageURL"></td>
+                            <td>
+                                <div [style.color]="'rgb(88, 115, 116)'">{{ item.title }}</div>
+                                <div class="text-success">Price: ${{ item.buyItNowPrice.__value__ }}</div>
+                                <div class="text-warning">Shipping Cost: ${{ item.shippingCost.__value__ }}</div>
+                                <div>Days Left: {{ item.daysLeft }}</div>
+                            </td>
                         </tr>
                     </table>
+                    <div class="text-center" *ngIf="itemActive.similarItems.length > 5">
+                        <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength > 5" (click)="itemActive.similarItemsLength = 5">Show Less</button>
+                        <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength == 5" (click)="itemActive.similarItemsLength = itemActive.similarItems.length">Show More</button>
+                    </div>
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>
