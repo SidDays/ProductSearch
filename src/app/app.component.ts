@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import * as customSearchSample from '../assets/customSearchSample.json';
 
 @Component({
   selector: 'app-root',
@@ -279,10 +280,9 @@ export class AppComponent implements OnInit {
   public itemDetail(itemId: number, resultIndex?: number, wishlistUniqueId?: string): void {
     this.http.get('/api/itemdetail/' + itemId)
       .subscribe((jsonResult) => {
-        console.log(jsonResult);
+        console.log('/api/itemdetail/' + itemId + ' fetched:', jsonResult);
 
         const details = jsonResult["itemDetail"]["Item"];
-        const images= jsonResult["productImages"]["items"];
 
         let item: any = { };
 
@@ -315,10 +315,19 @@ export class AppComponent implements OnInit {
         }
 
         // Photos tab
-        if(images){
-          console.log("The images comes here");
+        item.images = [[], [], []];
+        let imagesFromAPI = [];
+        if (jsonResult["productImages"] && jsonResult["productImages"]["images"]) {
+          imagesFromAPI = jsonResult["productImages"]["items"];
+        } else {
+          // FIXME: Remove fallback images in final version
+          console.warn("No images loaded. Check if Google Custom Search API has failed! Using default images as fallback.");
+          imagesFromAPI = customSearchSample["items"];
         }
 
+        imagesFromAPI.forEach((itemObj, index) => {
+          item.images[index % 3].push(itemObj.link);
+        });
 
         // Shipping tab
         let shippingInfoSource = null;
@@ -343,6 +352,9 @@ export class AppComponent implements OnInit {
           item.expeditedShipping = shippingInfoSource.expeditedShipping;
           item.oneDayShipping = shippingInfoSource.oneDayShipping;
           item.returnAccepted = shippingInfoSource.returnAccepted;
+
+          // Still save unique ID
+          item.uniqueId = shippingInfoSource.uniqueId;
         }
 
         // Seller tab
@@ -405,9 +417,9 @@ export class AppComponent implements OnInit {
         }
 
         // Similar Items Tab
-        const similarItems= jsonResult["similarItems"]["getSimilarItemsResponse"]["itemRecommendations"]["item"];
+        const similarItems = jsonResult["similarItems"]["getSimilarItemsResponse"]["itemRecommendations"]["item"];
         if(similarItems){
-          console.log(similarItems);
+          // console.log("Similar items", similarItems);
           
           similarItems.forEach(element => {
             element.daysLeft = moment.duration(element.timeLeft).days();
@@ -420,7 +432,7 @@ export class AppComponent implements OnInit {
 
         this.itemActive = item;
         this.toggleDetails = true;
-        console.log(item);
+        console.log("itemActive is now", this.itemActive);
       });
   }
 }

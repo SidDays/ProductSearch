@@ -326,9 +326,14 @@
 
             <ngb-tab title="Photos">
                 <ng-template ngbTabContent>
-                    TODO: Photos
-                    <div>
-
+                    <div class="row">
+                        <div class="col-lg-4" *ngFor="let column of [0, 1, 2]">
+                            <div *ngFor="let imgLink of itemActive.images[column]">
+                                <a [href]="imgLink" target="_blank">
+                                    <img [src]="imgLink" class="img-fluid productImage">
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </ng-template>
             </ngb-tab>

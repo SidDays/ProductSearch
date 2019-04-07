@@ -151,7 +151,7 @@ app.get('/api/itemdetail/:itemid', function (req, res) {
             productImages: res3.data,
           });
         }).catch(function (error3) {
-          console.log('Error in Google Custom Search API', error3);
+          console.log('Error in Google Custom Search API.');
           res.send({
             itemDetail: res1.data,
             similarItems: res2.data,
