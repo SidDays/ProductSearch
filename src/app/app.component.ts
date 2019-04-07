@@ -421,7 +421,8 @@ export class AppComponent implements OnInit {
         if(similarItems){
           // console.log("Similar items", similarItems);
           
-          similarItems.forEach(element => {
+          similarItems.forEach((element, index) => {
+            element.index = index;
             element.daysLeft = moment.duration(element.timeLeft).days();
           });
 
@@ -435,7 +436,58 @@ export class AppComponent implements OnInit {
         console.log("itemActive is now", this.itemActive);
       });
   }
+
+  // sort results by product name
+  public sortAscOrDesc: string = "0";
+  public sortType: string = "0";
+  public sortSimilarItemsOrder(orderType) {
+
+    console.log("Sorting by order", orderType);
+    const sortAscOrDesc = this.sortAscOrDesc;
+
+    let sortOrder = function (n1, n2): any {
+      let result = n1.index - n2.index;
+      return (sortAscOrDesc == "0") ? result : -result;
+    }
+
+    switch (orderType) {
+
+      case "0": break; // default
+
+      case "1": // name
+        sortOrder = function (n1, n2) {
+          const str1: string = n1.title, str2: string = n2.title;
+          let result = str1.localeCompare(str2);
+          return (sortAscOrDesc == "0") ? result : -result;
+        }
+        break;
+
+      case "2": // daysleft
+        sortOrder = function (n1, n2) {
+          let result = n1.daysLeft - n2.daysLeft;
+          return (sortAscOrDesc == "0") ? result : -result;
+        }
+        break;
+
+      case "3": // price
+        sortOrder = function (n1, n2) {
+          const p1: number = n1.buyItNowPrice.__value__,
+            p2: number = n2.buyItNowPrice.__value__;
+          let result = p1 - p2;
+          return (sortAscOrDesc == "0") ? result : -result;
+        }
+        break;
+
+      case "4": // shipping cost
+        sortOrder = function (n1, n2) {
+          const s1: number = n1.shippingCost.__value__,
+            s2: number = n2.shippingCost.__value__;
+          let result = s1 - s2;
+          return (sortAscOrDesc == "0") ? result : -result;
+        }
+        break;
+    }
+
+    this.itemActive.similarItems.sort(sortOrder);
+  }
 }
-
-
-

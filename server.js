@@ -129,7 +129,7 @@ app.get('/api/itemdetail/:itemid', function (req, res) {
           "RESPONSE-DATA-FORMAT": "JSON",
           "REST-PAYLOAD": null,
           "itemId": req.params.itemid,
-          "maxResults": 8,
+          "maxResults": 20,
         }
       }).then(function (res2) {
 

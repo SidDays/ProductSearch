@@ -92,6 +92,10 @@
                 </div>
             </fieldset>
 
+
+
+
+
             <!-- TODO: Validation and autocomplete -->
             <div class="form-group row">
                 <label for="zipCode" class="col-sm-3 col-form-label"></label>
@@ -122,6 +126,9 @@
         </form>
     </div>
 
+
+
+
     <!-- TODO: Results / Wish List tab -->
     <ul class="d-flex justify-content-center nav nav-pills my-4">
         <li class="nav-item">
@@ -131,6 +138,9 @@
             <a [ngClass]="(wishlistToggle) ? pillActiveClass : pillInactiveClass" (click)="wishlistToggle = true;" [routerLink]="">Wish List</a>
         </li>
     </ul>
+
+
+
 
     <!-- TODO: Fix toggleDetails, poor implementation -->
     <div id="mainResults" *ngIf="!toggleDetails">
@@ -445,19 +455,46 @@
             </ngb-tab>
 
 
-            <ngb-tab title="Similar Products">
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    <span class="d-md-block d-none">Similar Products</span>
+                    <span class="d-md-none d-block">Related</span>
+                </ng-template>
                 <ng-template ngbTabContent>
-                    <table class="table table-striped table-dark">
-                        <tr class="mb-1" *ngFor="let item of itemActive.similarItems.slice(0, itemActive.similarItemsLength)">
-                            <td><img *ngIf="item.imageURL" class="thumbnail" width="120 px" height="150 px"[src]="item.imageURL"></td>
-                            <td>
+                    <div class="row mt-3">
+                        <div class="col-12 col-md-3 mb-0">
+                            <select id="order" class="custom-select form-group mb-0" [(ngModel)]="sortType" (change)="sortSimilarItemsOrder(sortType)">
+                                <option value="0">Default</option>
+                                <option value="1">Product Name</option>
+                                <option value="2">Days Left</option>
+                                <option value="3">Price</option>
+                                <option value="4">Shipping Cost</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-3">
+                            <select id="ascDesc" [(ngModel)]="sortAscOrDesc" (ngModelChange)="sortSimilarItemsOrder(sortType)" class="custom-select form-group">
+                                <option value="0">Ascending</option>
+                                <option value="1">Descending</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2 rounded bg-dark" *ngFor="let item of itemActive.similarItems.slice(0, itemActive.similarItemsLength)">
+                        <div class="col-12 col-md-2 mb-2">
+                            <img *ngIf="item.imageURL" class="thumbnail py-3" width="120 px" height="150 px" [src]="item.imageURL">
+                        </div>
+                    
+                        <div class="col-12 col-md-10">
+                            <div class="p-3">
                                 <div [style.color]="'rgb(88, 115, 116)'">{{ item.title }}</div>
                                 <div class="text-success">Price: ${{ item.buyItNowPrice.__value__ }}</div>
                                 <div class="text-warning">Shipping Cost: ${{ item.shippingCost.__value__ }}</div>
-                                <div>Days Left: {{ item.daysLeft }}</div>
-                            </td>
-                        </tr>
-                    </table>
+                                <div class="text-white">Days Left: {{ item.daysLeft }}</div>
+                            </div>
+                        </div>
+                    </div>
+                            
                     <div class="text-center" *ngIf="itemActive.similarItems.length > 5">
                         <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength > 5" (click)="itemActive.similarItemsLength = 5">Show Less</button>
                         <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength == 5" (click)="itemActive.similarItemsLength = itemActive.similarItems.length">Show More</button>
