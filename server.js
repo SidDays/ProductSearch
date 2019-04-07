@@ -133,9 +133,29 @@ app.get('/api/itemdetail/:itemid', function (req, res) {
         }
       }).then(function (res2) {
 
-        res.send({
-          itemDetail: res1.data,
-          similarItems: res2.data,
+        axios.get('https://www.googleapis.com/customsearch/v1', {
+          params: {
+            "q": res1["data"]["Item"]["Title"],
+            "cx": "003671390932228268953:6dh1bzd8g9u",
+            "imgSize": "huge",
+            "imgType": "news",
+            "num": "8",
+            "searchType": "image",
+            "key": "AIzaSyBgws_-G4JDFKG4IstJcksazphpQ1_DBRw",
+          }
+        }).then(function (res3) {
+
+          res.send({
+            itemDetail: res1.data,
+            similarItems: res2.data,
+            productImages: res3.data,
+          });
+        }).catch(function (error3) {
+          console.log('Error in Google Custom Search API', error3);
+          res.send({
+            itemDetail: res1.data,
+            similarItems: res2.data,
+          });
         });
 
       }).catch(function (error2) {

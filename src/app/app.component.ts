@@ -281,6 +281,8 @@ export class AppComponent implements OnInit {
         console.log(jsonResult);
 
         const details = jsonResult["itemDetail"]["Item"];
+        const images= jsonResult["productImages"]["items"];
+        const similarItems= jsonResult["similarItems"]["getSimilarItemsResponse"]["itemRecommendations"]["item"];
 
         let item: any = { };
 
@@ -311,6 +313,12 @@ export class AppComponent implements OnInit {
         } else {
           item.itemSpecifics = [];
         }
+
+        // Photos tab
+        if(images){
+          console.log("The images comes here");
+        }
+
 
         // Shipping tab
         let shippingInfoSource = null;
@@ -395,6 +403,12 @@ export class AppComponent implements OnInit {
           item.storeName = storefront.StoreName;
           item.storeURL = storefront.StoreURL;
         }
+
+        // Similar Items Tab
+        if(similarItems){
+          item.similarItems= similarItems;
+        }
+
 
         this.itemActive = item;
         this.toggleDetails = true;

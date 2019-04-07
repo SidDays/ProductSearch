@@ -327,6 +327,9 @@
             <ngb-tab title="Photos">
                 <ng-template ngbTabContent>
                     TODO: Photos
+                    <div>
+
+                    </div>
                 </ng-template>
             </ngb-tab>
 
@@ -420,7 +423,11 @@
 
             <ngb-tab title="Similar Products">
                 <ng-template ngbTabContent>
-                    TODO: Similar Products
+                    <table class="table table-striped table-dark">
+                        <tr *ngFor="let item of itemActive.similarItems">
+                            <td><img *ngIf="item.imageURL" class="thumbnail" [src]="item.imageURL"></td>
+                        </tr>
+                    </table>
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>
