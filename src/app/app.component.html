@@ -267,6 +267,24 @@
     <!-- Item Detail -->
     <div id="itemDetail" *ngIf="itemActive">
         <p class="my-3 h4 text-center">{{ itemActive.title }}</p>
+
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-light">
+                    <i class="material-icons align-bottom">chevron_left</i> List
+                </button>
+            </div>
+            <div class="col-6 text-right">
+                <img src="../assets/facebook.png" style="height: 39px;" alt="Share to Facebook">
+                <button class="btn btn-light" [ngClass]="{ 'text-warning': wishlist[itemActive.uniqueId] }">
+                    <i class="material-icons align-middle">
+                        {{ (wishlist[itemActive.uniqueId]) ?
+                            'remove_shopping_cart' :
+                            'add_shopping_cart' }}
+                    </i>
+                </button>
+            </div>
+        </div>
     
         <ngb-tabset [justify]="'end'">
             <ngb-tab title="Product">
