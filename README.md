@@ -36,7 +36,7 @@ when selecting “Other”
 
 ### Product Details
 - [ ] Animation: slides in from the left
-- [ ] Product name above tabs 
+- [x] Product name above tabs 
 
 #### Product tab
 - [x] Show every row in the table in the specified format
@@ -44,9 +44,9 @@ when selecting “Other”
 - [ ] Carousel animations
 
 #### Photos tab 
-- [ ] Set up Google Custom Search engine API
-- [ ] Display all photos as shown in the video in a Masonrysstyle laout
-- [ ] Photos can be opened in a new tab
+- [x] Set up Google Custom Search engine API
+- [x] Display all photos as shown in the video in a Masonrysstyle laout
+- [x] Photos can be opened in a new tab
 
 #### Shipping tab 
 - [x] Table display information in the specified format 
@@ -59,10 +59,10 @@ when selecting “Other”
 - [x] Click on store - links to store
 
 #### Similar Products tab 
-- [ ] Dropdowns with proper categories and disabled/enabled correctly
-- [ ] Display products in the correct way (including clickable names and proper images)
-- [ ] Show More/Less works
-- [ ] Sort by: default, product name, days left, price, shipping cost; Sort order: ascending, descnding
+- [x] Dropdowns with proper categories and disabled/enabled correctly
+- [x] Display products in the correct way (including clickable names and proper images)
+- [x] Show More/Less works
+- [x] Sort by: default, product name, days left, price, shipping cost; Sort order: ascending, descnding
 - [x] Similar products API call
 
 #### Buttons (1 point in total) 
@@ -71,7 +71,7 @@ when selecting “Other”
 - [ ] Facebook button
 
 ### Progress bars, No records messages
-- [ ] Progress bar
+- [x] Progress bar
 - [ ] No records messages
 
 ### Responsive
@@ -80,14 +80,14 @@ when selecting “Other”
 - [ ] In mobile browsers, the animation must work
 
 ### Theme
-- [ ] Dark theme
+- [x] Dark theme
 
 ### Use of Angular 
 - [ ] Animation must be implemented with Angular
 - [ ] Autocomplete must be implemented with Angular
 
 ### Use of Bootstrap 
-- [ ] The app should be implemented using Bootstrap
+- [x] The app should be implemented using Bootstrap
 
 ### Use of GAE/AWS/Azure 
 - [ ] Node.js script must be deployed on GAE/AWS/Azure, and an additional link should be added to the list of homework, with a format similar to the following:
@@ -102,9 +102,9 @@ Or
 
 
 ### Additional Requirements 
-- [ ] Most API requests must be made on server side. Only ip-api can be called on client side
-- [ ] The window should not reload for any kind of data request. All transactions are asynchronous
-- [ ] The program must work in Chrome and Firefox on desktop, and Safari and Chrome on mobile devices
+- [x] Most API requests must be made on server side. Only ip-api can be called on client side
+- [x] The window should not reload for any kind of data request. All transactions are asynchronous
+- [x] The program must work in Chrome and Firefox on desktop, and Safari and Chrome on mobile devices
 
 ## Development server
 
