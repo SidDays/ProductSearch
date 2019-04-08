@@ -217,11 +217,16 @@
                                 </thead>
                                 <tbody>
             
-                                    <tr *ngFor="let result of results | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" [ngClass]="{ 'hover-highlight': true, 'item-active': itemActive && result.uniqueId == itemActive.uniqueId }">
+                                    <tr 
+                                    *ngFor="let result of results | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" 
+                                    [ngClass]="{ 'hover-highlight': true, 'item-active': itemActive && result.uniqueId == itemActive.uniqueId }">
                                         <th>{{ result.number }}</th>
                                         <td><img *ngIf="result.galleryURL" class="thumbnail" [src]="result.galleryURL"></td>
                                         <td>
-                                            <a [routerLink]="" (click)="itemDetail(result.itemId, result.index)" [matTooltip]="result.title" matTooltipPosition="below">
+                                            <a [routerLink]="" 
+                                            (click)="itemDetail(result.itemId, result.index)" 
+                                            [matTooltip]="result.title" 
+                                            matTooltipPosition="below">
                                                 {{ result.title | truncateStr }}
                                             </a>
                                         </td>
@@ -335,8 +340,12 @@
                 </div>
                 <div class="col-6 text-right">
                     <!-- TODO: Share to Facebook -->
-                    <img src="../assets/facebook.png" style="height: 39px;" alt="Share to Facebook">
-                    <button class="btn btn-light" (click)="toggleWishList(itemActive.uniqueId, -1, true)" [ngClass]="{ 'text-warning': wishlist[itemActive.uniqueId] }">
+                    <img src="../assets/facebook.png" style="height: 39px;" alt="Share to Facebook"
+                    (click)="share()">
+
+                    <button class="btn btn-light" 
+                    (click)="toggleWishList(itemActive.uniqueId, -1, true)" 
+                    [ngClass]="{ 'text-warning': wishlist[itemActive.uniqueId] }">
                         <i class="material-icons align-middle">
                             {{ (wishlist[itemActive.uniqueId]) ?
                                 'remove_shopping_cart' :
@@ -510,49 +519,58 @@
                         <span class="d-md-block d-none">Similar Products</span>
                         <span class="d-md-none d-block">Related</span>
                     </ng-template>
+
                     <ng-template ngbTabContent>
-                        <div class="row mt-3">
-                            <div class="col-12 col-md-3 mb-0">
-                                <select id="order" class="custom-select form-group mb-0" [(ngModel)]="sortType" (change)="sortSimilarItemsOrder(sortType)">
-                                    <option value="0">Default</option>
-                                    <option value="1">Product Name</option>
-                                    <option value="2">Days Left</option>
-                                    <option value="3">Price</option>
-                                    <option value="4">Shipping Cost</option>
-                                </select>
-                            </div>
-    
-                            <div class="col-12 col-md-3">
-                                <select id="ascDesc" [(ngModel)]="sortAscOrDesc" (ngModelChange)="sortSimilarItemsOrder(sortType)" class="custom-select form-group">
-                                    <option value="0">Ascending</option>
-                                    <option value="1">Descending</option>
-                                </select>
-                            </div>
+
+                        <!-- No records -->
+                        <div *ngIf="itemActive.similarItems.length == 0; else similarItemsTemplate" class="alert alert-warning mt-5">
+                            No Records.
                         </div>
-    
-                        <div class="row mb-2 rounded bg-dark" *ngFor="let item of itemActive.similarItems.slice(0, itemActive.similarItemsLength)">
-                            <div class="col-12 col-md-2 mb-2">
-                                <a [href]="item.imageURL" target="blank">
-                                    <img *ngIf="item.imageURL" class="thumbnail py-3" width="120 px" height="150 px" [src]="item.imageURL">
-                                </a>
-                            </div>
-                            
-                            <div class="col-12 col-md-10">
-                                <div class="p-3">
-                                    <div >
-                                        <a [href]="item.viewItemURL" target="blank" [style.color]="'rgb(88, 115, 116)'">{{ item.title }}</a>
-                                    </div>
-                                    <div class="text-success">Price: ${{ item.buyItNowPrice.__value__ }}</div>
-                                    <div class="text-warning">Shipping Cost: ${{ item.shippingCost.__value__ }}</div>
-                                    <div class="text-white">Days Left: {{ item.daysLeft }}</div>
+
+                        <ng-template #similarItemsTemplate>
+                            <div class="row mt-3">
+                                <div class="col-12 col-md-3 mb-0">
+                                    <select id="order" class="custom-select form-group mb-0" [(ngModel)]="sortType" (change)="sortSimilarItemsOrder(sortType)">
+                                        <option value="0">Default</option>
+                                        <option value="1">Product Name</option>
+                                        <option value="2">Days Left</option>
+                                        <option value="3">Price</option>
+                                        <option value="4">Shipping Cost</option>
+                                    </select>
+                                </div>
+        
+                                <div class="col-12 col-md-3">
+                                    <select id="ascDesc" [(ngModel)]="sortAscOrDesc" (ngModelChange)="sortSimilarItemsOrder(sortType)" class="custom-select form-group">
+                                        <option value="0">Ascending</option>
+                                        <option value="1">Descending</option>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
+        
+                            <div class="row mb-2 rounded bg-dark" *ngFor="let item of itemActive.similarItems.slice(0, itemActive.similarItemsLength)">
+                                <div class="col-12 col-md-2 mb-2">
+                                    <a [href]="item.imageURL" target="blank">
+                                        <img *ngIf="item.imageURL" class="thumbnail py-3" width="120 px" height="150 px" [src]="item.imageURL">
+                                    </a>
+                                </div>
                                 
-                        <div class="text-center" *ngIf="itemActive.similarItems.length > 5">
-                            <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength > 5" (click)="itemActive.similarItemsLength = 5">Show Less</button>
-                            <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength == 5" (click)="itemActive.similarItemsLength = itemActive.similarItems.length">Show More</button>
-                        </div>
+                                <div class="col-12 col-md-10">
+                                    <div class="p-3">
+                                        <div >
+                                            <a [href]="item.viewItemURL" target="blank" [style.color]="'rgb(88, 115, 116)'">{{ item.title }}</a>
+                                        </div>
+                                        <div class="text-success">Price: ${{ item.buyItNowPrice.__value__ }}</div>
+                                        <div class="text-warning">Shipping Cost: ${{ item.shippingCost.__value__ }}</div>
+                                        <div class="text-white">Days Left: {{ item.daysLeft }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                                    
+                            <div class="text-center" *ngIf="itemActive.similarItems.length > 5">
+                                <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength > 5" (click)="itemActive.similarItemsLength = 5">Show Less</button>
+                                <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength == 5" (click)="itemActive.similarItemsLength = itemActive.similarItems.length">Show More</button>
+                            </div>
+                        </ng-template>
                     </ng-template>
                 </ngb-tab>
             </ngb-tabset>
