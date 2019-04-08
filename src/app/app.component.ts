@@ -3,10 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   trigger,
-  state,
   style,
   animate,
-  group,
   transition,
 } from '@angular/animations';
 import * as moment from 'moment';
@@ -15,38 +13,6 @@ import * as customSearchSample from '../assets/customSearchSample.json';
 @Component({
   selector: 'app-root',
   animations: [
-    trigger('slideInOut2', [
-      state('in', style({
-        'max-height': '500px', 'opacity': '1', 'visibility': 'visible'
-      })),
-      state('out', style({
-        'max-height': '0px', 'opacity': '0', 'visibility': 'hidden'
-      })),
-      transition('in => out', [group([
-        animate('400ms ease-in-out', style({
-          'opacity': '0'
-        })),
-        animate('600ms ease-in-out', style({
-          'max-height': '0px'
-        })),
-        animate('700ms ease-in-out', style({
-          'visibility': 'hidden'
-        }))
-      ]
-      )]),
-      transition('out => in', [group([
-        animate('1ms ease-in-out', style({
-          'visibility': 'visible'
-        })),
-        animate('600ms ease-in-out', style({
-          'max-height': '500px'
-        })),
-        animate('800ms ease-in-out', style({
-          'opacity': '1'
-        }))
-      ]
-      )])
-    ]),
     trigger('slideInLeftOutRight', [
       transition(':enter', [
         style({transform: 'translateX(-100%)'}),
@@ -65,13 +31,6 @@ export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient, private modalService: NgbModal) { }
 
-  animationState = 'in';
-
-  toggleShowDiv() {
-      console.log(this.animationState);
-      this.animationState = this.animationState === 'out' ? 'in' : 'out';
-      console.log(this.animationState);
-  }
   public postalCodeIPAPI: string = "90007";
   public wishlist;
   public totalShopping: number;
