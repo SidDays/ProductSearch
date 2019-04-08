@@ -211,7 +211,7 @@
                                 </thead>
                                 <tbody>
             
-                                    <tr *ngFor="let result of results" [ngClass]="{ 'hover-highlight': true, 'item-active': itemActive && result.uniqueId == itemActive.uniqueId }">
+                                    <tr *ngFor="let result of results | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" [ngClass]="{ 'hover-highlight': true, 'item-active': itemActive && result.uniqueId == itemActive.uniqueId }">
                                         <th>{{ result.number }}</th>
                                         <td><img *ngIf="result.galleryURL" class="thumbnail" [src]="result.galleryURL"></td>
                                         <td>
@@ -240,7 +240,7 @@
                             </table>
                         </div>
         
-                        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="50" [maxSize]="5" [(page)]="pageNumber">
+                        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="results.length" [maxSize]="5" [(page)]="page">
                             <ng-template ngbPaginationPrevious>&laquo; Previous</ng-template>
                             <ng-template ngbPaginationNext>Next &raquo;</ng-template>
                         </ngb-pagination>

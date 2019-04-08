@@ -137,11 +137,7 @@ export class AppComponent implements OnInit {
   }
 
   public openProductImagesModal(content): void {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      // this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
   /** `true` if pill nav is on the Wish List, `false` if it is on Results. */
@@ -205,7 +201,8 @@ export class AppComponent implements OnInit {
     // console.log("totalShopping:", this.totalShopping);
   }
 
-  public pageNumber: number = 1;
+  public page: number = 1;
+  public pageSize: number = 10;
 
   /**
    * Sets up the Find Products API call using form fields.
