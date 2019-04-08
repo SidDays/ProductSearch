@@ -104,18 +104,38 @@
 
             <!-- TODO: Validation and autocomplete -->
             <div class="form-group row">
-                <label for="zipCode" class="col-sm-3 col-form-label"></label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="zipCode" [(ngModel)]="from.zipCode" 
-                    name="zipCode"  #zip= "ngModel" ngModel pattern="[\d]{5}"
-                    [ngClass]="{'border border-danger' : zip.invalid && (zip.dirty || zip.touched) && zipRadio.isActive}">
-
-                    <div *ngIf="zip.invalid && (zip.dirty || zip.touched)"
-                        class="text-danger small">
-                        Please enter a valid ZipCode.
+                    <label for="zipCode" class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-7">
+                        <mat-form-field>
+                            <input matInput type="text" class="form-control" id="zipCode" [(ngModel)]="from.zipCode" 
+                            name="zipCode"  #zip="ngModel" ngModel pattern="[\d]{5}"
+                            [ngClass]="{'border border-danger' : zip.invalid && (zip.dirty || zip.touched)}"
+                            >
+    
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+                                >
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+    
+                        <div *ngIf="zip.invalid && (zip.dirty || zip.touched)"
+                            class="text-danger small">
+                            Please enter a valid ZipCode.
+                        </div>
                     </div>
                 </div>
-            </div>
+
+
+            <mat-form-field class="example-full-width">
+                    <input  aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
 
 
             <div class="form-group row">

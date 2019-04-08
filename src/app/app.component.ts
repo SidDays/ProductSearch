@@ -11,6 +11,9 @@ import {
 } from '@angular/animations';
 import * as moment from 'moment';
 import * as customSearchSample from '../assets/customSearchSample.json';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -63,6 +66,10 @@ import * as customSearchSample from '../assets/customSearchSample.json';
 })
 export class AppComponent implements OnInit {
 
+  myControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<string[]>;
+
   constructor(private http: HttpClient, private modalService: NgbModal) { }
 
   animationState = 'in';
@@ -75,7 +82,16 @@ export class AppComponent implements OnInit {
   public postalCodeIPAPI: string = "90007";
   public wishlist;
   public totalShopping: number;
+
+  // ngOnInit
   ngOnInit(): void {
+
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+
     // load wishlist from localstorage
     if (localStorage.getItem("wishlist")) {
       this.wishlist = JSON.parse(localStorage.getItem("wishlist"));
@@ -92,6 +108,12 @@ export class AppComponent implements OnInit {
       this.postalCodeIPAPI= ipAPI["zip"];
       console.log("ipAPI:", ipAPI);
     });
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   // Form fields
