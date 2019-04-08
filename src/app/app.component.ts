@@ -72,7 +72,7 @@ export class AppComponent implements OnInit {
       this.animationState = this.animationState === 'out' ? 'in' : 'out';
       console.log(this.animationState);
   }
-
+  public postalCodeIPAPI: string = "90007";
   public wishlist;
   public totalShopping: number;
   ngOnInit(): void {
@@ -87,8 +87,11 @@ export class AppComponent implements OnInit {
     } else {
       this.totalShopping = 0;
     }
-    
 
+    this.http.get("http://ip-api.com/json").subscribe((ipAPI) => {
+      this.postalCodeIPAPI= ipAPI["zip"];
+      console.log("ipAPI:", ipAPI);
+    });
   }
 
   // Form fields
@@ -271,7 +274,7 @@ export class AppComponent implements OnInit {
     }
     if (this.from.location == "currentLocation") {
       // TODO: IP-API
-      paramsObj["postalCode"] = "90007";
+      paramsObj["postalCode"] = this.postalCodeIPAPI;
     } else {
       paramsObj["postalCode"] = String(this.from.zipCode);
     }
