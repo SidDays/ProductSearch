@@ -482,12 +482,16 @@
 
                     <div class="row mb-2 rounded bg-dark" *ngFor="let item of itemActive.similarItems.slice(0, itemActive.similarItemsLength)">
                         <div class="col-12 col-md-2 mb-2">
+                                <a [href]="itemActive.pictureURL" target="blank">
                             <img *ngIf="item.imageURL" class="thumbnail py-3" width="120 px" height="150 px" [src]="item.imageURL">
+                                </a>
                         </div>
-                    
+                        
                         <div class="col-12 col-md-10">
                             <div class="p-3">
-                                <div [style.color]="'rgb(88, 115, 116)'">{{ item.title }}</div>
+                                <div >
+                                    <a [href]="itemActive.storeURL" target="blank" [style.color]="'rgb(88, 115, 116)'">{{ item.title }}</a>
+                                </div>
                                 <div class="text-success">Price: ${{ item.buyItNowPrice.__value__ }}</div>
                                 <div class="text-warning">Shipping Cost: ${{ item.shippingCost.__value__ }}</div>
                                 <div class="text-white">Days Left: {{ item.daysLeft }}</div>
