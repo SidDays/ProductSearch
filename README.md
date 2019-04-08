@@ -6,15 +6,14 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ### Basic Search Form
 - [x] Keyword, Category and Distance Placeholder 
-- [ ] Form displayed properly 
+- [x] Form displayed properly 
 - [x] The drop-down list should contain all categories 
-- [ ] Zip Code edit box must be disabled when choosing “Current location” radio and enabled 
-when selecting “Other” 
-- [ ] Validation for the search inputs and the error message(s) 
-- [ ] Validation for zip code 
-- [ ] “Clear” button resets the search form to the initial state and clears results area 
-- [ ] Disable and enable the “Search” button appropriately 
-- [ ] Obtain user location 
+- [x] Zip Code edit box must be disabled when choosing “Current location” radio and enabled when selecting “Other” 
+- [x] Validation for the search inputs and the error message(s) 
+- [x] Validation for zip code 
+- [x] “Clear” button resets the search form to the initial state and clears results area 
+- [x] Disable and enable the “Search” button appropriately 
+- [x] Obtain user location 
 - [ ] Zip Code Autocomplete
 
 ### Results
@@ -22,7 +21,7 @@ when selecting “Other”
 - [x] Product clickable 
 - [x] Tooltip and Restricting Product Name 
 - [x] Details button enabled, disabled appropriately and navigate to product details for last clicked product 
-- [ ] Pagination 
+- [x] Pagination 
 - [x] Highlighting the selected row 
 - [x] No missing cell/column 
 
@@ -35,7 +34,7 @@ when selecting “Other”
 - [x] Enable/Disable detail button correctly navigate to product details for last clicked product
 
 ### Product Details
-- [ ] Animation: slides in from the left
+- [x] Animation: slides in from the left
 - [x] Product name above tabs 
 
 #### Product tab
@@ -72,7 +71,7 @@ when selecting “Other”
 
 ### Progress bars, No records messages
 - [x] Progress bar
-- [ ] No records messages
+- [x] No records messages
 
 ### Responsive
 - [ ] In mobile browsers, all of the pages should be the same as screenshots provided in description document 
