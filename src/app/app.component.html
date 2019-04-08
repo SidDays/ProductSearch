@@ -110,7 +110,8 @@
                         <input
                             type="text"
                             class="form-control" 
-                            id="zipCode" [(ngModel)]="from.zipCode"
+                            id="zipCode"
+                            [(ngModel)]="from.zipCode"
                             name="zipCode"
                             #zip="ngModel"
                             ngModel
@@ -118,7 +119,14 @@
                             [ngClass]="{ 'border border-danger': from.location === 'otherLocation' && zip.invalid && (zip.dirty || zip.touched) }"
                             [required]="from.location === 'otherLocation'"
                             [disabled]="from.location !== 'otherLocation'"
+                            [matAutocomplete]="auto"
+                            autocomplete="new-password"
                         >
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of zipOptions" [value]="option">
+                              {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
 
                         <div *ngIf="zip.invalid && (zip.dirty || zip.touched)" class="text-danger small">
                             Please enter a valid ZipCode.

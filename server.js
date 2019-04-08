@@ -176,6 +176,25 @@ app.get('/api/itemdetail/:itemid', function (req, res) {
     });
 });
 
+app.get('/api/zipautocomplete', function (req, res) {
+
+  const zipcode = req.query.zipcode;
+  // HTTP Request
+  axios.get('http://api.geonames.org/postalCodeSearchJSON', {
+    params: {
+      "postalcode_startsWith": zipcode,
+      "username": "djcool",
+      "country": "US",
+      "maxRows": 5,
+    }
+  }).then(function (res1) {
+    res.send(res1.data);
+  }).catch(function (error) {
+    console.log("Error in GeoNames API!");
+    res.send(null);
+  });
+});
+
 // Tell Express to listen for requests (start server)
 const port = process.env.PORT || '3000';
 app.listen(port, function () {

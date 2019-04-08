@@ -100,9 +100,32 @@ export class AppComponent implements OnInit {
     free: false
   }
   public distance: number;
-  public from: { location: string, zipCode: number } = {
+  public from: { location: string, zipCode: string } = {
     location: "currentLocation",
     zipCode: null
+  }
+  public zipOptions: Array<string> = [];
+
+  /**
+   * TODO: Fills in the zip codes as we type them.
+   */
+  public fillInZipCodes(): void {
+    console.log("triggered zipCode filling for", this.from.zipCode);
+
+    if (this.from.zipCode && this.from.zipCode.length < 5) {
+      this.http.get('/api/zipautocomplete', {
+        params: {
+          "zipcode": this.from.zipCode,
+        }
+      }).subscribe((result) => {
+        console.log("zipautocomplete api result", result);
+        const postalCodes = result["postalCodes"];
+        this.zipOptions = [];
+        postalCodes.forEach(pc => {
+          this.zipOptions.push(pc.postalcode);
+        });
+      });
+    }
   }
   
   public loadingResults: boolean = false;

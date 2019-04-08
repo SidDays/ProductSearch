@@ -13,6 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Angular Material
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 // Angular SVG round progressbar
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
@@ -30,6 +31,7 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
     FormsModule,
     HttpClientModule,
     MatTooltipModule,
+    MatAutocompleteModule,
     RoundProgressModule,
   ],
   providers: [],
