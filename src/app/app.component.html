@@ -334,8 +334,12 @@
                 </div>
                 <div class="col-6 text-right">
                     <!-- TODO: Share to Facebook -->
-                    <img src="../assets/facebook.png" style="height: 39px;" alt="Share to Facebook">
-                    <button class="btn btn-light" (click)="toggleWishList(itemActive.uniqueId, -1, true)" [ngClass]="{ 'text-warning': wishlist[itemActive.uniqueId] }">
+                    <img src="../assets/facebook.png" style="height: 39px;" alt="Share to Facebook"
+                    (click)="share()">
+
+                    <button class="btn btn-light" 
+                    (click)="toggleWishList(itemActive.uniqueId, -1, true)" 
+                    [ngClass]="{ 'text-warning': wishlist[itemActive.uniqueId] }">
                         <i class="material-icons align-middle">
                             {{ (wishlist[itemActive.uniqueId]) ?
                                 'remove_shopping_cart' :

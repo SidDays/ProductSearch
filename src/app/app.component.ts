@@ -201,6 +201,20 @@ export class AppComponent implements OnInit {
     // console.log("totalShopping:", this.totalShopping);
   }
 
+
+// sharing on facebook
+public share(): void {
+
+  this.http.get("https://www.facebook.com/dialog/share?app_id=2017548001675502&display=popup&href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F&redirect_uri=https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer",{
+    
+  })
+  .subscribe((shareProduct) => {
+      
+      console.log("facebook:", shareProduct);
+    });
+  
+}
+
   public page: number = 1;
   public pageSize: number = 10;
 
