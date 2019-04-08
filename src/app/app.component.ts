@@ -27,10 +27,12 @@ export class AppComponent implements OnInit {
     } else {
       this.totalShopping = 0;
     }
+    
+
   }
 
   // Form fields
-  public keywords: string = "iPhone 8"; // TODO: Remove default value
+  // public keywords: string = "iPhone 8"; // TODO: Remove default value
   public categoryId: number = -1;
   public categories: Array<{ id: number, name: string }> = [
     {
