@@ -128,27 +128,25 @@
             </fieldset>
 
             <div class="form-group row">
-                <div class="mr-3">
+                <div class="col">
                     <button 
                         type="button" 
-                        class="btn btn-light mb-2" 
+                        class="btn btn-light mr-3" 
                         (click)="callAPI()" 
                         [disabled]="!myForm.form.valid"
                     >
                         <i class="material-icons align-top">search</i> <span>Search</span>
                     </button>
-                </div>
 
-                <div class="mr-3">
-                    <button type="button" class="btn btn-light mb-2" (click)="clearEverything()">
+                    <button type="button" class="btn btn-light mr-3" (click)="clearEverything()">
                         <i class="material-icons align-top">clear_all</i> Clear
                     </button>
+    
+                    <!-- FIXME: Temporary. please remove in final -->
+                    <button type="button" class="btn btn-danger" (click)="itemDetail(401466898078)">
+                        Test Item Detail
+                    </button>
                 </div>
-
-                <!-- FIXME: Temporary. please remove in final -->
-                <button type="button" class="btn btn-danger mb-2" (click)="itemDetail(401466898078)">
-                    Test Item Detail
-                </button>
             </div>
         </form>
     </div>
