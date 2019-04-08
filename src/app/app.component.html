@@ -5,14 +5,21 @@
         </div>
 
         <!-- Search Form -->
-        <!-- TODO: Form validation -->
         <form name="myForm" class="col-lg-9 py-3 mx-auto" #myForm="ngForm">
             <div class="form-group row">
                 <label for="keywords" class="col-sm-3 col-form-label">Keyword<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
-                    <input [(ngModel)]="keywords" type="text" class="form-control" 
-                    [ngClass]="{'border border-danger' : keywordText.invalid && (keywordText.dirty || keywordText.touched)}" id="keywords"
-                        placeholder="Enter Product Name (eg. iPhone 8)" name="keywords" #keywordText="ngModel" required>
+                    <input
+                        [(ngModel)]="keywords"
+                        type="text"
+                        class="form-control" 
+                        [ngClass]="{ 'border border-danger' : keywordText.invalid && (keywordText.dirty || keywordText.touched) }"
+                        id="keywords"
+                        placeholder="Enter Product Name (eg. iPhone 8)"
+                        name="keywords"
+                        #keywordText="ngModel"
+                        required
+                    >
                 
                     <div *ngIf="keywordText.invalid && (keywordText.dirty || keywordText.touched)"
                         class="text-danger small">
@@ -96,32 +103,38 @@
                         </div>
                     </div>
                 </div>
-            </fieldset>
 
+                <div class="form-group row">
+                    <label for="zipCode" class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-7">
+                        <input
+                            type="text"
+                            class="form-control" 
+                            id="zipCode" [(ngModel)]="from.zipCode"
+                            name="zipCode"
+                            #zip="ngModel"
+                            ngModel
+                            pattern="[\d]{5}"
+                            [ngClass]="{ 'border border-danger': from.location === 'otherLocation' && zip.invalid && (zip.dirty || zip.touched) }"
+                            [required]="from.location === 'otherLocation'"
+                            [disabled]="from.location !== 'otherLocation'"
+                        >
 
-
-
-
-            <!-- TODO: Validation and autocomplete -->
-            <div class="form-group row">
-                <label for="zipCode" class="col-sm-3 col-form-label"></label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="zipCode" [(ngModel)]="from.zipCode" 
-                    name="zipCode"  #zip= "ngModel" ngModel pattern="[\d]{5}"
-                    [ngClass]="{'border border-danger' : zip.invalid && (zip.dirty || zip.touched) && zipRadio.isActive}">
-
-                    <div *ngIf="zip.invalid && (zip.dirty || zip.touched)"
-                        class="text-danger small">
-                        Please enter a valid ZipCode.
+                        <div *ngIf="zip.invalid && (zip.dirty || zip.touched)" class="text-danger small">
+                            Please enter a valid ZipCode.
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            </fieldset>
 
             <div class="form-group row">
                 <div class="mr-3">
-                    <button type="button" class="btn btn-light mb-2" (click)="callAPI()" 
-                    [disabled]="!myForm.form.valid">
+                    <button 
+                        type="button" 
+                        class="btn btn-light mb-2" 
+                        (click)="callAPI()" 
+                        [disabled]="!myForm.form.valid"
+                    >
                         <i class="material-icons align-top">search</i> <span>Search</span>
                     </button>
                 </div>
