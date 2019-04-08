@@ -21,9 +21,9 @@ when selecting “Other”
 - [x] Wish List 
 - [x] Product clickable 
 - [x] Tooltip and Restricting Product Name 
-- [ ] Details button enabled, disabled appropriately and navigate to product details for last clicked product 
+- [x] Details button enabled, disabled appropriately and navigate to product details for last clicked product 
 - [ ] Pagination 
-- [ ] Highlighting the selected row 
+- [x] Highlighting the selected row 
 - [x] No missing cell/column 
 
 ### Wish List
@@ -32,7 +32,7 @@ when selecting “Other”
 - [x] Add from search list/detail 
 - [x] Deletion from search list/wish list/detail 
 - [x] Display total shopping cost correctly 
-- [ ] Enable/Disable detail button correctly navigate to product details for last clicked product
+- [x] Enable/Disable detail button correctly navigate to product details for last clicked product
 
 ### Product Details
 - [ ] Animation: slides in from the left
@@ -65,9 +65,9 @@ when selecting “Other”
 - [x] Sort by: default, product name, days left, price, shipping cost; Sort order: ascending, descnding
 - [x] Similar products API call
 
-#### Buttons (1 point in total) 
-- [ ] List button display and navigate to results/wish list properly
-- [ ] Wish List button
+#### Buttons
+- [x] List button display and navigate to results/wish list properly
+- [x] Wish List button
 - [ ] Facebook button
 
 ### Progress bars, No records messages
@@ -83,7 +83,7 @@ when selecting “Other”
 - [x] Dark theme
 
 ### Use of Angular 
-- [ ] Animation must be implemented with Angular
+- [x] Animation must be implemented with Angular
 - [ ] Autocomplete must be implemented with Angular
 
 ### Use of Bootstrap 

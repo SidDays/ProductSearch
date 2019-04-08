@@ -1,17 +1,77 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  group,
+  transition,
+} from '@angular/animations';
 import * as moment from 'moment';
 import * as customSearchSample from '../assets/customSearchSample.json';
 
 @Component({
   selector: 'app-root',
+  animations: [
+    trigger('slideInOut2', [
+      state('in', style({
+        'max-height': '500px', 'opacity': '1', 'visibility': 'visible'
+      })),
+      state('out', style({
+        'max-height': '0px', 'opacity': '0', 'visibility': 'hidden'
+      })),
+      transition('in => out', [group([
+        animate('400ms ease-in-out', style({
+          'opacity': '0'
+        })),
+        animate('600ms ease-in-out', style({
+          'max-height': '0px'
+        })),
+        animate('700ms ease-in-out', style({
+          'visibility': 'hidden'
+        }))
+      ]
+      )]),
+      transition('out => in', [group([
+        animate('1ms ease-in-out', style({
+          'visibility': 'visible'
+        })),
+        animate('600ms ease-in-out', style({
+          'max-height': '500px'
+        })),
+        animate('800ms ease-in-out', style({
+          'opacity': '1'
+        }))
+      ]
+      )])
+    ]),
+    trigger('slideInLeftOutRight', [
+      transition(':enter', [
+        style({transform: 'translateX(-100%)'}),
+        animate('500ms ease-in', style({transform: 'translateX(0%)'}))
+      ]),
+      transition(':leave', [
+        style({transform: 'translateX(0%)'}),
+        animate('500ms ease-in', style({transform: 'translateX(100%)'}))
+      ])
+    ])
+  ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient, private modalService: NgbModal) { }
+
+  animationState = 'in';
+
+  toggleShowDiv() {
+      console.log(this.animationState);
+      this.animationState = this.animationState === 'out' ? 'in' : 'out';
+      console.log(this.animationState);
+  }
 
   public wishlist;
   public totalShopping: number;
@@ -20,7 +80,7 @@ export class AppComponent implements OnInit {
     if (localStorage.getItem("wishlist")) {
       this.wishlist = JSON.parse(localStorage.getItem("wishlist"));
     } else {
-      this.wishlist = [ ];
+      this.wishlist = { };
     }
     if (localStorage.getItem("totalShopping")) {
       this.totalShopping = parseInt(localStorage.getItem("totalShopping"));
@@ -109,6 +169,7 @@ export class AppComponent implements OnInit {
     }
     this.wishlistToggle = false;
     this.results = null;
+    this.toggleDetails = false;
   }
 
   public openProductImagesModal(content): void {
@@ -132,18 +193,37 @@ export class AppComponent implements OnInit {
   public pillActiveClass: string = "nav-link bg-dark text-white";
   public pillInactiveClass: string = "nav-link text-body";
 
-  /** Adds an item to the wishlist if it isn't in it, removes it if it is.  */ 
-  public toggleWishList(resultIndex: number): void {
-    const result = this.results[resultIndex];
-    const uniqueId:string = result.uniqueId;
-    console.log("Toggling wishlist for", result);
+  /**
+   * Adds an item to the wishlist if it isn't in it, removes it if it is.
+   * 
+   * @param uniqueId The item's unique URL that identifies it. **required** for both add/delete!
+   * @param resultIndex The result that corresponds to this item, if adding from results.
+   * @param isItemActive `true` if adding from item detail page.
+   */ 
+  public toggleWishList(uniqueId: string, resultIndex: number = -1, isItemActive: boolean = false): void {
 
     if (this.wishlist[uniqueId]) {
+      // Remove item if already in wishlist
       delete this.wishlist[uniqueId];
     } else {
-      this.wishlist[uniqueId] = result;
+      if (resultIndex !== -1) {
+        const result = this.results[resultIndex];
+        this.wishlist[uniqueId] = result;
+
+        console.log("Added item", result, " to wishlist from results.");
+      }
+      else if (isItemActive) {
+        // Put active item in wishlist
+        this.wishlist[uniqueId] = this.itemActive;
+
+        console.log("Added item", uniqueId, " to wishlist from item detail.");
+      }
+      else {
+        console.warn("Tried to illegally add item", uniqueId,"to the wishlist.");
+      }
     }
 
+    // Either way, recalculate totalShopping
     let shopping = 0;
     for (const prop in this.wishlist) {
       if (this.wishlist.hasOwnProperty(prop)) {
@@ -156,6 +236,9 @@ export class AppComponent implements OnInit {
     // Sync wishlist with localStorage
     localStorage.setItem("wishlist", JSON.stringify(this.wishlist));
     localStorage.setItem("totalShopping", this.totalShopping.toString());
+
+    // console.log("wishlist:", this.wishlist);
+    // console.log("totalShopping:", this.totalShopping);
   }
 
   public pageNumber: number = 1;
@@ -164,6 +247,9 @@ export class AppComponent implements OnInit {
    * Sets up the Find Products API call using form fields.
    */
   public callAPI() {
+    this.loadingResults = true;
+    this.wishlistToggle = false;
+
     // console.log("Form fields are", this.keywords, this.categoryId, this.condition, this.shippingOption, this.distance, this.from);
 
     // build query parameters object
@@ -188,7 +274,6 @@ export class AppComponent implements OnInit {
       paramsObj["postalCode"] = String(this.from.zipCode);
     }
 
-    this.loadingResults = true;
     this.http.get('/api/findproducts', {
       params: paramsObj
     }).subscribe((jsonObj) => {
@@ -257,15 +342,18 @@ export class AppComponent implements OnInit {
             }
           }
 
-          // console.log(result);
           this.results.push(result);
         }
       }
+
+      // console.log("results:", this.results);
+      this.toggleDetails = false;
     });
   }
 
-  public toggleDetails: boolean = false; // TODO: Fix toggleDetails, poor implementation
+  public toggleDetails: boolean = false;
   public itemActive = null;
+  public loadingItem: boolean = false;
 
   /**
    * Calls the item detail API on the backend.
@@ -278,6 +366,10 @@ export class AppComponent implements OnInit {
    * @param wishlistUniqueId maps to a row in the wishlist to access its shipping information.
    */
   public itemDetail(itemId: number, resultIndex?: number, wishlistUniqueId?: string): void {
+
+    this.loadingItem = true;
+    this.toggleDetails = true;
+
     this.http.get('/api/itemdetail/' + itemId)
       .subscribe((jsonResult) => {
         console.log('/api/itemdetail/' + itemId + ' fetched:', jsonResult);
@@ -430,10 +522,10 @@ export class AppComponent implements OnInit {
           item.similarItemsLength = (similarItems.length > 5) ? 5 : similarItems.length;
         }
 
-
         this.itemActive = item;
-        this.toggleDetails = true;
-        console.log("itemActive is now", this.itemActive);
+        console.log("itemActive:", this.itemActive);
+
+        this.loadingItem = false;
       });
   }
 

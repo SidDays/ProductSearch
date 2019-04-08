@@ -12,7 +12,6 @@ import { TruncateStr } from './truncate-str.pipe';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Angular Material
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Angular SVG round progressbar
@@ -30,7 +29,6 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
     NgbModule,
     FormsModule,
     HttpClientModule,
-    NoopAnimationsModule,
     MatTooltipModule,
     RoundProgressModule,
   ],

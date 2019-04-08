@@ -143,15 +143,15 @@
 
 
     <!-- TODO: Fix toggleDetails, poor implementation -->
-    <div id="mainResults" *ngIf="!toggleDetails">
+    <div id="mainResults" *ngIf="!toggleDetails" [@slideInLeftOutRight]>
 
-        <div *ngIf="!wishlistToggle; else wishlistTemplate">
+        <div *ngIf="!wishlistToggle">
             <!-- Progress bar -->
-            <div *ngIf="loadingResults; else resultsTemplate" class="progress">
+            <div *ngIf="loadingResults" class="progress">
                 <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 50%"></div>
             </div>
     
-            <ng-template #resultsTemplate>
+            <div *ngIf="!loadingResults">
                 <!-- Don't show 'no records' at the beginning -->
                 <div *ngIf="results">
                     <!-- No records -->
@@ -159,49 +159,59 @@
                         No Records.
                     </div>
         
-                    <ng-template #resultsList class="table-responsive">
-                        <table class="table table-striped table-dark">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Image</th>
-                                    <th>Title</th>
-                                    <th>Price</th>
-                                    <th>Shipping</th>
-                                    <th>Zip</th>
-                                    <th>Seller</th>
-                                    <th>Wish List</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-        
-                                <tr *ngFor="let result of results">
-                                    <th>{{ result.number }}</th>
-                                    <td><img *ngIf="result.galleryURL" class="thumbnail" [src]="result.galleryURL"></td>
-                                    <td>
-                                        <a [routerLink]="" (click)="itemDetail(result.itemId, result.index)" [matTooltip]="result.title" matTooltipPosition="below">
-                                            {{ result.title | truncateStr }}
-                                        </a>
-                                    </td>
-                                    <td>{{ result.price }}</td>
-                                    <td>{{ result.shippingCost }}</td>
-                                    <td>{{ result.postalCode }}</td>
-                                    <td>{{ result.sellerUserName }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-light"
-                                        (click)="toggleWishList(result.index)"
-                                        [ngClass]="{ 'text-warning': wishlist[result.uniqueId] }">
-                                            <i class="material-icons align-top">
-                                                {{ (wishlist[result.uniqueId]) ?
-                                                    'remove_shopping_cart' :
-                                                    'add_shopping_cart' }}
-                                            </i>
-                                        </button>
-                                    </td>
-                                </tr>
-        
-                            </tbody>
-                        </table>
+                    <ng-template #resultsList>
+                        <div class="row mb-3">
+                            <div class="col text-right">
+                                <button class="btn btn-light" [disabled]="itemActive == null" (click)="toggleDetails = true;">
+                                    Details <i class="material-icons align-bottom">chevron_right</i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped table-dark">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image</th>
+                                        <th>Title</th>
+                                        <th>Price</th>
+                                        <th>Shipping</th>
+                                        <th>Zip</th>
+                                        <th>Seller</th>
+                                        <th>Wish List</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+            
+                                    <tr *ngFor="let result of results" [ngClass]="{ 'hover-highlight': true, 'item-active': itemActive && result.uniqueId == itemActive.uniqueId }">
+                                        <th>{{ result.number }}</th>
+                                        <td><img *ngIf="result.galleryURL" class="thumbnail" [src]="result.galleryURL"></td>
+                                        <td>
+                                            <a [routerLink]="" (click)="itemDetail(result.itemId, result.index)" [matTooltip]="result.title" matTooltipPosition="below">
+                                                {{ result.title | truncateStr }}
+                                            </a>
+                                        </td>
+                                        <td>{{ result.price }}</td>
+                                        <td>{{ result.shippingCost }}</td>
+                                        <td>{{ result.postalCode }}</td>
+                                        <td>{{ result.sellerUserName }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-light"
+                                            (click)="toggleWishList(result.uniqueId, result.index)"
+                                            [ngClass]="{ 'text-warning': wishlist[result.uniqueId] }">
+                                                <i class="material-icons align-top">
+                                                    {{ (wishlist[result.uniqueId]) ?
+                                                        'remove_shopping_cart' :
+                                                        'add_shopping_cart' }}
+                                                </i>
+                                            </button>
+                                        </td>
+                                    </tr>
+            
+                                </tbody>
+                            </table>
+                        </div>
         
                         <ngb-pagination class="d-flex justify-content-center" [collectionSize]="50" [maxSize]="5" [(page)]="pageNumber">
                             <ng-template ngbPaginationPrevious>&laquo; Previous</ng-template>
@@ -209,11 +219,11 @@
                         </ngb-pagination>
                     </ng-template>
                 </div>
-            </ng-template>
+            </div>
         </div>
 
         <!-- Wishlist -->
-        <ng-template #wishlistTemplate>
+        <div *ngIf="wishlistToggle">
             <!-- No records -->
             <div *ngIf="isWishlistEmpty(); else wishlistRows" class="alert alert-warning">
                 No Records.
@@ -239,7 +249,7 @@
                             <td><img *ngIf="wish.value.galleryURL" class="thumbnail" [src]="wish.value.galleryURL"></td>
                             <td>
                                 <a [routerLink]="" (click)="itemDetail(wish.value.itemId, -1, wish.value.uniqueId)" [matTooltip]="wish.value.title" matTooltipPosition="below">
-                                    {{ wish.value.titleShort }}
+                                    {{ wish.value.title | truncateStr }}
                                 </a>
                             </td>
                             <td>{{ wish.value.price }}</td>
@@ -247,7 +257,7 @@
                             <td>{{ wish.value.sellerUserName }}</td>
                             <td>
                                 <button type="button" class="btn btn-light"
-                                (click)="toggleWishList(wish.value.index)"
+                                (click)="toggleWishList(wish.value.uniqueId)"
                                 [ngClass]="{ 'text-warning': wishlist[wish.value.uniqueId] }">
                                     <i class="material-icons align-top">
                                         {{ (wishlist[wish.value.uniqueId]) ?
@@ -271,240 +281,248 @@
                     </tbody>
                 </table>
             </ng-template>
-        </ng-template>
+        </div>
     </div>
 
     <!-- Item Detail -->
-    <div id="itemDetail" *ngIf="itemActive">
-        <p class="my-3 h4 text-center">{{ itemActive.title }}</p>
+    <div id="itemDetail" *ngIf="toggleDetails" [@slideInLeftOutRight]>
 
-        <div class="row">
-            <div class="col-6">
-                <button class="btn btn-light">
-                    <i class="material-icons align-bottom">chevron_left</i> List
-                </button>
-            </div>
-            <div class="col-6 text-right">
-                <img src="../assets/facebook.png" style="height: 39px;" alt="Share to Facebook">
-                <button class="btn btn-light" [ngClass]="{ 'text-warning': wishlist[itemActive.uniqueId] }">
-                    <i class="material-icons align-middle">
-                        {{ (wishlist[itemActive.uniqueId]) ?
-                            'remove_shopping_cart' :
-                            'add_shopping_cart' }}
-                    </i>
-                </button>
-            </div>
+        <div *ngIf="loadingItem" class="progress">
+            <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 50%"></div>
         </div>
+
+        <div *ngIf="!loadingItem">
+            <p class="my-3 h4 text-center">{{ itemActive.title }}</p>
     
-        <ngb-tabset [justify]="'end'">
-            <ngb-tab title="Product">
-                <ng-template ngbTabContent>
-                    <table class="table table-striped table-dark">
-                        <tr>
-                            <th>Product Images</th>
-                            <td><a [routerLink]="" (click)="openProductImagesModal(productImagesModal)">View Product Images Here</a></td>
-
-                            <ng-template #productImagesModal let-modal>
-                                <div class="modal-header">
-                                    <strong class="modal-title h5" id="modal-basic-title">Product Images</strong>
-                                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn btn-light" (click)="toggleDetails = false;">
+                        <i class="material-icons align-bottom">chevron_left</i> List
+                    </button>
+                </div>
+                <div class="col-6 text-right">
+                    <!-- TODO: Share to Facebook -->
+                    <img src="../assets/facebook.png" style="height: 39px;" alt="Share to Facebook">
+                    <button class="btn btn-light" (click)="toggleWishList(itemActive.uniqueId, -1, true)" [ngClass]="{ 'text-warning': wishlist[itemActive.uniqueId] }">
+                        <i class="material-icons align-middle">
+                            {{ (wishlist[itemActive.uniqueId]) ?
+                                'remove_shopping_cart' :
+                                'add_shopping_cart' }}
+                        </i>
+                    </button>
+                </div>
+            </div>
+        
+            <ngb-tabset [justify]="'end'">
+                <ngb-tab title="Product">
+                    <ng-template ngbTabContent>
+                        <table class="table table-striped table-dark">
+                            <tr>
+                                <th>Product Images</th>
+                                <td><a [routerLink]="" (click)="openProductImagesModal(productImagesModal)">View Product Images Here</a></td>
+    
+                                <ng-template #productImagesModal let-modal>
+                                    <div class="modal-header">
+                                        <strong class="modal-title h5" id="modal-basic-title">Product Images</strong>
+                                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- TODO: Carousel animations -->
+                                        <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="false">
+                                            <ng-template ngbSlide *ngFor="let imageURL of itemActive.pictureURL">
+                                                <a [href]="imageURL" target="_blank">
+                                                    <div class="img-bordered-container rounded">
+                                                        <img [src]="imageURL" class="img-bordered rounded">
+                                                    </div>
+                                                </a>
+                                            </ng-template>
+                                        </ngb-carousel>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-dark" (click)="modal.close('Close button')">Close</button>
+                                    </div>
+                                </ng-template>
+                            </tr>
+                            <tr *ngIf="itemActive.subtitle">
+                                <th>Subtitle</th>
+                                <td>{{ itemActive.subtitle }}</td>
+                            </tr>
+                            <tr *ngIf="itemActive.price">
+                                <th>Price</th>
+                                <td>{{ itemActive.price }}</td>
+                            </tr>
+                            <tr *ngIf="itemActive.location">
+                                <th>Location</th>
+                                <td>{{ itemActive.location }}</td>
+                            </tr>
+                            <tr *ngIf="itemActive.returnPolicy">
+                                <th>Return Policy (US)</th>
+                                <td>{{ itemActive.returnPolicy }}</td>
+                            </tr>
+                            <tr *ngFor="let specific of itemActive.itemSpecifics">
+                                <th>{{ specific.Name }}</th>
+                                <td>{{ specific.Value }}</td>
+                            </tr>
+                        </table>
+                    </ng-template>
+                </ngb-tab>
+    
+                <ngb-tab title="Photos">
+                    <ng-template ngbTabContent>
+                        <div class="row">
+                            <div class="col-lg-4" *ngFor="let column of [0, 1, 2]">
+                                <div *ngFor="let imgLink of itemActive.images[column]">
+                                    <a [href]="imgLink" target="_blank">
+                                        <img [src]="imgLink" class="img-fluid productImage">
+                                    </a>
                                 </div>
-                                <div class="modal-body">
-                                    <!-- TODO: Carousel animations -->
-                                    <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="false">
-                                        <ng-template ngbSlide *ngFor="let imageURL of itemActive.pictureURL">
-                                            <a [href]="imageURL" target="_blank">
-                                                <div class="img-bordered-container rounded">
-                                                    <img [src]="imageURL" class="img-bordered rounded">
-                                                </div>
-                                            </a>
-                                        </ng-template>
-                                    </ngb-carousel>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-dark" (click)="modal.close('Close button')">Close</button>
-                                </div>
-                            </ng-template>
-                        </tr>
-                        <tr *ngIf="itemActive.subtitle">
-                            <th>Subtitle</th>
-                            <td>{{ itemActive.subtitle }}</td>
-                        </tr>
-                        <tr *ngIf="itemActive.price">
-                            <th>Price</th>
-                            <td>{{ itemActive.price }}</td>
-                        </tr>
-                        <tr *ngIf="itemActive.location">
-                            <th>Location</th>
-                            <td>{{ itemActive.location }}</td>
-                        </tr>
-                        <tr *ngIf="itemActive.returnPolicy">
-                            <th>Return Policy (US)</th>
-                            <td>{{ itemActive.returnPolicy }}</td>
-                        </tr>
-                        <tr *ngFor="let specific of itemActive.itemSpecifics">
-                            <th>{{ specific.Name }}</th>
-                            <td>{{ specific.Value }}</td>
-                        </tr>
-                    </table>
-                </ng-template>
-            </ngb-tab>
-
-            <ngb-tab title="Photos">
-                <ng-template ngbTabContent>
-                    <div class="row">
-                        <div class="col-lg-4" *ngFor="let column of [0, 1, 2]">
-                            <div *ngFor="let imgLink of itemActive.images[column]">
-                                <a [href]="imgLink" target="_blank">
-                                    <img [src]="imgLink" class="img-fluid productImage">
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+    
+                <ngb-tab title="Shipping">
+                    <ng-template ngbTabContent>
+                        <table class="table table-striped table-dark">
+                            <tr *ngIf="itemActive.shippingCost != null">
+                                <th>Shipping Cost</th>
+                                <td>{{ itemActive.shippingCost }}</td>
+                            </tr>
+                            <tr *ngIf="itemActive.shippingLocations != null">
+                                <th>Shipping Locations</th>
+                                <td>{{ itemActive.shippingLocations }}</td>
+                            </tr>
+                            <tr *ngIf="itemActive.handlingTime != null">
+                                <th>Handling Time</th>
+                                <td>{{ itemActive.handlingTime }}</td>
+                            </tr>
+                            <tr *ngIf="itemActive.expeditedShipping != null">
+                                <th>Expedited Shipping</th>
+                                <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.expeditedShipping == 'true', 'text-danger': itemActive.expeditedShipping == 'false' }">{{ (itemActive.expeditedShipping == "true") ? 'check' : 'close' }}</i></td>
+                            </tr>
+                            <tr *ngIf="itemActive.oneDayShipping != null">
+                                <th>One Day Shipping</th>
+                                <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.oneDayShipping == 'true', 'text-danger': itemActive.oneDayShipping == 'false' }">{{ (itemActive.oneDayShipping == "true") ? 'check' : 'close' }}</i></td>
+                            </tr>
+                            <tr *ngIf="itemActive.returnAccepted != null">
+                                <th>Return Accepted</th>
+                                <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.returnAccepted == 'true', 'text-danger': itemActive.returnAccepted == 'false' }">{{ (itemActive.returnAccepted == "true") ? 'check' : 'close' }}</i></td>
+                            </tr>
+                        </table>
+                    </ng-template>
+                </ngb-tab>
+    
+                <ngb-tab title="Seller">
+                    <ng-template ngbTabContent>
+                        <table class="table table-striped table-dark">
+                            <tr *ngIf="itemActive.sellerUserName != null">
+                                <th colspan="2" class="text-center">{{ itemActive.sellerUserName | uppercase }}</th>
+                            </tr>
+                            <tr *ngIf="itemActive.feedbackScore != null">
+                                <th>Feedback Score</th>
+                                <td>{{ itemActive.feedbackScore }}</td>
+                            </tr>
+                            <tr *ngIf="itemActive.positiveFeedbackPercent != null">
+                                <th>Popularity</th>
+                                <td>
+                                    <div class="popularityContainer">
+                                        <round-progress
+                                            [current]="itemActive.positiveFeedbackPercent"
+                                            [max]="100"
+                                            [color]="'green'"
+                                            [background]="'white'"
+                                            [radius]="20"
+                                            [stroke]="2"
+                                            [clockwise]="false"
+                                            [duration]="1"
+                                        >
+                                        </round-progress>
+                                        <span class="popularityText">{{ itemActive.positiveFeedbackPercent }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="itemActive.feedbackRatingStarType != null">
+                                <th>Feedback Rating Star</th>
+                                <td>
+                                    <i class="material-icons" [ngStyle]="itemActive.feedbackRatingStarStyle">
+                                        {{ itemActive.feedbackRatingStarType }}
+                                    </i>
+                                </td>
+                            </tr>
+                            <tr *ngIf="itemActive.topRatedSeller != null">
+                                <th>Top Rated</th>
+                                <td>
+                                    <i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.topRatedSeller == true, 'text-danger': itemActive.topRatedSeller == false }">
+                                        {{ (itemActive.topRatedSeller == true) ? 'check' : 'close' }}
+                                    </i>
+                                </td>
+                            </tr>
+                            <tr *ngIf="itemActive.storeName">
+                                <th>Store Name</th>
+                                <td>{{ itemActive.storeName }}</td>
+                            </tr>
+                            <tr *ngIf="itemActive.storeURL">
+                                <th>Buy Product At</th>
+                                <td><a [href]="itemActive.storeURL">Store</a></td>
+                            </tr>
+                        </table>
+                    </ng-template>
+                </ngb-tab>
+    
+    
+                <ngb-tab>
+                    <ng-template ngbTabTitle>
+                        <span class="d-md-block d-none">Similar Products</span>
+                        <span class="d-md-none d-block">Related</span>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="row mt-3">
+                            <div class="col-12 col-md-3 mb-0">
+                                <select id="order" class="custom-select form-group mb-0" [(ngModel)]="sortType" (change)="sortSimilarItemsOrder(sortType)">
+                                    <option value="0">Default</option>
+                                    <option value="1">Product Name</option>
+                                    <option value="2">Days Left</option>
+                                    <option value="3">Price</option>
+                                    <option value="4">Shipping Cost</option>
+                                </select>
+                            </div>
+    
+                            <div class="col-12 col-md-3">
+                                <select id="ascDesc" [(ngModel)]="sortAscOrDesc" (ngModelChange)="sortSimilarItemsOrder(sortType)" class="custom-select form-group">
+                                    <option value="0">Ascending</option>
+                                    <option value="1">Descending</option>
+                                </select>
+                            </div>
+                        </div>
+    
+                        <div class="row mb-2 rounded bg-dark" *ngFor="let item of itemActive.similarItems.slice(0, itemActive.similarItemsLength)">
+                            <div class="col-12 col-md-2 mb-2">
+                                <a [href]="item.imageURL" target="blank">
+                                    <img *ngIf="item.imageURL" class="thumbnail py-3" width="120 px" height="150 px" [src]="item.imageURL">
                                 </a>
                             </div>
-                        </div>
-                    </div>
-                </ng-template>
-            </ngb-tab>
-
-            <ngb-tab title="Shipping">
-                <ng-template ngbTabContent>
-                    <table class="table table-striped table-dark">
-                        <tr *ngIf="itemActive.shippingCost != null">
-                            <th>Shipping Cost</th>
-                            <td>{{ itemActive.shippingCost }}</td>
-                        </tr>
-                        <tr *ngIf="itemActive.shippingLocations != null">
-                            <th>Shipping Locations</th>
-                            <td>{{ itemActive.shippingLocations }}</td>
-                        </tr>
-                        <tr *ngIf="itemActive.handlingTime != null">
-                            <th>Handling Time</th>
-                            <td>{{ itemActive.handlingTime }}</td>
-                        </tr>
-                        <tr *ngIf="itemActive.expeditedShipping != null">
-                            <th>Expedited Shipping</th>
-                            <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.expeditedShipping == 'true', 'text-danger': itemActive.expeditedShipping == 'false' }">{{ (itemActive.expeditedShipping == "true") ? 'check' : 'close' }}</i></td>
-                        </tr>
-                        <tr *ngIf="itemActive.oneDayShipping != null">
-                            <th>One Day Shipping</th>
-                            <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.oneDayShipping == 'true', 'text-danger': itemActive.oneDayShipping == 'false' }">{{ (itemActive.oneDayShipping == "true") ? 'check' : 'close' }}</i></td>
-                        </tr>
-                        <tr *ngIf="itemActive.returnAccepted != null">
-                            <th>Return Accepted</th>
-                            <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.returnAccepted == 'true', 'text-danger': itemActive.returnAccepted == 'false' }">{{ (itemActive.returnAccepted == "true") ? 'check' : 'close' }}</i></td>
-                        </tr>
-                    </table>
-                </ng-template>
-            </ngb-tab>
-
-            <ngb-tab title="Seller">
-                <ng-template ngbTabContent>
-                    <table class="table table-striped table-dark">
-                        <tr *ngIf="itemActive.sellerUserName != null">
-                            <th colspan="2" class="text-center">{{ itemActive.sellerUserName | uppercase }}</th>
-                        </tr>
-                        <tr *ngIf="itemActive.feedbackScore != null">
-                            <th>Feedback Score</th>
-                            <td>{{ itemActive.feedbackScore }}</td>
-                        </tr>
-                        <tr *ngIf="itemActive.positiveFeedbackPercent != null">
-                            <th>Popularity</th>
-                            <td>
-                                <div class="popularityContainer">
-                                    <round-progress
-                                        [current]="itemActive.positiveFeedbackPercent"
-                                        [max]="100"
-                                        [color]="'green'"
-                                        [background]="'white'"
-                                        [radius]="20"
-                                        [stroke]="2"
-                                        [clockwise]="false"
-                                        [duration]="1"
-                                    >
-                                    </round-progress>
-                                    <span class="popularityText">{{ itemActive.positiveFeedbackPercent }}</span>
+                            
+                            <div class="col-12 col-md-10">
+                                <div class="p-3">
+                                    <div >
+                                        <a [href]="item.viewItemURL" target="blank" [style.color]="'rgb(88, 115, 116)'">{{ item.title }}</a>
+                                    </div>
+                                    <div class="text-success">Price: ${{ item.buyItNowPrice.__value__ }}</div>
+                                    <div class="text-warning">Shipping Cost: ${{ item.shippingCost.__value__ }}</div>
+                                    <div class="text-white">Days Left: {{ item.daysLeft }}</div>
                                 </div>
-                            </td>
-                        </tr>
-                        <tr *ngIf="itemActive.feedbackRatingStarType != null">
-                            <th>Feedback Rating Star</th>
-                            <td>
-                                <i class="material-icons" [ngStyle]="itemActive.feedbackRatingStarStyle">
-                                    {{ itemActive.feedbackRatingStarType }}
-                                </i>
-                            </td>
-                        </tr>
-                        <tr *ngIf="itemActive.topRatedSeller != null">
-                            <th>Top Rated</th>
-                            <td>
-                                <i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.topRatedSeller == true, 'text-danger': itemActive.topRatedSeller == false }">
-                                    {{ (itemActive.topRatedSeller == true) ? 'check' : 'close' }}
-                                </i>
-                            </td>
-                        </tr>
-                        <tr *ngIf="itemActive.storeName">
-                            <th>Store Name</th>
-                            <td>{{ itemActive.storeName }}</td>
-                        </tr>
-                        <tr *ngIf="itemActive.storeURL">
-                            <th>Buy Product At</th>
-                            <td><a [href]="itemActive.storeURL">Store</a></td>
-                        </tr>
-                    </table>
-                </ng-template>
-            </ngb-tab>
-
-
-            <ngb-tab>
-                <ng-template ngbTabTitle>
-                    <span class="d-md-block d-none">Similar Products</span>
-                    <span class="d-md-none d-block">Related</span>
-                </ng-template>
-                <ng-template ngbTabContent>
-                    <div class="row mt-3">
-                        <div class="col-12 col-md-3 mb-0">
-                            <select id="order" class="custom-select form-group mb-0" [(ngModel)]="sortType" (change)="sortSimilarItemsOrder(sortType)">
-                                <option value="0">Default</option>
-                                <option value="1">Product Name</option>
-                                <option value="2">Days Left</option>
-                                <option value="3">Price</option>
-                                <option value="4">Shipping Cost</option>
-                            </select>
-                        </div>
-
-                        <div class="col-12 col-md-3">
-                            <select id="ascDesc" [(ngModel)]="sortAscOrDesc" (ngModelChange)="sortSimilarItemsOrder(sortType)" class="custom-select form-group">
-                                <option value="0">Ascending</option>
-                                <option value="1">Descending</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mb-2 rounded bg-dark" *ngFor="let item of itemActive.similarItems.slice(0, itemActive.similarItemsLength)">
-                        <div class="col-12 col-md-2 mb-2">
-                            <a [href]="item.imageURL" target="blank">
-                                <img *ngIf="item.imageURL" class="thumbnail py-3" width="120 px" height="150 px" [src]="item.imageURL">
-                            </a>
-                        </div>
-                        
-                        <div class="col-12 col-md-10">
-                            <div class="p-3">
-                                <div >
-                                    <a [href]="item.viewItemURL" target="blank" [style.color]="'rgb(88, 115, 116)'">{{ item.title }}</a>
-                                </div>
-                                <div class="text-success">Price: ${{ item.buyItNowPrice.__value__ }}</div>
-                                <div class="text-warning">Shipping Cost: ${{ item.shippingCost.__value__ }}</div>
-                                <div class="text-white">Days Left: {{ item.daysLeft }}</div>
                             </div>
                         </div>
-                    </div>
-                            
-                    <div class="text-center" *ngIf="itemActive.similarItems.length > 5">
-                        <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength > 5" (click)="itemActive.similarItemsLength = 5">Show Less</button>
-                        <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength == 5" (click)="itemActive.similarItemsLength = itemActive.similarItems.length">Show More</button>
-                    </div>
-                </ng-template>
-            </ngb-tab>
-        </ngb-tabset>
+                                
+                        <div class="text-center" *ngIf="itemActive.similarItems.length > 5">
+                            <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength > 5" (click)="itemActive.similarItemsLength = 5">Show Less</button>
+                            <button class="btn btn-dark" *ngIf="itemActive.similarItemsLength == 5" (click)="itemActive.similarItemsLength = itemActive.similarItems.length">Show More</button>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
     </div>
 </div>

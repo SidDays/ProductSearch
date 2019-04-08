@@ -3,6 +3,18 @@
         width: 100px;
         height: 100px;
     }
+
+    table {
+        tr {
+            &.hover-highlight:hover {
+                background-color: rgb(72, 80, 87);
+            }
+
+            &.item-active {
+                background-color: rgb(112, 119, 126);
+            }
+        }
+    }
 }
 
 .productImage {
