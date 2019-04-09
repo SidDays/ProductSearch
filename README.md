@@ -14,7 +14,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - [x] “Clear” button resets the search form to the initial state and clears results area 
 - [x] Disable and enable the “Search” button appropriately 
 - [x] Obtain user location 
-- [ ] Zip Code Autocomplete
+- [x] Zip Code Autocomplete
 
 ### Results
 - [x] Wish List 
@@ -83,7 +83,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ### Use of Angular 
 - [x] Animation must be implemented with Angular
-- [ ] Autocomplete must be implemented with Angular
+- [x] Autocomplete must be implemented with Angular
 
 ### Use of Bootstrap 
 - [x] The app should be implemented using Bootstrap

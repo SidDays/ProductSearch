@@ -107,25 +107,25 @@ export class AppComponent implements OnInit {
   public zipOptions: Array<string> = [];
 
   /**
-   * TODO: Fills in the zip codes as we type them.
+   * Fills in the zip codes as we type them.
    */
   public fillInZipCodes(): void {
-    console.log("triggered zipCode filling for", this.from.zipCode);
-
+    const tempArr = [];
     if (this.from.zipCode && this.from.zipCode.length < 5) {
       this.http.get('/api/zipautocomplete', {
         params: {
           "zipcode": this.from.zipCode,
         }
       }).subscribe((result) => {
-        console.log("zipautocomplete api result", result);
+        // console.log("zipautocomplete api result", result);
         const postalCodes = result["postalCodes"];
-        this.zipOptions = [];
         postalCodes.forEach(pc => {
-          this.zipOptions.push(pc.postalcode);
+          const code = pc.postalCode;
+          tempArr.push(code);
         });
       });
     }
+    this.zipOptions = tempArr;
   }
   
   public loadingResults: boolean = false;

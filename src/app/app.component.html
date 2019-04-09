@@ -112,6 +112,7 @@
                             class="form-control" 
                             id="zipCode"
                             [(ngModel)]="from.zipCode"
+                            (ngModelChange)="fillInZipCodes()"
                             name="zipCode"
                             #zip="ngModel"
                             ngModel
