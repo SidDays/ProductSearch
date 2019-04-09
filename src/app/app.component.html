@@ -339,9 +339,7 @@
                     </button>
                 </div>
                 <div class="col-6 text-right">
-                    <!-- TODO: Share to Facebook -->
-                    <img src="../assets/facebook.png" style="height: 39px;" alt="Share to Facebook"
-                    (click)="share()">
+                    <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + itemActive.uniqueId + '&quote=' + 'Buy ' + itemActive.title + ' at $' + itemActive.price + ' from link below'" target="_blank"><img src="../assets/facebook.png" style="height: 39px;" alt="Share to Facebook"></a>
 
                     <button class="btn btn-light" 
                     (click)="toggleWishList(itemActive.uniqueId, -1, true)" 
