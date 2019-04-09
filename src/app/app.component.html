@@ -149,11 +149,6 @@
                     <button type="button" class="btn btn-light mr-3" (click)="clearEverything()">
                         <i class="material-icons align-top">clear_all</i> Clear
                     </button>
-    
-                    <!-- FIXME: Temporary. please remove in final -->
-                    <button type="button" class="btn btn-danger" (click)="itemDetail(401466898078)">
-                        Test Item Detail
-                    </button>
                 </div>
             </div>
         </form>
@@ -162,7 +157,7 @@
 
 
 
-    <!-- TODO: Results / Wish List tab -->
+
     <ul class="d-flex justify-content-center nav nav-pills my-4">
         <li class="nav-item">
             <a [ngClass]="(wishlistToggle) ? pillInactiveClass : pillActiveClass" (click)="wishlistToggle = false;" [routerLink]="">Results</a>
@@ -175,7 +170,7 @@
 
 
 
-    <!-- TODO: Fix toggleDetails, poor implementation -->
+
     <div id="mainResults" *ngIf="!toggleDetails" [@slideInLeftOutRight]>
 
         <div *ngIf="!wishlistToggle">

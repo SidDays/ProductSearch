@@ -252,7 +252,6 @@ export class AppComponent implements OnInit {
       paramsObj["distance"] = "10";
     }
     if (this.from.location == "currentLocation") {
-      // TODO: IP-API
       paramsObj["postalCode"] = this.postalCodeIPAPI;
     } else {
       paramsObj["postalCode"] = String(this.from.zipCode);
