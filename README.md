@@ -67,16 +67,16 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 #### Buttons
 - [x] List button display and navigate to results/wish list properly
 - [x] Wish List button
-- [ ] Facebook button
+- [x] Facebook button
 
 ### Progress bars, No records messages
 - [x] Progress bar
 - [x] No records messages
 
 ### Responsive
-- [ ] In mobile browsers, all of the pages should be the same as screenshots provided in description document 
-- [ ] In mobile browsers, all search, wish list, and Facebook functions must work 
-- [ ] In mobile browsers, the animation must work
+- [x] In mobile browsers, all of the pages should be the same as screenshots provided in description document 
+- [x] In mobile browsers, all search, wish list, and Facebook functions must work 
+- [x] In mobile browsers, the animation must work
 
 ### Theme
 - [x] Dark theme

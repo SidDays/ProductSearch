@@ -267,57 +267,59 @@
                 No Records.
             </div>
 
-            <ng-template #wishlistRows class="table-responsive">
+            <ng-template #wishlistRows>
                 <!-- Wishlist implementation -->
-                <table class="table table-striped table-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Image</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Shipping</th>
-                            <th scope="col">Seller</th>
-                            <th scope="col">Wish List</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let wish of wishlist | keyvalue; index as i">
-                            <th>{{ i + 1 }}</th>
-                            <td><img *ngIf="wish.value.galleryURL" class="thumbnail" [src]="wish.value.galleryURL"></td>
-                            <td>
-                                <a [routerLink]="" (click)="itemDetail(wish.value.itemId, -1, wish.value.uniqueId)" [matTooltip]="wish.value.title" matTooltipPosition="below">
-                                    {{ wish.value.title | truncateStr }}
-                                </a>
-                            </td>
-                            <td>{{ wish.value.price }}</td>
-                            <td>{{ wish.value.shippingCost }}</td>
-                            <td>{{ wish.value.sellerUserName }}</td>
-                            <td>
-                                <button type="button" class="btn btn-light"
-                                (click)="toggleWishList(wish.value.uniqueId)"
-                                [ngClass]="{ 'text-warning': wishlist[wish.value.uniqueId] }">
-                                    <i class="material-icons align-top">
-                                        {{ (wishlist[wish.value.uniqueId]) ?
-                                            'remove_shopping_cart' :
-                                            'add_shopping_cart' }}
-                                    </i>
-                                </button>
-                            </td>
-                        </tr>
-
-                        <!-- Total shopping -->
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><strong>Total Shopping</strong></td>
-                            <td>{{ totalShopping | currency : 'USD' : 'symbol-narrow' : '1.2-2' }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                	<table class="table table-striped table-dark">
+                	    <thead>
+                	        <tr>
+                	            <th scope="col">#</th>
+                	            <th scope="col">Image</th>
+                	            <th scope="col">Title</th>
+                	            <th scope="col">Price</th>
+                	            <th scope="col">Shipping</th>
+                	            <th scope="col">Seller</th>
+                	            <th scope="col">Wish List</th>
+                	        </tr>
+                	    </thead>
+                	    <tbody>
+                	        <tr *ngFor="let wish of wishlist | keyvalue; index as i">
+                	            <th>{{ i + 1 }}</th>
+                	            <td><img *ngIf="wish.value.galleryURL" class="thumbnail" [src]="wish.value.galleryURL"></td>
+                	            <td>
+                	                <a [routerLink]="" (click)="itemDetail(wish.value.itemId, -1, wish.value.uniqueId)" [matTooltip]="wish.value.title" matTooltipPosition="below">
+                	                    {{ wish.value.title | truncateStr }}
+                	                </a>
+                	            </td>
+                	            <td>{{ wish.value.price }}</td>
+                	            <td>{{ wish.value.shippingCost }}</td>
+                	            <td>{{ wish.value.sellerUserName }}</td>
+                	            <td>
+                	                <button type="button" class="btn btn-light"
+                	                (click)="toggleWishList(wish.value.uniqueId)"
+                	                [ngClass]="{ 'text-warning': wishlist[wish.value.uniqueId] }">
+                	                    <i class="material-icons align-top">
+                	                        {{ (wishlist[wish.value.uniqueId]) ?
+                	                            'remove_shopping_cart' :
+                	                            'add_shopping_cart' }}
+                	                    </i>
+                	                </button>
+                	            </td>
+                	        </tr>
+                
+                	        <!-- Total shopping -->
+                	        <tr>
+                	            <td></td>
+                	            <td></td>
+                	            <td></td>
+                	            <td></td>
+                	            <td></td>
+                	            <td><strong>Total Shopping</strong></td>
+                	            <td>{{ totalShopping | currency : 'USD' : 'symbol-narrow' : '1.2-2' }}</td>
+                	        </tr>
+                	    </tbody>
+                	</table>
+                </div>
             </ng-template>
         </div>
     </div>
@@ -330,7 +332,9 @@
         </div>
 
         <div *ngIf="!loadingItem">
-            <p class="my-3 h4 text-center">{{ itemActive.title }}</p>
+            <div class="text-center">
+                <span class="my-3 h5 font-weight-bold">{{ itemActive.title }}</span>
+            </div>
     
             <div class="row">
                 <div class="col-6">
@@ -339,7 +343,7 @@
                     </button>
                 </div>
                 <div class="col-6 text-right">
-                    <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + itemActive.uniqueId + '&quote=' + 'Buy ' + itemActive.title + ' at $' + itemActive.price + ' from link below'" target="_blank"><img src="../assets/facebook.png" style="height: 39px;" alt="Share to Facebook"></a>
+                    <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + itemActive.uniqueId + '&quote=' + 'Buy ' + itemActive.title + ' at ' + itemActive.price + ' from link below'" target="_blank"><img src="../assets/facebook.png" style="height: 39px;" alt="Share to Facebook"></a>
 
                     <button class="btn btn-light" 
                     (click)="toggleWishList(itemActive.uniqueId, -1, true)" 
@@ -356,56 +360,58 @@
             <ngb-tabset [justify]="'end'">
                 <ngb-tab title="Product">
                     <ng-template ngbTabContent>
-                        <table class="table table-striped table-dark">
-                            <tr>
-                                <th>Product Images</th>
-                                <td><a [routerLink]="" (click)="openProductImagesModal(productImagesModal)">View Product Images Here</a></td>
-    
-                                <ng-template #productImagesModal let-modal>
-                                    <div class="modal-header">
-                                        <strong class="modal-title h5" id="modal-basic-title">Product Images</strong>
-                                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- TODO: Carousel animations -->
-                                        <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="false">
-                                            <ng-template ngbSlide *ngFor="let imageURL of itemActive.pictureURL">
-                                                <a [href]="imageURL" target="_blank">
-                                                    <div class="img-bordered-container rounded">
-                                                        <img [src]="imageURL" class="img-bordered rounded">
-                                                    </div>
-                                                </a>
-                                            </ng-template>
-                                        </ngb-carousel>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-dark" (click)="modal.close('Close button')">Close</button>
-                                    </div>
-                                </ng-template>
-                            </tr>
-                            <tr *ngIf="itemActive.subtitle">
-                                <th>Subtitle</th>
-                                <td>{{ itemActive.subtitle }}</td>
-                            </tr>
-                            <tr *ngIf="itemActive.price">
-                                <th>Price</th>
-                                <td>{{ itemActive.price }}</td>
-                            </tr>
-                            <tr *ngIf="itemActive.location">
-                                <th>Location</th>
-                                <td>{{ itemActive.location }}</td>
-                            </tr>
-                            <tr *ngIf="itemActive.returnPolicy">
-                                <th>Return Policy (US)</th>
-                                <td>{{ itemActive.returnPolicy }}</td>
-                            </tr>
-                            <tr *ngFor="let specific of itemActive.itemSpecifics">
-                                <th>{{ specific.Name }}</th>
-                                <td>{{ specific.Value }}</td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-dark">
+                                <tr>
+                                    <th>Product Images</th>
+                                    <td><a [routerLink]="" (click)="openProductImagesModal(productImagesModal)">View Product Images Here</a></td>
+        
+                                    <ng-template #productImagesModal let-modal>
+                                        <div class="modal-header">
+                                            <strong class="modal-title h5" id="modal-basic-title">Product Images</strong>
+                                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- TODO: Carousel animations -->
+                                            <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="false">
+                                                <ng-template ngbSlide *ngFor="let imageURL of itemActive.pictureURL">
+                                                    <a [href]="imageURL" target="_blank">
+                                                        <div class="img-bordered-container rounded">
+                                                            <img [src]="imageURL" class="img-bordered rounded">
+                                                        </div>
+                                                    </a>
+                                                </ng-template>
+                                            </ngb-carousel>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-dark" (click)="modal.close('Close button')">Close</button>
+                                        </div>
+                                    </ng-template>
+                                </tr>
+                                <tr *ngIf="itemActive.subtitle">
+                                    <th>Subtitle</th>
+                                    <td>{{ itemActive.subtitle }}</td>
+                                </tr>
+                                <tr *ngIf="itemActive.price">
+                                    <th>Price</th>
+                                    <td>{{ itemActive.price }}</td>
+                                </tr>
+                                <tr *ngIf="itemActive.location">
+                                    <th>Location</th>
+                                    <td>{{ itemActive.location }}</td>
+                                </tr>
+                                <tr *ngIf="itemActive.returnPolicy">
+                                    <th>Return Policy (US)</th>
+                                    <td>{{ itemActive.returnPolicy }}</td>
+                                </tr>
+                                <tr *ngFor="let specific of itemActive.itemSpecifics">
+                                    <th>{{ specific.Name }}</th>
+                                    <td>{{ specific.Value }}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </ng-template>
                 </ngb-tab>
     
@@ -425,89 +431,93 @@
     
                 <ngb-tab title="Shipping">
                     <ng-template ngbTabContent>
-                        <table class="table table-striped table-dark">
-                            <tr *ngIf="itemActive.shippingCost != null">
-                                <th>Shipping Cost</th>
-                                <td>{{ itemActive.shippingCost }}</td>
-                            </tr>
-                            <tr *ngIf="itemActive.shippingLocations != null">
-                                <th>Shipping Locations</th>
-                                <td>{{ itemActive.shippingLocations }}</td>
-                            </tr>
-                            <tr *ngIf="itemActive.handlingTime != null">
-                                <th>Handling Time</th>
-                                <td>{{ itemActive.handlingTime }}</td>
-                            </tr>
-                            <tr *ngIf="itemActive.expeditedShipping != null">
-                                <th>Expedited Shipping</th>
-                                <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.expeditedShipping == 'true', 'text-danger': itemActive.expeditedShipping == 'false' }">{{ (itemActive.expeditedShipping == "true") ? 'check' : 'close' }}</i></td>
-                            </tr>
-                            <tr *ngIf="itemActive.oneDayShipping != null">
-                                <th>One Day Shipping</th>
-                                <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.oneDayShipping == 'true', 'text-danger': itemActive.oneDayShipping == 'false' }">{{ (itemActive.oneDayShipping == "true") ? 'check' : 'close' }}</i></td>
-                            </tr>
-                            <tr *ngIf="itemActive.returnAccepted != null">
-                                <th>Return Accepted</th>
-                                <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.returnAccepted == 'true', 'text-danger': itemActive.returnAccepted == 'false' }">{{ (itemActive.returnAccepted == "true") ? 'check' : 'close' }}</i></td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-dark">
+                                <tr *ngIf="itemActive.shippingCost != null">
+                                    <th>Shipping Cost</th>
+                                    <td>{{ itemActive.shippingCost }}</td>
+                                </tr>
+                                <tr *ngIf="itemActive.shippingLocations != null">
+                                    <th>Shipping Locations</th>
+                                    <td>{{ itemActive.shippingLocations }}</td>
+                                </tr>
+                                <tr *ngIf="itemActive.handlingTime != null">
+                                    <th>Handling Time</th>
+                                    <td>{{ itemActive.handlingTime }}</td>
+                                </tr>
+                                <tr *ngIf="itemActive.expeditedShipping != null">
+                                    <th>Expedited Shipping</th>
+                                    <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.expeditedShipping == 'true', 'text-danger': itemActive.expeditedShipping == 'false' }">{{ (itemActive.expeditedShipping == "true") ? 'check' : 'close' }}</i></td>
+                                </tr>
+                                <tr *ngIf="itemActive.oneDayShipping != null">
+                                    <th>One Day Shipping</th>
+                                    <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.oneDayShipping == 'true', 'text-danger': itemActive.oneDayShipping == 'false' }">{{ (itemActive.oneDayShipping == "true") ? 'check' : 'close' }}</i></td>
+                                </tr>
+                                <tr *ngIf="itemActive.returnAccepted != null">
+                                    <th>Return Accepted</th>
+                                    <td><i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.returnAccepted == 'true', 'text-danger': itemActive.returnAccepted == 'false' }">{{ (itemActive.returnAccepted == "true") ? 'check' : 'close' }}</i></td>
+                                </tr>
+                            </table>
+                        </div>
                     </ng-template>
                 </ngb-tab>
     
                 <ngb-tab title="Seller">
                     <ng-template ngbTabContent>
-                        <table class="table table-striped table-dark">
-                            <tr *ngIf="itemActive.sellerUserName != null">
-                                <th colspan="2" class="text-center">{{ itemActive.sellerUserName | uppercase }}</th>
-                            </tr>
-                            <tr *ngIf="itemActive.feedbackScore != null">
-                                <th>Feedback Score</th>
-                                <td>{{ itemActive.feedbackScore }}</td>
-                            </tr>
-                            <tr *ngIf="itemActive.positiveFeedbackPercent != null">
-                                <th>Popularity</th>
-                                <td>
-                                    <div class="popularityContainer">
-                                        <round-progress
-                                            [current]="itemActive.positiveFeedbackPercent"
-                                            [max]="100"
-                                            [color]="'green'"
-                                            [background]="'white'"
-                                            [radius]="20"
-                                            [stroke]="2"
-                                            [clockwise]="false"
-                                            [duration]="1"
-                                        >
-                                        </round-progress>
-                                        <span class="popularityText">{{ itemActive.positiveFeedbackPercent }}</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr *ngIf="itemActive.feedbackRatingStarType != null">
-                                <th>Feedback Rating Star</th>
-                                <td>
-                                    <i class="material-icons" [ngStyle]="itemActive.feedbackRatingStarStyle">
-                                        {{ itemActive.feedbackRatingStarType }}
-                                    </i>
-                                </td>
-                            </tr>
-                            <tr *ngIf="itemActive.topRatedSeller != null">
-                                <th>Top Rated</th>
-                                <td>
-                                    <i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.topRatedSeller == true, 'text-danger': itemActive.topRatedSeller == false }">
-                                        {{ (itemActive.topRatedSeller == true) ? 'check' : 'close' }}
-                                    </i>
-                                </td>
-                            </tr>
-                            <tr *ngIf="itemActive.storeName">
-                                <th>Store Name</th>
-                                <td>{{ itemActive.storeName }}</td>
-                            </tr>
-                            <tr *ngIf="itemActive.storeURL">
-                                <th>Buy Product At</th>
-                                <td><a [href]="itemActive.storeURL">Store</a></td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-dark">
+                                <tr *ngIf="itemActive.sellerUserName != null">
+                                    <th colspan="2" class="text-center">{{ itemActive.sellerUserName | uppercase }}</th>
+                                </tr>
+                                <tr *ngIf="itemActive.feedbackScore != null">
+                                    <th>Feedback Score</th>
+                                    <td>{{ itemActive.feedbackScore }}</td>
+                                </tr>
+                                <tr *ngIf="itemActive.positiveFeedbackPercent != null">
+                                    <th>Popularity</th>
+                                    <td>
+                                        <div class="popularityContainer">
+                                            <round-progress
+                                                [current]="itemActive.positiveFeedbackPercent"
+                                                [max]="100"
+                                                [color]="'green'"
+                                                [background]="'white'"
+                                                [radius]="20"
+                                                [stroke]="2"
+                                                [clockwise]="false"
+                                                [duration]="1"
+                                            >
+                                            </round-progress>
+                                            <span class="popularityText">{{ itemActive.positiveFeedbackPercent }}</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="itemActive.feedbackRatingStarType != null">
+                                    <th>Feedback Rating Star</th>
+                                    <td>
+                                        <i class="material-icons" [ngStyle]="itemActive.feedbackRatingStarStyle">
+                                            {{ itemActive.feedbackRatingStarType }}
+                                        </i>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="itemActive.topRatedSeller != null">
+                                    <th>Top Rated</th>
+                                    <td>
+                                        <i [ngClass]="{ 'material-icons': true, 'text-success': itemActive.topRatedSeller == true, 'text-danger': itemActive.topRatedSeller == false }">
+                                            {{ (itemActive.topRatedSeller == true) ? 'check' : 'close' }}
+                                        </i>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="itemActive.storeName">
+                                    <th>Store Name</th>
+                                    <td>{{ itemActive.storeName }}</td>
+                                </tr>
+                                <tr *ngIf="itemActive.storeURL">
+                                    <th>Buy Product At</th>
+                                    <td><a [href]="itemActive.storeURL">Store</a></td>
+                                </tr>
+                            </table>
+                        </div>
                     </ng-template>
                 </ngb-tab>
     
@@ -545,21 +555,23 @@
                                 </div>
                             </div>
         
-                            <div class="row mb-2 rounded bg-dark" *ngFor="let item of itemActive.similarItems.slice(0, itemActive.similarItemsLength)">
-                                <div class="col-12 col-md-2 mb-2">
-                                    <a [href]="item.imageURL" target="blank">
-                                        <img *ngIf="item.imageURL" class="thumbnail py-3" width="120 px" height="150 px" [src]="item.imageURL">
-                                    </a>
-                                </div>
-                                
-                                <div class="col-12 col-md-10">
-                                    <div class="p-3">
-                                        <div >
-                                            <a [href]="item.viewItemURL" target="blank" [style.color]="'rgb(88, 115, 116)'">{{ item.title }}</a>
+                            <div class="mb-2 rounded bg-dark" *ngFor="let item of itemActive.similarItems.slice(0, itemActive.similarItemsLength)">
+                                <div class="row">
+                                    <div class="col-12 col-md-2 mb-2">
+                                        <a [href]="item.imageURL" target="blank">
+                                            <img *ngIf="item.imageURL" class="thumbnail p-2" width="120 px" height="150 px" [src]="item.imageURL">
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="col-12 col-md-10">
+                                        <div class="p-2">
+                                            <div>
+                                                <a [href]="item.viewItemURL" target="blank" [style.color]="'rgb(88, 115, 116)'">{{ item.title }}</a>
+                                            </div>
+                                            <div class="text-success">Price: ${{ item.buyItNowPrice.__value__ }}</div>
+                                            <div class="text-warning">Shipping Cost: ${{ item.shippingCost.__value__ }}</div>
+                                            <div class="text-white">Days Left: {{ item.daysLeft }}</div>
                                         </div>
-                                        <div class="text-success">Price: ${{ item.buyItNowPrice.__value__ }}</div>
-                                        <div class="text-warning">Shipping Cost: ${{ item.shippingCost.__value__ }}</div>
-                                        <div class="text-white">Days Left: {{ item.daysLeft }}</div>
                                     </div>
                                 </div>
                             </div>
