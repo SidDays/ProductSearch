@@ -137,12 +137,12 @@ app.get('/api/itemdetail/:itemid', function (req, res) {
         axios.get('https://www.googleapis.com/customsearch/v1', {
           params: {
             "q": res1["data"]["Item"]["Title"],
-            "cx": "003671390932228268953:6dh1bzd8g9u",
+            "cx": "003671390932228268953:rtszz2qde0i",
             "imgSize": "huge",
             "imgType": "news",
             "num": "8",
             "searchType": "image",
-            "key": "AIzaSyBgws_-G4JDFKG4IstJcksazphpQ1_DBRw",
+            "key": "AIzaSyCK6SW5O47KwVc2LD1MyUTOsberufLxBN0",
           }
         }).then(function (res3) {
 

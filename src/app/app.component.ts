@@ -392,7 +392,7 @@ export class AppComponent implements OnInit {
         // Photos tab
         item.images = [[], [], []];
         let imagesFromAPI = [];
-        if (jsonResult["productImages"] && jsonResult["productImages"]["images"]) {
+        if (jsonResult["productImages"] && jsonResult["productImages"]["items"]) {
           imagesFromAPI = jsonResult["productImages"]["items"];
         } else {
           // FIXME: Remove fallback images in final version
