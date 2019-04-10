@@ -1,5 +1,6 @@
 // Get dependencies
 const express = require('express');
+const path = require('path');
 const app = express();
 const axios = require('axios');
 
@@ -68,21 +69,21 @@ app.get('/api/findproducts', function (req, res) {
   let condNew = req.query.conditionNew;
   if (condNew) {
     paramsObj["itemFilter(" + i + ").name"] = "Condition";
-    paramsObj["itemFilter(" + i + ").value(" + j + ")"] = condNew;
+    paramsObj["itemFilter(" + i + ").value(" + j + ")"] = "New";
     j++;
   }
 
   let condUsed = req.query.conditionUsed;
   if (condUsed) {
     paramsObj["itemFilter(" + i + ").name"] = "Condition";
-    paramsObj["itemFilter(" + i + ").value(" + j + ")"] = condUsed;
+    paramsObj["itemFilter(" + i + ").value(" + j + ")"] = "Used";
     j++;
   }
 
   let condUnspecified = req.query.conditionUnspecified;
   if (condUnspecified) {
     paramsObj["itemFilter(" + i + ").name"] = "Condition";
-    paramsObj["itemFilter(" + i + ").value(" + j + ")"] = condUnspecified;
+    paramsObj["itemFilter(" + i + ").value(" + j + ")"] = "Unspecified";
     j++;
   }
 
@@ -195,8 +196,14 @@ app.get('/api/zipautocomplete', function (req, res) {
   });
 });
 
+// Serve angular dist app
+app.use(express.static(path.join(__dirname, 'dist', 'ProductSearch')));
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // Tell Express to listen for requests (start server)
-const port = process.env.PORT || '3000';
+const port = process.env.PORT || '8081';
 app.listen(port, function () {
   console.log('Server started on port', port);
 });

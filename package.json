@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"npm run serve-api\" \"npm run serve\"",
+    "dev": "concurrently \"npm run serve-api\" \"npm run serve\"",
     "serve": "ng serve --port=4200 --proxy-config=proxy.config.json --open=true",
     "serve-api": "nodemon server.js",
-    "build": "ng build",
+    "start": "node server.js",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
