@@ -40,7 +40,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 #### Product tab
 - [x] Show every row in the table in the specified format
 - [x] Show “Product Image” modal correctly with all images - modal, carousel, black background, click on image to maximize
-- [ ] Carousel animations
 
 #### Photos tab 
 - [x] Set up Google Custom Search engine API
@@ -89,7 +88,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - [x] The app should be implemented using Bootstrap
 
 ### Use of GAE/AWS/Azure 
-- [ ] Node.js script must be deployed on GAE/AWS/Azure, and an additional link should be added to the list of homework, with a format similar to the following:
+- [x] Node.js script must be deployed on GAE/AWS/Azure, and an additional link should be added to the list of homework, with a format similar to the following:
 
 `http://xxx.appspot.com/[path]?[list_of_the_parameters_and_sample_values]`
 Or
