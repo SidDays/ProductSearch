@@ -118,11 +118,25 @@ export class AppComponent implements OnInit {
         }
       }).subscribe((result) => {
         // console.log("zipautocomplete api result", result);
-        const postalCodes = result["postalCodes"];
-        postalCodes.forEach(pc => {
-          const code = pc.postalCode;
-          tempArr.push(code);
-        });
+        if (result && result["postalCodes"]) {
+          const postalCodes = result["postalCodes"];
+          postalCodes.forEach(pc => {
+            const code = pc.postalCode;
+            tempArr.push(code);
+          });
+        } else {
+          console.warn("zipautocomplete may have failed on server. Not displaying autocomplete.");
+        }
+      }, (error) => {
+        const zipCode: string = this.from.zipCode;
+        if (zipCode.length < 5) {
+          const charsLeft: number = 5 - zipCode.length;
+          for (let i: number = 0; i < 5; i++) {
+            const randomEnd: string = (Math.random() * Math.pow(10, charsLeft) | 0).toString();
+            tempArr.push(zipCode + randomEnd);
+          }
+          console.warn("Server not running; zipautocomplete will display a sample response.");
+        }
       });
     }
     this.zipOptions = tempArr;
