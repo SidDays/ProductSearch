@@ -1,0 +1,16 @@
+{
+    "as": "AS20001 Time Warner Cable Internet LLC",
+    "city": "Los Angeles",
+    "country": "United States",
+    "countryCode": "US",
+    "isp": "Spectrum",
+    "lat": 34.0068,
+    "lon": -118.256,
+    "org": "Charter Communications",
+    "query": "104.32.137.188",
+    "region": "CA",
+    "regionName": "California",
+    "status": "success",
+    "timezone": "America/Los_Angeles",
+    "zip": "90011"
+}
