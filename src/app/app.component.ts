@@ -8,7 +8,7 @@ import {
   transition,
 } from '@angular/animations';
 import * as moment from 'moment';
-import * as customSearchSample from '../assets/customSearchSample.json';
+import * as customSearchSample from '../assets/sampleresponse/customSearchSample.json';
 
 @Component({
   selector: 'app-root',
