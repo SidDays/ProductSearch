@@ -1,3 +1,6 @@
+// Load dotenv configuration
+require('dotenv').config();
+
 // Get dependencies
 const express = require('express');
 const path = require('path');
@@ -5,7 +8,7 @@ const app = express();
 const axios = require('axios');
 
 // Search results
-const myAppID = 'Dhananja-Assignme-PRD-316e081a6-a75d9f0b';
+const myAppID = process.env.EBAY_APP_ID;
 app.get('/api/findproducts', function (req, res) {
 
   let paramsObj = {
@@ -20,7 +23,7 @@ app.get('/api/findproducts', function (req, res) {
   };
 
   /*
-  http://svcs.ebay.com/services/search/FindingService/v1?OPERATIONNAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=Dhananja-Assignme-PRD-316e081a6-a75d9f0b&RESPONSE-DATA-FORMAT=JSON&RESTPAYLOAD&paginationInput.entriesPerPage=50&keywords=iphone&buyerPostalCode=90007&itemFilter(0).name=MaxDistance&itemFilter(0).value=10&itemFilter(1).name=FreeShippingOnly&itemFilter(1).value=true&itemFilter(2).name=LocalPickupOnly&itemFilter(2).value=true&itemFilter(3).name=HideDuplicateItems&itemFilter(3).value=true&itemFilter(4).name=Condition&itemFilter(4).value(0)=New&itemFilter(4).value(1)=Used&itemFilter(4).value(2)=Unspecified&outputSelector(0)=SellerInfo&outputSelector(1)=StoreInfo
+  http://svcs.ebay.com/services/search/FindingService/v1?OPERATIONNAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=myAppId&RESPONSE-DATA-FORMAT=JSON&RESTPAYLOAD&paginationInput.entriesPerPage=50&keywords=iphone&buyerPostalCode=90007&itemFilter(0).name=MaxDistance&itemFilter(0).value=10&itemFilter(1).name=FreeShippingOnly&itemFilter(1).value=true&itemFilter(2).name=LocalPickupOnly&itemFilter(2).value=true&itemFilter(3).name=HideDuplicateItems&itemFilter(3).value=true&itemFilter(4).name=Condition&itemFilter(4).value(0)=New&itemFilter(4).value(1)=Used&itemFilter(4).value(2)=Unspecified&outputSelector(0)=SellerInfo&outputSelector(1)=StoreInfo
   */
 
   const keywords = req.query.keywords;
@@ -137,12 +140,12 @@ app.get('/api/itemdetail/:itemid', function (req, res) {
         axios.get('https://www.googleapis.com/customsearch/v1', {
           params: {
             "q": res1["data"]["Item"]["Title"],
-            "cx": "003671390932228268953:rtszz2qde0i",
+            "cx": process.env.GOOGLE_CUSTOM_SEARCH_CX,
             "imgSize": "huge",
             "imgType": "news",
             "num": "8",
             "searchType": "image",
-            "key": "AIzaSyCK6SW5O47KwVc2LD1MyUTOsberufLxBN0",
+            "key": process.env.GOOGLE_CUSTOM_SEARCH_KEY,
           }
         }).then(function (res3) {
 
