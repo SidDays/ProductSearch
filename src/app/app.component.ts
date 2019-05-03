@@ -9,6 +9,7 @@ import {
 } from '@angular/animations';
 import * as moment from 'moment';
 import * as customSearchSample from '../assets/sampleresponse/customSearchSample.json';
+import * as findProductsSample from '../assets/sampleresponse/findProductsSample.json';
 
 @Component({
   selector: 'app-root',
@@ -244,7 +245,7 @@ export class AppComponent implements OnInit {
   /**
    * Sets up the Find Products API call using form fields.
    */
-  public callAPI() {
+  public findProducts() {
     this.loadingResults = true;
     this.wishlistToggle = false;
 
@@ -274,78 +275,87 @@ export class AppComponent implements OnInit {
     this.http.get('/api/findproducts', {
       params: paramsObj
     }).subscribe((jsonObj) => {
-      this.loadingResults = false;
-      console.log("Results json fetched:", jsonObj);
-
-      this.results = [];
-      if (jsonObj["findItemsAdvancedResponse"][0]["ack"] != "Success" || jsonObj["findItemsAdvancedResponse"][0]["searchResult"][0]["@count"] == 0) {
-        // Do nothing
-      } else {
-        const items = jsonObj["findItemsAdvancedResponse"][0]["searchResult"][0]["item"];
-        for (let i = 0; i < items.length; i++) {
-          const item = items[i];
-
-          let result: any = {
-            itemId: item.itemId[0],
-            index: i,
-            number: (i + 1),
-            title: item.title[0],
-            price: "$" + item.sellingStatus[0].currentPrice[0].__value__,
-            postalCode: (item.postalCode) ? item.postalCode[0] : 'N/A',
-            uniqueId: item.viewItemURL[0],
-          }
-
-          // gallery URL
-          if (item.galleryURL) {
-            result.galleryURL = item.galleryURL[0];
-          }
-
-          // shipping
-          if (item.shippingInfo && item.shippingInfo[0]) {
-            // console.log("Shipping info", item.shippingInfo[0]);        
-            let shippingCost: string | number = "N/A";
-            if (item.shippingInfo[0].shippingServiceCost && item.shippingInfo[0].shippingServiceCost[0].__value__) {
-              shippingCost = item.shippingInfo[0].shippingServiceCost[0].__value__;
-              if (shippingCost == 0) {
-                shippingCost = "Free Shipping";
-              } else {
-                shippingCost = "$" + shippingCost;
-              }
-            }
-            result.shippingCost = shippingCost;
-            if (item.shippingInfo[0].shipToLocations) {
-              result.shippingLocations = item.shippingInfo[0].shipToLocations[0];
-            }
-            if (item.shippingInfo[0].handlingTime) {
-              result.handlingTime = item.shippingInfo[0].handlingTime[0];
-            }
-            if (item.shippingInfo[0].expeditedShipping) {
-              result.expeditedShipping = item.shippingInfo[0].expeditedShipping[0];
-            }
-            if (item.shippingInfo[0].oneDayShippingAvailable) {
-              result.oneDayShipping = item.shippingInfo[0].oneDayShippingAvailable[0];
-            }
-            if (item.shippingInfo[0].returnsAccepted) {
-              result.returnAccepted = item.shippingInfo[0].returnsAccepted[0];
-            }
-          }
-          
-          // seller
-          if (item.sellerInfo && item.sellerInfo[0]) {
-            if (item.sellerInfo[0].sellerUserName) {
-              result.sellerUserName = item.sellerInfo[0].sellerUserName[0];
-            } else {
-              result.sellerUserName = "N/A";
-            }
-          }
-
-          this.results.push(result);
-        }
-      }
-
-      // console.log("results:", this.results);
-      this.toggleDetails = false;
+      this.displayResults(jsonObj);
+    }, (error) => {
+      // If the server isn't running, use the local json sample result call.
+      console.warn("findproducts API call failed. Perhaps server isn't running? Using the sample response for now.");
+      // console.log(findProductsSample.default);
+      this.displayResults(findProductsSample.default);
     });
+  }
+
+  public displayResults(jsonObj) {
+    this.loadingResults = false;
+    console.log("Results json fetched:", jsonObj);
+
+    this.results = [];
+    if (jsonObj["findItemsAdvancedResponse"][0]["ack"] != "Success" || jsonObj["findItemsAdvancedResponse"][0]["searchResult"][0]["@count"] == 0) {
+      // Do nothing
+    } else {
+      const items = jsonObj["findItemsAdvancedResponse"][0]["searchResult"][0]["item"];
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+
+        let result: any = {
+          itemId: item.itemId[0],
+          index: i,
+          number: (i + 1),
+          title: item.title[0],
+          price: "$" + item.sellingStatus[0].currentPrice[0].__value__,
+          postalCode: (item.postalCode) ? item.postalCode[0] : 'N/A',
+          uniqueId: item.viewItemURL[0],
+        }
+
+        // gallery URL
+        if (item.galleryURL) {
+          result.galleryURL = item.galleryURL[0];
+        }
+
+        // shipping
+        if (item.shippingInfo && item.shippingInfo[0]) {
+          // console.log("Shipping info", item.shippingInfo[0]);        
+          let shippingCost: string | number = "N/A";
+          if (item.shippingInfo[0].shippingServiceCost && item.shippingInfo[0].shippingServiceCost[0].__value__) {
+            shippingCost = item.shippingInfo[0].shippingServiceCost[0].__value__;
+            if (shippingCost == 0) {
+              shippingCost = "Free Shipping";
+            } else {
+              shippingCost = "$" + shippingCost;
+            }
+          }
+          result.shippingCost = shippingCost;
+          if (item.shippingInfo[0].shipToLocations) {
+            result.shippingLocations = item.shippingInfo[0].shipToLocations[0];
+          }
+          if (item.shippingInfo[0].handlingTime) {
+            result.handlingTime = item.shippingInfo[0].handlingTime[0];
+          }
+          if (item.shippingInfo[0].expeditedShipping) {
+            result.expeditedShipping = item.shippingInfo[0].expeditedShipping[0];
+          }
+          if (item.shippingInfo[0].oneDayShippingAvailable) {
+            result.oneDayShipping = item.shippingInfo[0].oneDayShippingAvailable[0];
+          }
+          if (item.shippingInfo[0].returnsAccepted) {
+            result.returnAccepted = item.shippingInfo[0].returnsAccepted[0];
+          }
+        }
+        
+        // seller
+        if (item.sellerInfo && item.sellerInfo[0]) {
+          if (item.sellerInfo[0].sellerUserName) {
+            result.sellerUserName = item.sellerInfo[0].sellerUserName[0];
+          } else {
+            result.sellerUserName = "N/A";
+          }
+        }
+
+        this.results.push(result);
+      }
+    }
+
+    // console.log("results:", this.results);
+    this.toggleDetails = false;
   }
 
   public toggleDetails: boolean = false;
