@@ -33,6 +33,8 @@ export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient, private modalService: NgbModal) { }
 
+  public demoMode: boolean = true;
+
   public postalCodeIPAPI: string = "90007";
   public wishlist;
   public totalShopping: number;

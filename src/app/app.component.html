@@ -157,6 +157,12 @@
 
 
 
+    <div class="mt-4" *ngIf="demoMode === true">
+        <ngb-alert [type]="'info'" (close)="demoMode = false;">
+            For demo purposes, eBay/Google API calls are cached and only the Angular frontend is running. Check out the <a href="https://github.com/sidrk/ProductSearch">source</a> for more info!
+        </ngb-alert>
+    </div>
+
 
 
     <ul class="d-flex justify-content-center nav nav-pills my-4">

@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import url("https://cdn.jsdelivr.net/npm/inter-ui@3.5.0/inter.min.css");
+
 // Variable overrides
-$font-family-sans-serif: 'Roboto', sans-serif !default;
+$font-family-sans-serif: Inter, Helvetica, Arial, sans-serif !default;
 
 // Bootstrap and its default variables
 @import "../node_modules/bootstrap/scss/bootstrap";
