@@ -1,0 +1,204 @@
+{
+  "kind": "customsearch#search",
+  "url": {
+      "type": "application/json",
+      "template": "https://www.googleapis.com/customsearch/v1?q={searchTerms}&num={count?}&start={startIndex?}&lr={language?}&safe={safe?}&cx={cx?}&sort={sort?}&filter={filter?}&gl={gl?}&cr={cr?}&googlehost={googleHost?}&c2coff={disableCnTwTranslation?}&hq={hq?}&hl={hl?}&siteSearch={siteSearch?}&siteSearchFilter={siteSearchFilter?}&exactTerms={exactTerms?}&excludeTerms={excludeTerms?}&linkSite={linkSite?}&orTerms={orTerms?}&relatedSite={relatedSite?}&dateRestrict={dateRestrict?}&lowRange={lowRange?}&highRange={highRange?}&searchType={searchType}&fileType={fileType?}&rights={rights?}&imgSize={imgSize?}&imgType={imgType?}&imgColorType={imgColorType?}&imgDominantColor={imgDominantColor?}&alt=json"
+  },
+  "queries": {
+      "request": [
+          {
+              "title": "Google Custom Search - Apple iPhone 7 \"Factory Unlocked",
+              "totalResults": "6020",
+              "searchTerms": "Apple iPhone 7 \"Factory Unlocked",
+              "count": 8,
+              "startIndex": 1,
+              "inputEncoding": "utf8",
+              "outputEncoding": "utf8",
+              "safe": "off",
+              "cx": "003671390932228268953:6dh1bzd8g9u",
+              "searchType": "image",
+              "imgSize": "huge",
+              "imgType": "news"
+          }
+      ],
+      "nextPage": [
+          {
+              "title": "Google Custom Search - Apple iPhone 7 \"Factory Unlocked",
+              "totalResults": "6020",
+              "searchTerms": "Apple iPhone 7 \"Factory Unlocked",
+              "count": 8,
+              "startIndex": 9,
+              "inputEncoding": "utf8",
+              "outputEncoding": "utf8",
+              "safe": "off",
+              "cx": "003671390932228268953:6dh1bzd8g9u",
+              "searchType": "image",
+              "imgSize": "huge",
+              "imgType": "news"
+          }
+      ]
+  },
+  "context": {
+      "title": "Product Search"
+  },
+  "searchInformation": {
+      "searchTime": 0.180144,
+      "formattedSearchTime": "0.18",
+      "totalResults": "6020",
+      "formattedTotalResults": "6,020"
+  },
+  "items": [
+      {
+          "kind": "customsearch#result",
+          "title": "WO2014137919A1 - Wearable device with unique user id and telemetry ...",
+          "htmlTitle": "WO2014137919A1 - Wearable device with unique user id <b>and</b> telemetry ...",
+          "link": "https://patentimages.storage.googleapis.com/30/3e/d8/e639fc906d2b14/imgf000084_0001.png",
+          "displayLink": "www.google.com",
+          "snippet": "WO2014137919A1 - Wearable device with unique user id and telemetry ...",
+          "htmlSnippet": "WO2014137919A1 - Wearable device with unique user id <b>and</b> telemetry ...",
+          "mime": "image/png",
+          "image": {
+              "contextLink": "https://www.google.com/patents/WO2014137919A1?cl=en",
+              "height": 1234,
+              "width": 1961,
+              "byteSize": 59505,
+              "thumbnailLink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqYBRiHaTeyK6vRnQi_WkpIxGBdNMJXlrqwe6h1tiHXyu17_4i-xPNvFY",
+              "thumbnailHeight": 94,
+              "thumbnailWidth": 150
+          }
+      },
+      {
+          "kind": "customsearch#result",
+          "title": "WO2014137919A1 - Wearable device with unique user id and telemetry ...",
+          "htmlTitle": "WO2014137919A1 - Wearable device with unique user id <b>and</b> telemetry ...",
+          "link": "https://patentimages.storage.googleapis.com/28/64/65/2e2c2baa1b8c2e/imgf000048_0001.png",
+          "displayLink": "www.google.com",
+          "snippet": "WO2014137919A1 - Wearable device with unique user id and telemetry ...",
+          "htmlSnippet": "WO2014137919A1 - Wearable device with unique user id <b>and</b> telemetry ...",
+          "mime": "image/png",
+          "image": {
+              "contextLink": "https://www.google.com/patents/WO2014137919A1?cl=en",
+              "height": 2037,
+              "width": 1996,
+              "byteSize": 71809,
+              "thumbnailLink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsdAhBUhcf5tAHOnMRF1HO2gsTG4ZZiJF3uSdaDDbd2NgGlw35tjHC7Vp-Ig",
+              "thumbnailHeight": 150,
+              "thumbnailWidth": 147
+          }
+      },
+      {
+          "kind": "customsearch#result",
+          "title": "WO2014137919A1 - Wearable device with unique user id and telemetry ...",
+          "htmlTitle": "WO2014137919A1 - Wearable device with unique user id <b>and</b> telemetry ...",
+          "link": "https://patentimages.storage.googleapis.com/56/3f/b5/3627d3b39d384b/imgf000049_0001.png",
+          "displayLink": "www.google.com",
+          "snippet": "WO2014137919A1 - Wearable device with unique user id and telemetry ...",
+          "htmlSnippet": "WO2014137919A1 - Wearable device with unique user id <b>and</b> telemetry ...",
+          "mime": "image/png",
+          "image": {
+              "contextLink": "https://www.google.com/patents/WO2014137919A1?cl=en",
+              "height": 1636,
+              "width": 1997,
+              "byteSize": 59711,
+              "thumbnailLink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC28P2031Cdkxn2usJUHnXd0j4kv2iKTDUqU8PBvJY85cVIw2gqfmrYHfW",
+              "thumbnailHeight": 123,
+              "thumbnailWidth": 150
+          }
+      },
+      {
+          "kind": "customsearch#result",
+          "title": "WO2014137919A1 - Wearable device with unique user id and telemetry ...",
+          "htmlTitle": "WO2014137919A1 - Wearable device with unique user id <b>and</b> telemetry ...",
+          "link": "https://patentimages.storage.googleapis.com/d4/da/6c/796e6e85ea28ae/imgf000083_0001.png",
+          "displayLink": "www.google.com",
+          "snippet": "WO2014137919A1 - Wearable device with unique user id and telemetry ...",
+          "htmlSnippet": "WO2014137919A1 - Wearable device with unique user id <b>and</b> telemetry ...",
+          "mime": "image/png",
+          "image": {
+              "contextLink": "https://www.google.com/patents/WO2014137919A1?cl=en",
+              "height": 998,
+              "width": 2149,
+              "byteSize": 66810,
+              "thumbnailLink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1qnh0_F5B1SYe3h215WKGn_uU2_rkYeI1qjEXOuD6xVasm83E2h4sv4s",
+              "thumbnailHeight": 70,
+              "thumbnailWidth": 150
+          }
+      },
+      {
+          "kind": "customsearch#result",
+          "title": "WO2014137919A1 - Wearable device with unique user id and telemetry ...",
+          "htmlTitle": "WO2014137919A1 - Wearable device with unique user id <b>and</b> telemetry ...",
+          "link": "https://patentimages.storage.googleapis.com/c2/d4/21/2424994a167ba2/imgf000084_0002.png",
+          "displayLink": "www.google.com",
+          "snippet": "WO2014137919A1 - Wearable device with unique user id and telemetry ...",
+          "htmlSnippet": "WO2014137919A1 - Wearable device with unique user id <b>and</b> telemetry ...",
+          "mime": "image/png",
+          "image": {
+              "contextLink": "https://www.google.com/patents/WO2014137919A1?cl=en",
+              "height": 1016,
+              "width": 2152,
+              "byteSize": 64553,
+              "thumbnailLink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAWmQ_KMbuzRcSGi7uB2e3dE9MDKKvwAdHEKElqv-wUZaXUXBRCX43ok2c",
+              "thumbnailHeight": 71,
+              "thumbnailWidth": 150
+          }
+      },
+      {
+          "kind": "customsearch#result",
+          "title": "The Cedar Rapids Gazette Iowa - Google+",
+          "htmlTitle": "The Cedar Rapids Gazette Iowa - Google+",
+          "link": "http://www.thegazette.com/storyimage/GA/20150121/ARTICLE/150129888/AR/0/AR-150129888.jpg",
+          "displayLink": "google.com",
+          "snippet": "The Cedar Rapids Gazette Iowa - Google+",
+          "htmlSnippet": "The Cedar Rapids Gazette Iowa - Google+",
+          "mime": "image/jpeg",
+          "image": {
+              "contextLink": "https://google.com/+cedarrapidsgazette",
+              "height": 1719,
+              "width": 3000,
+              "byteSize": 829734,
+              "thumbnailLink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQquFUItxtzBb3MY506JtHbFiKYxIDOYROTNsaQM0OdPltfnLzou9GSR-7p",
+              "thumbnailHeight": 86,
+              "thumbnailWidth": 150
+          }
+      },
+      {
+          "kind": "customsearch#result",
+          "title": "The Cedar Rapids Gazette Iowa - Google+",
+          "htmlTitle": "The Cedar Rapids Gazette Iowa - Google+",
+          "link": "http://www.thegazette.com/storyimage/GA/20141105/ARTICLE/141109777/AR/0/AR-141109777.jpg",
+          "displayLink": "google.com",
+          "snippet": "The Cedar Rapids Gazette Iowa - Google+",
+          "htmlSnippet": "The Cedar Rapids Gazette Iowa - Google+",
+          "mime": "image/jpeg",
+          "image": {
+              "contextLink": "https://google.com/+cedarrapidsgazette",
+              "height": 2405,
+              "width": 3000,
+              "byteSize": 447488,
+              "thumbnailLink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZliuN-XsIJE93QNcwOwuyzT7IeXBAFC0PZyrckYP_RDWkXtwIrUCfNs0",
+              "thumbnailHeight": 120,
+              "thumbnailWidth": 150
+          }
+      },
+      {
+          "kind": "customsearch#result",
+          "title": "The Cedar Rapids Gazette Iowa - Google+",
+          "htmlTitle": "The Cedar Rapids Gazette Iowa - Google+",
+          "link": "http://www.thegazette.com/storyimage/GA/20141023/ARTICLE/141029892/AR/0/AR-141029892.jpg",
+          "displayLink": "google.com",
+          "snippet": "The Cedar Rapids Gazette Iowa - Google+",
+          "htmlSnippet": "The Cedar Rapids Gazette Iowa - Google+",
+          "mime": "image/jpeg",
+          "image": {
+              "contextLink": "https://google.com/+cedarrapidsgazette",
+              "height": 3456,
+              "width": 5034,
+              "byteSize": 1025724,
+              "thumbnailLink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9AFxDJB99fYOGJcjDOG5sqXkv2aXEr66SZ7VWvkhc0jDiAaqSYkWD0us8",
+              "thumbnailHeight": 103,
+              "thumbnailWidth": 150
+          }
+      }
+  ]
+}
