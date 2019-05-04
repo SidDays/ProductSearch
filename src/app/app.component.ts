@@ -10,6 +10,7 @@ import {
 import * as moment from 'moment';
 import * as customSearchSample from '../assets/sampleresponse/customSearchSample.json';
 import * as findProductsSample from '../assets/sampleresponse/findProductsSample.json';
+import * as itemDetailSample from '../assets/sampleresponse/itemDetailSample.json'
 
 @Component({
   selector: 'app-root',
@@ -372,168 +373,176 @@ export class AppComponent implements OnInit {
    * @param resultIndex maps to a row in the search results to access its shipping information.
    * @param wishlistUniqueId maps to a row in the wishlist to access its shipping information.
    */
-  public itemDetail(itemId: number, resultIndex?: number, wishlistUniqueId?: string): void {
+  public itemDetail(itemId: number, resultIndex: number = null, wishlistUniqueId: string = null): void {
 
     this.loadingItem = true;
     this.toggleDetails = true;
 
     this.http.get('/api/itemdetail/' + itemId)
       .subscribe((jsonResult) => {
-        console.log('/api/itemdetail/' + itemId + ' fetched:', jsonResult);
-
-        const details = jsonResult["itemDetail"]["Item"];
-
-        let item: any = { };
-
-        // Info tab
-        if (details.PictureURL) {
-          item.pictureURL = details.PictureURL;
-        }
-        if (details.Title) {
-          item.title = details.Title;
-        }
-        if (details.Subtitle) {
-          item.subtitle = details.Subtitle;
-        }
-        if (details.CurrentPrice) {
-          item.price = "$" + details.CurrentPrice.Value;
-        }
-        if (details.Location) {
-          item.location = details.Location;
-        }
-        if (details["ReturnPolicy"]["ReturnsAccepted"]) {
-          if (details["ReturnPolicy"]["ReturnsWithin"]) {
-            item.returnPolicy = details["ReturnPolicy"]["ReturnsAccepted"] + " within " + details["ReturnPolicy"]["ReturnsWithin"];
-          } else
-            item.returnPolicy = details["ReturnPolicy"]["ReturnsAccepted"];
-        }
-        if (details.ItemSpecifics) {
-          item.itemSpecifics = details.ItemSpecifics.NameValueList;
-        } else {
-          item.itemSpecifics = [];
-        }
-
-        // Photos tab
-        item.images = [[], [], []];
-        let imagesFromAPI = [];
-        if (jsonResult["productImages"] && jsonResult["productImages"]["items"]) {
-          imagesFromAPI = jsonResult["productImages"]["items"];
-        } else {
-          // FIXME: Remove fallback images in final version
-          console.warn("No images loaded. Check if Google Custom Search API has failed! Using default images as fallback.");
-          imagesFromAPI = customSearchSample["items"];
-        }
-
-        imagesFromAPI.forEach((itemObj, index) => {
-          item.images[index % 3].push(itemObj.link);
-        });
-
-        // Shipping tab
-        let shippingInfoSource = null;
-        if (resultIndex != null && resultIndex >= 0) {
-          shippingInfoSource = this.results[resultIndex];
-        } else if (wishlistUniqueId != null) {
-          shippingInfoSource = this.wishlist[wishlistUniqueId];
-        }
-
-        if (shippingInfoSource) {
-          console.log("Accessing shipping info of", shippingInfoSource);
-          if (shippingInfoSource.shippingCost) { item.shippingCost = shippingInfoSource.shippingCost; }
-          if (shippingInfoSource.shippingLocations) { item.shippingLocations = shippingInfoSource.shippingLocations; }
-          if (shippingInfoSource.handlingTime) {
-            const handlingTime = shippingInfoSource.handlingTime[0];
-            if (handlingTime == 0 || handlingTime == 1) {
-              item.handlingTime = handlingTime + " Day";
-            } else {
-              item.handlingTime = handlingTime + " Days"
-            }
-          }
-          item.expeditedShipping = shippingInfoSource.expeditedShipping;
-          item.oneDayShipping = shippingInfoSource.oneDayShipping;
-          item.returnAccepted = shippingInfoSource.returnAccepted;
-
-          // Still save unique ID
-          item.uniqueId = shippingInfoSource.uniqueId;
-        }
-
-        // Seller tab
-        if (details.Seller) {
-          const seller = details.Seller;
-          item.sellerUserName = seller.UserID;
-          item.feedbackRatingStar = seller.FeedbackRatingStar;
-          item.feedbackScore = seller.FeedbackScore;
-          if (item.feedbackScore && item.feedbackRatingStar) {
-            item.feedbackRatingStarType = (item.feedbackScore > 5000) ? "stars" : "star_border";
-            item.feedbackRatingStarStyle = {
-              "vertical-align": "middle",
-            };
-
-            switch (item.feedbackRatingStar) {
-              case "Yellow":
-              case "YellowShooting":
-                item.feedbackRatingStarStyle.color = "yellow";
-                break;
-
-              case "Blue":
-                item.feedbackRatingStarStyle.color = "blue";
-                break;
-
-              case "Turquoise":
-              case "TurquoiseShooting":
-                item.feedbackRatingStarStyle.color = "turquoise";
-                break;
-
-              case "Purple":
-              case "PurpleShooting":
-                item.feedbackRatingStarStyle.color = "purple";
-                break;
-
-              case "Red":
-              case "RedShooting":
-                item.feedbackRatingStarStyle.color = "red";
-                break;
-
-              case "Green":
-              case "GreenShooting":
-                item.feedbackRatingStarStyle.color = "green";
-                break;
-
-              case "SilverShooting":
-              item.feedbackRatingStarStyle.color = "silver";
-                break;
-
-              default:
-                break;
-            }
-          }
-          item.positiveFeedbackPercent = seller.PositiveFeedbackPercent;
-          item.topRatedSeller = seller.TopRatedSeller;
-        }
-        if (details.Storefront) {
-          const storefront = details.Storefront;
-          item.storeName = storefront.StoreName;
-          item.storeURL = storefront.StoreURL;
-        }
-
-        // Similar Items Tab
-        const similarItems = jsonResult["similarItems"]["getSimilarItemsResponse"]["itemRecommendations"]["item"];
-        if(similarItems){
-          // console.log("Similar items", similarItems);
-          
-          similarItems.forEach((element, index) => {
-            element.index = index;
-            element.daysLeft = moment.duration(element.timeLeft).days();
-          });
-
-          item.similarItems = similarItems;
-          item.similarItemsLength = (similarItems.length > 5) ? 5 : similarItems.length;
-        }
-
-        this.itemActive = item;
-        console.log("itemActive:", this.itemActive);
-
-        this.loadingItem = false;
+        this.displayItemDetail(jsonResult, itemId, resultIndex, wishlistUniqueId);
+      }, (error) => {
+        console.warn("itemdetail API call failed. Perhaps server isn't running? Using the sample response for now.");
+        this.displayItemDetail(itemDetailSample.default, itemId, resultIndex, wishlistUniqueId);
       });
+  }
+
+  public displayItemDetail(jsonResult, itemId: number, resultIndex?: number, wishlistUniqueId?: string): void {
+    
+    console.log('/api/itemdetail/' + itemId + ' fetched:', jsonResult);
+
+    const details = jsonResult["itemDetail"]["Item"];
+
+    let item: any = { };
+
+    // Info tab
+    if (details.PictureURL) {
+      item.pictureURL = details.PictureURL;
+    }
+    if (details.Title) {
+      item.title = details.Title;
+    }
+    if (details.Subtitle) {
+      item.subtitle = details.Subtitle;
+    }
+    if (details.CurrentPrice) {
+      item.price = "$" + details.CurrentPrice.Value;
+    }
+    if (details.Location) {
+      item.location = details.Location;
+    }
+    if (details["ReturnPolicy"]["ReturnsAccepted"]) {
+      if (details["ReturnPolicy"]["ReturnsWithin"]) {
+        item.returnPolicy = details["ReturnPolicy"]["ReturnsAccepted"] + " within " + details["ReturnPolicy"]["ReturnsWithin"];
+      } else
+        item.returnPolicy = details["ReturnPolicy"]["ReturnsAccepted"];
+    }
+    if (details.ItemSpecifics) {
+      item.itemSpecifics = details.ItemSpecifics.NameValueList;
+    } else {
+      item.itemSpecifics = [];
+    }
+
+    // Photos tab
+    item.images = [[], [], []];
+    let imagesFromAPI = [];
+    if (jsonResult["productImages"] && jsonResult["productImages"]["items"]) {
+      imagesFromAPI = jsonResult["productImages"]["items"];
+    } else {
+      // FIXME: Remove fallback images in final version
+      console.warn("No images loaded. Check if Google Custom Search API has failed! Using default images as fallback.");
+      imagesFromAPI = customSearchSample["items"];
+    }
+
+    imagesFromAPI.forEach((itemObj, index) => {
+      item.images[index % 3].push(itemObj.link);
+    });
+
+    // Shipping tab
+    let shippingInfoSource = null;
+    if (resultIndex != null && resultIndex >= 0) {
+      shippingInfoSource = this.results[resultIndex];
+    } else if (wishlistUniqueId != null) {
+      shippingInfoSource = this.wishlist[wishlistUniqueId];
+    }
+
+    if (shippingInfoSource) {
+      console.log("Accessing shipping info of", shippingInfoSource);
+      if (shippingInfoSource.shippingCost) { item.shippingCost = shippingInfoSource.shippingCost; }
+      if (shippingInfoSource.shippingLocations) { item.shippingLocations = shippingInfoSource.shippingLocations; }
+      if (shippingInfoSource.handlingTime) {
+        const handlingTime = shippingInfoSource.handlingTime[0];
+        if (handlingTime == 0 || handlingTime == 1) {
+          item.handlingTime = handlingTime + " Day";
+        } else {
+          item.handlingTime = handlingTime + " Days"
+        }
+      }
+      item.expeditedShipping = shippingInfoSource.expeditedShipping;
+      item.oneDayShipping = shippingInfoSource.oneDayShipping;
+      item.returnAccepted = shippingInfoSource.returnAccepted;
+
+      // Still save unique ID
+      item.uniqueId = shippingInfoSource.uniqueId;
+    }
+
+    // Seller tab
+    if (details.Seller) {
+      const seller = details.Seller;
+      item.sellerUserName = seller.UserID;
+      item.feedbackRatingStar = seller.FeedbackRatingStar;
+      item.feedbackScore = seller.FeedbackScore;
+      if (item.feedbackScore && item.feedbackRatingStar) {
+        item.feedbackRatingStarType = (item.feedbackScore > 5000) ? "stars" : "star_border";
+        item.feedbackRatingStarStyle = {
+          "vertical-align": "middle",
+        };
+
+        switch (item.feedbackRatingStar) {
+          case "Yellow":
+          case "YellowShooting":
+            item.feedbackRatingStarStyle.color = "yellow";
+            break;
+
+          case "Blue":
+            item.feedbackRatingStarStyle.color = "blue";
+            break;
+
+          case "Turquoise":
+          case "TurquoiseShooting":
+            item.feedbackRatingStarStyle.color = "turquoise";
+            break;
+
+          case "Purple":
+          case "PurpleShooting":
+            item.feedbackRatingStarStyle.color = "purple";
+            break;
+
+          case "Red":
+          case "RedShooting":
+            item.feedbackRatingStarStyle.color = "red";
+            break;
+
+          case "Green":
+          case "GreenShooting":
+            item.feedbackRatingStarStyle.color = "green";
+            break;
+
+          case "SilverShooting":
+          item.feedbackRatingStarStyle.color = "silver";
+            break;
+
+          default:
+            break;
+        }
+      }
+      item.positiveFeedbackPercent = seller.PositiveFeedbackPercent;
+      item.topRatedSeller = seller.TopRatedSeller;
+    }
+    if (details.Storefront) {
+      const storefront = details.Storefront;
+      item.storeName = storefront.StoreName;
+      item.storeURL = storefront.StoreURL;
+    }
+
+    // Similar Items Tab
+    const similarItems = jsonResult["similarItems"]["getSimilarItemsResponse"]["itemRecommendations"]["item"];
+    if(similarItems){
+      // console.log("Similar items", similarItems);
+      
+      similarItems.forEach((element, index) => {
+        element.index = index;
+        element.daysLeft = moment.duration(element.timeLeft).days();
+      });
+
+      item.similarItems = similarItems;
+      item.similarItemsLength = (similarItems.length > 5) ? 5 : similarItems.length;
+    }
+
+    this.itemActive = item;
+    console.log("itemActive:", this.itemActive);
+
+    this.loadingItem = false;
   }
 
   // sort results by product name
